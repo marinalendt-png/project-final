@@ -1,7 +1,10 @@
+import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 import listEndpoints from "express-list-endpoints";
+import { router as userRouter } from "./routes/userRoutes.js";
+
 
 const mongoUrl = process.env.MONGO_URL || "mongodb://localhost/final-project";
 mongoose.connect(mongoUrl);
@@ -21,6 +24,9 @@ app.get("/", (req, res) => {
     endpoints: endpoints,
   }])
 });
+
+// Connecting the different routes with endpoints. 
+app.use(userRouter);
 
 // Start the server
 app.listen(port, () => {

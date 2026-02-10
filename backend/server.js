@@ -5,11 +5,14 @@ import mongoose from "mongoose";
 import listEndpoints from "express-list-endpoints";
 import { router as userRouter } from "./routes/userRoutes.js";
 import { router as activitiesRouter } from "./routes/activitiesRoutes.js";
+import { seedActivities } from "./data/seedActivities.js";
 
 
 const mongoUrl = process.env.MONGO_URL || "mongodb://localhost/final-project";
-mongoose.connect(mongoUrl);
-mongoose.Promise = Promise;
+mongoose.connect(mongoUrl).then(() => {
+  seedActivities();
+});
+
 
 const port = process.env.PORT || 8080;
 const app = express();

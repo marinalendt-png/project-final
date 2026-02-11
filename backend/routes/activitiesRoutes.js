@@ -1,5 +1,6 @@
 import express from "express";
 import { Activity } from "../models/Activity.js";
+import { authenticateUser } from "../middleware/authMiddleware.js";
 
 export const router = express.Router();
 
@@ -13,8 +14,10 @@ router.get("/activities", async (req, res) => {
   }
 });
 
+// Behövs en till GET här för en specifik aktivitet? //
+
 // Adding a new activity to the database
-router.post("/activities", async (req, res) => {
+router.post("/activities", authenticateUser, async (req, res) => {
   try {
     const { name, energyImpact, category } = req.body;
     if (!name || !energyImpact || !category) {
@@ -30,7 +33,7 @@ router.post("/activities", async (req, res) => {
 });
 
 // Updates an activity
-router.patch("/activities/:id", async (req, res) => {
+router.patch("/activities/:id", authenticateUser, async (req, res) => {
   try {
     const { id } = req.params;
     const updates = req.body
@@ -46,7 +49,7 @@ router.patch("/activities/:id", async (req, res) => {
 });
 
 // Deletes an activity
-router.delete("/activities/:id", async (req, res) => {
+router.delete("/activities/:id", authenticateUser, async (req, res) => {
   try {
     const { id } = req.params;
     const deletedActivity = await Activity.findByIdAndDelete(id)

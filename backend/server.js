@@ -14,7 +14,6 @@ mongoose.connect(mongoUrl).then(() => {
   seedActivities();
 });
 
-
 const port = process.env.PORT || 8080;
 const app = express();
 

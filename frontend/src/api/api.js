@@ -1,5 +1,5 @@
 
-export const BASE_URL = "http://localhost:8080/";
+export const BASE_URL = "http://localhost:8080";
 
 // GET - fetches activities from the database
 export const fetchActivities = async () => {

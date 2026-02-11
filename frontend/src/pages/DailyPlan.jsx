@@ -1,3 +1,11 @@
+import { Navbar } from "../components/Navbar";
+
 export const DailyPlan = () => {
-  return <h1>Dagens plan</h1>;
+
+  return (
+    <>
+      <Navbar />
+      <h1>Dagens plan</h1>
+    </>
+  );
 };

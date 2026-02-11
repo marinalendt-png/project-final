@@ -22,7 +22,7 @@ export const LogInForm = ({ handleLogin }) => {
     try {
       const res = await fetch(`${BASE_URL}/login`, {
         method: "POST",
-        body: JSON.stingify({
+        body: JSON.stringify({
           email: formData.email,
           password: formData.password,
         }),
@@ -36,7 +36,7 @@ export const LogInForm = ({ handleLogin }) => {
       }
 
       const data = await res.json();
-      handleLogin(data.res);
+      handleLogin(data.response);
     } catch (error) {
       setError("Invalid email or password");
       console.log(error);
@@ -82,19 +82,47 @@ export const LogInForm = ({ handleLogin }) => {
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding: 16px;
+  gap: 16px;
+  padding: 24px;
   max-width: 400px;
   margin: 0 auto;
+`;
+
+const Title = styled.h1`
+  text-align: center;
+`;
+
+const InputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+`;
+
+const Label = styled.label`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 14px;
 `;
 
 const Input = styled.input`
   padding: 10px;
   font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 `;
 
 const Button = styled.button`
-  padding: 10px;
+  padding: 12px;
   font-size: 16px;
   cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  background-color: #333;
+  color: white;
+`;
+
+const ErrorText = styled.p`
+  color: red;
+  font-size: 14px;
 `;

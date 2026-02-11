@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import listEndpoints from "express-list-endpoints";
 import { router as userRouter } from "./routes/userRoutes.js";
 import { router as activitiesRouter } from "./routes/activitiesRoutes.js";
+import { router as dailyPlanRouter } from "./routes/dailyplanRoutes.js";
 import { seedActivities } from "./data/seedActivities.js";
 
 
@@ -32,6 +33,7 @@ app.get("/", (req, res) => {
 // Connecting the different routes with endpoints. 
 app.use(userRouter);
 app.use(activitiesRouter);
+app.use(dailyPlanRouter);
 
 // Start the server
 app.listen(port, () => {

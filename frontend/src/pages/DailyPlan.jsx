@@ -8,6 +8,7 @@ export const DailyPlan = () => {
   const [selectedActivities, setSelectedActivities] = useState([]); // de aktiviteter som användaren väljer. 
   const [energyLevel, setEnergyLevel] = useState(null); // för att kunna välja startenergi-nivå
   const [showForm, setShowForm] = useState(false);
+  const [showPicker, setShowPicker] = useState(false);
 
   // SHOWING ALL ACTIVITIES
   useEffect(() => {
@@ -60,91 +61,126 @@ export const DailyPlan = () => {
   return (
     <>
       <Navbar />
-      <EnergyWrapper>
-        <h2>Hur mycket energi har du idag</h2>
-        <EnergyButtonWrapper>
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
-            <EnergyButton
-              key={num}
-              $active={energyLevel === num}
-              onClick={() => setEnergyLevel(num)}
-            >
-              {num}
-            </EnergyButton>
-          ))}
-        </EnergyButtonWrapper>
-        {energyLevel && <p>Idag: {energyLevel + totalEnergy} / 10</p>}
-      </EnergyWrapper>
+      <PageWrapper>
+        <EnergyWrapper>
+          <h2>Hur mycket energi har du idag</h2>
+          <EnergyButtonWrapper>
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
+              <EnergyButton
+                key={num}
+                $active={energyLevel === num}
+                onClick={() => setEnergyLevel(num)}
+              >
+                {num}
+              </EnergyButton>
+            ))}
+          </EnergyButtonWrapper>
+          {energyLevel &&
+            <h3>Idag: {energyLevel + totalEnergy} / 10</h3>}
+        </EnergyWrapper>
 
-      <InfoCardRow>
-        <InfoCard>
-          <span>Energi kvar</span>
-          <strong>{energyLeft} / 10</strong>
-        </InfoCard>
-        <InfoCard>
-          <span>Återhämtning</span>
-          <strong>{recovery} / 10</strong>
-        </InfoCard>
-      </InfoCardRow>
+        <InfoCardRow>
+          <InfoCard>
+            <span>Energi kvar</span>
+            <strong>{energyLeft} / 10</strong>
+          </InfoCard>
+          <InfoCard>
+            <span>Återhämtning</span>
+            <strong>{recovery} / 10</strong>
+          </InfoCard>
+        </InfoCardRow>
 
-      <ActivitiesRow>
-        <ActivitiesColumn>
-          <h3>Tar energi</h3>
-          {activities.filter((a) => a.energyImpact < 0).map((activity) => (
-            <ActivityCard
-              key={activity._id}
-              onClick={() => toggleActivity(activity._id)}
-              $selected={selectedActivities.includes(activity._id)}
-            >
-              <strong>{activity.name}</strong>
-              <span>{activity.energyImpact} poäng</span>
-            </ActivityCard>
-          ))}
-        </ActivitiesColumn>
+        <ActivitiesRow>
+          <ActivitiesColumn>
+            <h3>Tar energi</h3>
+            {activities.filter((a) => selectedActivities.includes(a._id) && a.energyImpact < 0).length === 0 ? (
+              <EmptyState>Tryck på "Lägg till aktivitet" för att lägga till</EmptyState>
+            ) : (
+              activities.filter((a) => selectedActivities.includes(a._id) && a.energyImpact < 0).map((activity) => (
+                <ActivityCard
+                  key={activity._id}>
+                  <strong>{activity.name}</strong>
+                  <span>{activity.energyImpact} poäng</span>
+                </ActivityCard>
+              ))
+            )}
+          </ActivitiesColumn>
 
-        <ActivitiesColumn>
-          <h3>Ger energi</h3>
-          {activities.filter((a) => a.energyImpact > 0).map((activity) => (
-            <ActivityCard
-              key={activity._id}
-              onClick={() => toggleActivity(activity._id)}
-              $selected={selectedActivities.includes(activity._id)}
-            >
-              <strong>{activity.name}</strong>
-              <span>{activity.energyImpact} poäng</span>
-            </ActivityCard>
-          ))}
-        </ActivitiesColumn>
-      </ActivitiesRow>
+          <ActivitiesColumn>
+            <h3>Ger energi</h3>
+            {activities.filter((a) => selectedActivities.includes(a._id) && a.energyImpact > 0).length === 0 ? (
+              <EmptyState>Tryck på "Lägg till aktivitet" för att lägga till</EmptyState>
+            ) : (
+              activities.filter((a) => selectedActivities.includes(a._id) && a.energyImpact > 0).map((activity) => (
+                <ActivityCard
+                  key={activity._id}
+                  onClick={() => toggleActivity(activity._id)}
+                  $selected={selectedActivities.includes(activity._id)}>
+                  <strong>{activity.name}</strong>
+                  <span>{activity.energyImpact} poäng</span>
+                </ActivityCard>
+              ))
+            )}
+          </ActivitiesColumn>
+        </ActivitiesRow>
 
-      <ShowButtonWrapper>
-        <AddButton onClick={() => setShowForm(!showForm)}>Lägg till aktivitet
-        </AddButton>
-        {showForm && (
-          <AddForm onSubmit={handleAddActivity}>
-            <AddInput
-              type="text"
-              placeholder="Aktivitetsnamn"
-              name="name"
-              required
-            />
-            <AddInput
-              type="number"
-              placeholder="Energipoäng (t.ex. -2 eller 3)"
-              name="energyImpact"
-              min="-3"
-              max="3"
-              required
-            />
-            <AddButton type="submit">Spara</AddButton>
-          </AddForm>
-        )}
-      </ShowButtonWrapper>
+        <ShowButtonWrapper>
+          <AddButton onClick={() => setShowPicker(!showPicker)}>
+            Lägg till aktivitet
+          </AddButton>
+          {showPicker && (
+            <PickerList>
+              {activities
+                .filter((a) => !selectedActivities.includes(a._id))
+                .map((activity) => (
+                  <PickerItem
+                    key={activity._id}
+                    onClick={() => {
+                      toggleActivity(activity._id);
+                      setShowPicker(false);
+                    }}
+                  >
+                    <strong>{activity.name}</strong>
+                    <span>{activity.energyImpact} poäng</span>
+                  </PickerItem>
+                ))}
+              <AddButton onClick={() => { setShowForm(true); setShowPicker(false); }}>
+                Skapa ny aktivitet
+              </AddButton>
+            </PickerList>
+          )}
+          {showForm && (
+            <AddForm onSubmit={handleAddActivity}>
+              <AddInput
+                type="text"
+                placeholder="Aktivitetsnamn"
+                name="name"
+                required
+              />
+              <AddInput
+                type="number"
+                placeholder="Energipoäng (t.ex. -2 eller 3)"
+                name="energyImpact"
+                min="-3"
+                max="3"
+                required
+              />
+              <AddButton type="submit">Spara</AddButton>
+            </AddForm>
+          )}
+        </ShowButtonWrapper>
+      </PageWrapper >
     </>
   );
 };
 
 // ======= STYLED COMPONENTS ======= //
+
+const PageWrapper = styled.div`
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 16px;
+`;
 
 const EnergyWrapper = styled.div`
   display: flex;
@@ -152,6 +188,10 @@ const EnergyWrapper = styled.div`
   align-items: center;
   gap: 12px;
   flex-wrap: wrap;
+
+  h3 {
+    color: white;
+  }
 `;
 
 const EnergyButtonWrapper = styled.div`
@@ -164,7 +204,7 @@ const EnergyButton = styled.button`
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  border: 2px solid #ccc;
+  border: 2px solid var(--color-border);
   background: ${(props) => (props.$active ? "#4a7c59" : "white")}; 
   color: ${(props) => (props.$active ? "white" : "#333")};
   cursor: pointer;
@@ -186,9 +226,10 @@ const InfoCard = styled.div`
   align-items: center;
   gap: 8px;
   padding: 16px;
+  min-height: 80px;
   border-radius: 12px;
-  background: white;
-  border: 1px solid #ccc;
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
 `;
 
 const ActivitiesRow = styled.div`
@@ -198,6 +239,10 @@ const ActivitiesRow = styled.div`
 
 const ActivitiesColumn = styled.div`
   flex: 1;
+
+  h3 {
+    color: white;
+  }
 `;
 
 const ActivityCard = styled.div`
@@ -207,8 +252,8 @@ const ActivityCard = styled.div`
   padding: 12px;
   margin-bottom: 8px;
   border-radius: 8px;
-  background: ${(props) => (props.$selected ? "#e8f5e9" : "white")};
-  border: 1px solid #ccc;
+  background: ${(props) => (props.$selected ? "var(--color-card-selected)" : "var(--color-card)")};
+  border: 1px solid var(--color-border);
   cursor: pointer;
 `;
 
@@ -242,4 +287,30 @@ const AddInput = styled.input`
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 14px;
+`;
+
+const PickerList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+`;
+
+const PickerItem = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 12px;
+  border-radius: 8px;
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  cursor: pointer; 
+`;
+
+const EmptyState = styled.p`
+  font-size: 14px;
+  color: #999;
+  text-align: center;
+  padding: 20px 8px;
+  border: 1px dashed var(--color-border);
+  border-radius: 8px;
 `;

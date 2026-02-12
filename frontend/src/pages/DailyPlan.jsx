@@ -41,9 +41,21 @@ export const DailyPlan = () => {
     setShowForm(false);
   }
 
+  // TOTAL AMOUNT OF ENERGY PER DAY 
   const totalEnergy = activities
     .filter((activity) => selectedActivities.includes(activity._id)) //plockar ut aktiviteter med ett specifikt id (de som blivit klickade på)
     .reduce((sum, activity) => sum + activity.energyImpact, 0); //loopar igenom de valda aktiviteterna och lägger ihop alla energyimpactvärdena. sum börjar på 0 och växer för varje aktivitet. 
+
+  // ENERGY LEFT PER DAY (startenergy - the chosen activities that takes energy)
+  const energyLeft = energyLevel
+    ? energyLevel + activities.filter((a) => selectedActivities.includes(a._id) && a.energyImpact < 0)
+      .reduce((sum, a) => sum + a.energyImpact, 0)
+    : 0;
+
+  // RECOVERY LEFT PER DAY (the sum of the chosen activities that gives energy)
+  const recovery = activities
+    .filter((a) => selectedActivities.includes(a._id) && a.energyImpact > 0)
+    .reduce((sum, a) => sum + a.energyImpact, 0);
 
   return (
     <>
@@ -63,6 +75,17 @@ export const DailyPlan = () => {
         </EnergyButtonWrapper>
         {energyLevel && <p>Idag: {energyLevel + totalEnergy} / 10</p>}
       </EnergyWrapper>
+
+      <InfoCardRow>
+        <InfoCard>
+          <span>Energi kvar</span>
+          <strong>{energyLeft} / 10</strong>
+        </InfoCard>
+        <InfoCard>
+          <span>Återhämtning</span>
+          <strong>{recovery} / 10</strong>
+        </InfoCard>
+      </InfoCardRow>
 
       <ActivitiesRow>
         <ActivitiesColumn>
@@ -147,6 +170,25 @@ const EnergyButton = styled.button`
   cursor: pointer;
   font-weight: bold;
   font-size: 12px;
+`;
+
+const InfoCardRow = styled.div`
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin: 20px 0;
+`;
+
+const InfoCard = styled.div`
+  flex:1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  border-radius: 12px;
+  background: white;
+  border: 1px solid #ccc;
 `;
 
 const ActivitiesRow = styled.div`

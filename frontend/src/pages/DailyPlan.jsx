@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { fetchActivities } from "../api/api";
 import styled from "styled-components";
 import { ActivityCard } from "../components/ActivityCard";
+import { BatteryCharging, Clover } from "@phosphor-icons/react";
 
 export const DailyPlan = () => {
   const [activities, setActivities] = useState([]); //alla aktiviteter som finns i listan
@@ -78,22 +79,29 @@ export const DailyPlan = () => {
                 </EnergyButton>
               ))}
             </EnergyButtonWrapper>
-            {energyLevel && (
-              <NextButton onClick={() => setStep((2))}>Nästa</NextButton>
-            )}
+            <span style={{ color: "white" }}>Idag: <strong style={{ color: "var(--color-primary)", fontSize: "20px" }}>{energyLevel}</strong> /10</span>
+            <NextButton onClick={() => setStep((2))}>Nästa</NextButton>
           </EnergyWrapper>
         )}
         {step === 2 && (
           <>
-            <h2 style={{ textAlign: "center", color: "white" }}>Planera din dag</h2>
+            <h2 style={{ textAlign: "center" }}>Planera din dag</h2>
             <InfoCardRow>
               <InfoCard>
+                <BatteryCharging size={24} />
                 <span>Energi kvar</span>
-                <strong>{energyLeft} / 10</strong>
+                <div>
+                  <strong style={{ color: "var(--color-error)" }}>{energyLeft}</strong>
+                  <span> / 10</span>
+                </div>
               </InfoCard>
               <InfoCard>
+                <Clover size={24} />
                 <span>Återhämtning</span>
-                <strong>{recovery} / 10</strong>
+                <div>
+                  <strong style={{ color: "var(--color-forest)" }}>{recovery}</strong>
+                  <span> / 10</span>
+                </div>
               </InfoCard>
             </InfoCardRow>
 
@@ -261,7 +269,11 @@ const EnergyWrapper = styled.div`
       align-items: center;
       gap: 12px;
       flex-wrap: wrap;
-
+      background: var(--color-card);
+      backdrop-filter: blur(10px);
+      border-radius: 12px;
+      padding: 24px;
+      
       h2, h3 {
         color: white;
   }
@@ -328,10 +340,6 @@ const ActivitiesRow = styled.div`
 
 const ActivitiesColumn = styled.div`
       flex: 1;
-
-      h3, h4 {
-        color: white;
-      }
       `;
 
 const ShowButtonWrapper = styled.div`

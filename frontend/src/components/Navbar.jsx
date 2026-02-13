@@ -31,7 +31,7 @@ const AppContainer = styled.main`
 `;
 const LogOutButton = styled.button`
   padding: 8px 16px;
-  background: #d32f2f;
+  background: var(--color-primary);
   color: white;
   border: none;
   border-radius: 4px;

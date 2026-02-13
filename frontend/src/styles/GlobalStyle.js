@@ -8,6 +8,12 @@ export const GlobalStyles = createGlobalStyle`
     --color-card-selected: rgba(232, 245, 233, 0.9);
     --color-text: #333;
     --color-border: #ccc;
+    --color-error: #ff6b6b;
+    --color-text-muted: #999;
+    --color-text-light: rgba(255, 255, 255, 0.8);
+    --color-border-light: rgba(255, 255, 255, 0.3);
+    --color-input-bg: rgba(255, 255, 255, 0.9);
+    --color-glass: rgba(255, 255, 255, 0.15);
   }
 
   * {
@@ -21,7 +27,7 @@ export const GlobalStyles = createGlobalStyle`
     background-image: url("/background.jpg");
     background-size: cover;
     background-position: center;
-    background-attachment: fixed;
+    background-repeat: no-repeat;
     min-height: 100vh;
     color: #333;
   }

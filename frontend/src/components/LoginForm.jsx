@@ -82,14 +82,18 @@ export const LogInForm = ({ handleLogin }) => {
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  padding: 24px;
-  max-width: 400px;
-  margin: 0 auto;
+  gap: 12px;
+  padding: 20px;
+  width: 100%; 
+  background: var(--color-glass);
+  border-radius: 12px;
 `;
 
 const Title = styled.h1`
   text-align: center;
+  color: var(--color-card);
+  margin: 0;
+  font-weight: 400;
 `;
 
 const InputWrapper = styled.div`
@@ -102,27 +106,30 @@ const Label = styled.label`
   display: flex;
   flex-direction: column;
   gap: 4px;
-  font-size: 14px;
+  font-size: 13px;
+  color: var(--color-text-light);
 `;
 
 const Input = styled.input`
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  padding: 8px 10px;
+  font-size: 14px;
+  border: 1px solid var(--color-border-light);
+  border-radius: 8px;
+  background: var(--color-input-bg);
 `;
 
 const Button = styled.button`
-  padding: 12px;
-  font-size: 16px;
+  padding: 10px;
+  font-size: 14px;
   cursor: pointer;
   border: none;
-  border-radius: 4px;
-  background-color: #333;
+  border-radius: 8px;
+ background-color: var(--color-primary);
   color: white;
+  margin-top: 10px;
 `;
 
 const ErrorText = styled.p`
-  color: red;
-  font-size: 14px;
+  color: var(--color-error);
+  font-size: 13px;
 `;

@@ -28,7 +28,7 @@ export const defaults = [
     category: "vila",
   },
   {
-    name: "Umgås med vänner/familj",
+    name: "Umgås med vänner",
     energyImpact: 2,
     category: "socialt"
   },

@@ -4,7 +4,12 @@ export const BASE_URL = "http://localhost:8080";
 // GET - fetches activities from the database
 export const fetchActivities = async () => {
   try {
-    const res = await fetch(`${BASE_URL}/activities`);
+    const accessToken = localStorage.getItem("accessToken");
+    const res = await fetch(`${BASE_URL}/activities`, {
+      headers: {
+        Authorization: accessToken,
+      },
+    });
 
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return res.json();
@@ -17,6 +22,7 @@ export const fetchActivities = async () => {
 // POST
 export const postActivities = async (activity) => {
   try {
+    const accessToken = localStorage.getItem("accessToken");
     const res = await fetch(`${BASE_URL}/activities`, {
       method: "POST",
       headers: {
@@ -36,6 +42,7 @@ export const postActivities = async (activity) => {
 // PATCH
 export const patchActivities = async (activityId, updates) => {
   try {
+    const accessToken = localStorage.getItem("accessToken");
     const res = await fetch(`${BASE_URL}/activities/${activityId}`, {
       method: "PATCH",
       headers: {
@@ -56,6 +63,7 @@ export const patchActivities = async (activityId, updates) => {
 
 export const deleteActivities = async (activityId) => {
   try {
+    const accessToken = localStorage.getItem("accessToken");
     const res = await fetch(`${BASE_URL}/activities/${activityId}`, {
       method: "DELETE",
       headers: {

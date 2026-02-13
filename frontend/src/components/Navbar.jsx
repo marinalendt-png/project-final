@@ -1,11 +1,13 @@
 import styled from "styled-components";
 import { Navigate, useNavigate } from "react-router";
+import { useUserStore } from "../stores/userStore";
 
 export const Navbar = () => {
   const navigate = useNavigate();
+  const logout = useUserStore((state) => state.logout);
 
   const handleLogout = () => {
-    localStorage.removeItem("accessToken");
+    logout();
     navigate("/");
   };
 

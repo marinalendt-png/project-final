@@ -3,15 +3,18 @@ import { SignUpForm } from "../components/SignUpForm";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { useState } from "react";
+import { useUserStore } from "../stores/userStore";
 
 export const Home = () => {
   const navigate = useNavigate();
+  const login = useUserStore((state) => state.login);
+
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
 
   const handleLogin = (userData) => {
     if (userData.accessToken) {
-      localStorage.setItem("accessToken", userData.accessToken);
+      login(userData.accessToken);
       navigate("/daily");
     }
   };

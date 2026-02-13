@@ -2,6 +2,7 @@ import { Navbar } from "../components/Navbar";
 import { useState, useEffect } from "react";
 import { fetchActivities } from "../api/api";
 import styled from "styled-components";
+import { ActivityCard } from "../components/ActivityCard";
 
 export const DailyPlan = () => {
   const [activities, setActivities] = useState([]); //alla aktiviteter som finns i listan
@@ -65,7 +66,7 @@ export const DailyPlan = () => {
       <PageWrapper>
         {step === 1 && (
           <EnergyWrapper>
-            <h2>Hur mycket energi har du idag</h2>
+            <h2>Hur mycket energi har du idag?</h2>
             <EnergyButtonWrapper>
               {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
                 <EnergyButton
@@ -104,9 +105,8 @@ export const DailyPlan = () => {
                 ) : (
                   activities.filter((a) => selectedActivities.includes(a._id) && a.energyImpact < 0).map((activity) => (
                     <ActivityCard
-                      key={activity._id}>
-                      <strong>{activity.name}</strong>
-                      <span>{activity.energyImpact} poäng</span>
+                      key={activity._id}
+                      activity={activity}>
                     </ActivityCard>
                   ))
                 )}
@@ -119,9 +119,8 @@ export const DailyPlan = () => {
                 ) : (
                   activities.filter((a) => selectedActivities.includes(a._id) && a.energyImpact > 0).map((activity) => (
                     <ActivityCard
-                      key={activity._id}>
-                      <strong>{activity.name}</strong>
-                      <span>{activity.energyImpact} poäng</span>
+                      key={activity._id}
+                      activity={activity}>
                     </ActivityCard>
                   ))
                 )}
@@ -140,16 +139,15 @@ export const DailyPlan = () => {
                       {activities
                         .filter((a) => !selectedActivities.includes(a._id) && a.energyImpact < 0)
                         .map((activity) => (
-                          <PickerItem
+                          <ActivityCard
                             key={activity._id}
+                            activity={activity}
                             onClick={() => {
                               toggleActivity(activity._id);
                               setShowPicker(false);
                             }}
                           >
-                            <strong>{activity.name}</strong>
-                            <span>{activity.energyImpact} poäng</span>
-                          </PickerItem>
+                          </ActivityCard>
                         ))}
                     </ActivitiesColumn>
                     <ActivitiesColumn>
@@ -157,16 +155,15 @@ export const DailyPlan = () => {
                       {activities
                         .filter((a) => !selectedActivities.includes(a._id) && a.energyImpact > 0)
                         .map((activity) => (
-                          <PickerItem
+                          <ActivityCard
                             key={activity._id}
+                            activity={activity}
                             onClick={() => {
                               toggleActivity(activity._id);
                               setShowPicker(false);
                             }}
                           >
-                            <strong>{activity.name}</strong>
-                            <span>{activity.energyImpact} poäng</span>
-                          </PickerItem>
+                          </ActivityCard>
                         ))}
                     </ActivitiesColumn>
                   </ActivitiesRow>
@@ -223,18 +220,16 @@ export const DailyPlan = () => {
               <ActivitiesColumn>
                 <h3>Tar energi</h3>
                 {activities.filter((a) => selectedActivities.includes(a._id) && a.energyImpact < 0).map((activity) => (
-                  <ActivityCard key={activity._id}>
-                    <strong>{activity.name}</strong>
-                    <span>{activity.energyImpact} poäng</span>
+                  <ActivityCard key={activity._id}
+                    activity={activity}>
                   </ActivityCard>
                 ))}
               </ActivitiesColumn>
               <ActivitiesColumn>
                 <h3>Ger energi</h3>
                 {activities.filter((a) => selectedActivities.includes(a._id) && a.energyImpact > 0).map((activity) => (
-                  <ActivityCard key={activity._id}>
-                    <strong>{activity.name}</strong>
-                    <span>{activity.energyImpact} poäng</span>
+                  <ActivityCard key={activity._id}
+                    activity={activity}>
                   </ActivityCard>
                 ))}
               </ActivitiesColumn>
@@ -336,19 +331,7 @@ const ActivitiesColumn = styled.div`
 
       h3, h4 {
         color: white;
-  }
-      `;
-
-const ActivityCard = styled.div`
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      padding: 12px;
-      margin-bottom: 8px;
-      border-radius: 8px;
-      background: ${(props) => (props.$selected ? "var(--color-card-selected)" : "var(--color-card)")};
-      border: 1px solid var(--color-border);
-      cursor: pointer;
+      }
       `;
 
 const ShowButtonWrapper = styled.div`

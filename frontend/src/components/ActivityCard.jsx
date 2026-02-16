@@ -52,8 +52,8 @@ const CardWrapper = styled.div`
       flex-direction: column;
       align-items: center;
       gap: 4px;
-      padding: 12px;
-      margin-bottom: 8px;
+      padding: 8px;
+    
       border-radius: 10px;
       cursor: pointer;
       transition: all 0.3 ease;

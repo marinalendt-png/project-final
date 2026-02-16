@@ -10,9 +10,9 @@ export const Battery = ({ energy, maxEnergy = 10 }) => {
       <BatteryBody>
         <EnergyFill $percentage={percentage} />
         <GlassOverlay />
-
+        <EnergyText>Energi {energy} / {maxEnergy}</EnergyText>
       </BatteryBody>
-      <EnergyText>Energi {energy} / {maxEnergy}</EnergyText>
+
     </BatteryWrapper>
   );
 };
@@ -27,23 +27,38 @@ const BatteryWrapper = styled.div`
 `;
 
 const BatteryTop = styled.div`
-  width: 64px;
-  height: 12px;
-  background: linear-gradient(to bottom, #e2e8f0, #cbd5e1);
+ width: 64px;
+  height: 14px;
+  background: linear-gradient(
+    to bottom,
+    #f0f0f0 0%,
+    #d4d4d4 40%,
+    #b8b8b8 100%
+  );
   border-radius: 8px 8px 0 0;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow:
+    0 -2px 4px rgba(0, 0, 0, 0.1),
+    inset 0 2px 3px rgba(255, 255, 255, 0.6);
   border: 2px solid var(--color-border);
   margin-bottom: -2px;
   z-index: 1;
 `;
 
 const BatteryBody = styled.div`
-  position: relative;
+ position: relative;
   width: 120px;
   height: 200px;
-  background: linear-gradient(to bottom, #fffbeb, #f5f5f4);
+  background: linear-gradient(
+    120deg,
+    #f5f5f4 0%,
+    #fffbeb 40%,
+    #e8e5e0 100%
+  );
   border-radius: 24px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.15),
+    inset -4px -4px 10px rgba(0, 0, 0, 0.08),
+    inset 4px 4px 10px rgba(255, 255, 255, 0.9);
   border: 2px solid var(--color-border);
   overflow: hidden;
 `;
@@ -63,18 +78,47 @@ const EnergyFill = styled.div`
   border-radius: 0 0 20px 20px;
   box-shadow: 0 -10px 30px rgba(168, 213, 186, 0.3);
   transition: height 0.7s ease-out;
+
+    &::after {
+    content: '';
+    position: absolute;
+    top: -12px;
+    left: -20%;
+    width: 140%;
+    height: 24px;
+    background: inherit;
+    border-radius: 50%;
+    animation: wave 2.5s ease-in-out infinite;
+  }
+
+  @keyframes wave {
+    0%, 100% { transform: translateX(-5%) rotate(-1deg); }
+    50% { transform: translateX(5%) rotate(1deg); }
+  }
 `;
 
 const GlassOverlay = styled.div`
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.3) 0%,
+    rgba(255, 255, 255, 0.05) 50%,
+    transparent 100%
+  );
   pointer-events: none;
 `;
 
 const EnergyText = styled.p`
-  margin-top: 24px;
-  font-size: 24px;
-  font-weight: 600;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 16px;
+  font-weight: 700;
   color: #334155;
+  z-index: 2;
+  margin: 0;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
 `;
+

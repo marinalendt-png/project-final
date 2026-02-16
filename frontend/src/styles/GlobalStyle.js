@@ -15,6 +15,12 @@ export const GlobalStyles = createGlobalStyle`
     --color-border-light: rgba(255, 255, 255, 0.3);
     --color-input-bg: rgba(255, 255, 255, 0.9);
     --color-glass: rgba(255, 255, 255, 0.3);
+    --color-success: #71e995c5;          
+    --color-success-light: rgba(104, 235, 143, 0.18);   
+    --color-error-light: rgba(186, 78, 78, 0.31); 
+    --color-warning: #d4a574;          
+    --color-info: #6b9bd2;             
+
   }
 
   * {

@@ -140,5 +140,22 @@ export const deleteDailyPlan = async (dailyPlanId) => {
   }
 };
 
+// Get daily plan
+export const fetchDailyPlan = async () => {
+  try {
+    const accessToken = localStorage.getItem("accessToken");
+    const res = await fetch(`${BASE_URL}/dailyplan`, {
+      headers: {
+        Authorization: accessToken
+      },
+    });
+
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return res.json();
+  } catch (error) {
+    console.error("fetching dailyplan failed:", error)
+    throw error;
+  }
+};
 
 

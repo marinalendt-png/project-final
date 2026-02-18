@@ -1,16 +1,14 @@
 import express from "express";
 import { dailyPlan } from "../models/DailyPlan.js";
+import { authenticateUser } from "../middleware/authMiddleware.js";
 
 export const router = express.Router();
 
-// Endpoint to create a plan
-router.post("/dailyplan", async (req, res) => {
+// Endpoint to create new plan
+router.post("/dailyplan", authenticateUser, async (req, res) => {
   try {
-    const { user, date, startingEnergy, activities, currentEnergy } = req.body
-    if (!user) {
-      return res.status(400).json({ error: "User is required" })
-    }
-    const newPlan = new dailyPlan({ user, date, startingEnergy, activities, currentEnergy });
+    const { date, startingEnergy, activities, currentEnergy } = req.body
+    const newPlan = new dailyPlan({ user: req.user._id, date, startingEnergy, activities, currentEnergy });
 
     await newPlan.save();
     res.status(201).json(newPlan)
@@ -19,7 +17,7 @@ router.post("/dailyplan", async (req, res) => {
   }
 });
 
-// Updates an dailyplan
+// Finds a dailyplan by date. NOT USED YET! 
 router.get("/dailyplan/:date", async (req, res) => {
   try {
     const { date } = req.params;
@@ -40,6 +38,7 @@ router.get("/dailyplan/:date", async (req, res) => {
   }
 });
 
+// Updates a dailyplan
 router.patch("/dailyplan/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -53,5 +52,20 @@ router.patch("/dailyplan/:id", async (req, res) => {
     res.json(updatedPlan);
   } catch (error) {
     res.status(400).json({ error: "Could not update activity" })
+  }
+});
+
+//Deletes a dailyplan 
+router.delete("/dailyplan/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedDailyPlan = await dailyPlan.findByIdAndDelete(id)
+
+    if (!deletedDailyPlan) {
+      return res.status(404).json({ error: `Dailyplan with id ${id} does not exist` })
+    }
+    res.json(deletedDailyPlan)
+  } catch (error) {
+    res.status(500).json({ error: "Could not delete dailyplan" })
   }
 });

@@ -14,11 +14,11 @@ const dailyPlanSchema = new Schema({
   startingEnergy: {
     type: Number,
   },
-  // Points to one specific activity. 
-  activities: {
+
+  activities: [{
     type: Schema.Types.ObjectId,
     ref: "activity",
-  },
+  }],
   currentEnergy: {
     type: Number,
   }

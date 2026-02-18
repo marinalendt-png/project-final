@@ -20,7 +20,7 @@ export const fetchActivities = async () => {
 };
 
 // POST
-export const postActivities = async (activity) => {
+export const createActivity = async (activity) => {
   try {
     const accessToken = localStorage.getItem("accessToken");
     const res = await fetch(`${BASE_URL}/activities`, {

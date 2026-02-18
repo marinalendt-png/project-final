@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { useState } from "react";
 import { useUserStore } from "../stores/userStore";
+import { Leaf } from "@phosphor-icons/react";
 
 export const Home = () => {
   const navigate = useNavigate();
@@ -22,7 +23,10 @@ export const Home = () => {
   return (
 
     <HomeWrapper>
-      <AppTitle>Balans</AppTitle>
+      <AppTitle>
+        <Leaf size={56} weight="fill" /> Balans
+      </AppTitle>
+
       <SubTitle>Planera din dag med den energi du har.</SubTitle>
       <SubText>En app för dig som behöver göra en sak i taget och få energin att räcka hela dagen</SubText>
 
@@ -60,6 +64,13 @@ const AppTitle = styled.h2`
   margin: 0;
   font-weight: 300;
   letter-spacing: 4px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 12px 24px;
+  border-radius: 16px;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
 
   @media (min-width: 400px) {
     font-size: 64px;
@@ -71,19 +82,21 @@ const SubTitle = styled.p`
   font-size: 20px;
   margin: 0 0 8px 0;
   text-align: center;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
 `;
 
 const SubText = styled.p`
   color: var(--color-text-light);
   font-size: 14px;
-
   text-align: center;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
 `;
 
 const ButtonRow = styled.div`
   display: flex;
   gap: 16px; 
   margin-bottom: 50px;
+
 `;
 
 const OutlinedButton = styled.button`
@@ -94,6 +107,7 @@ const OutlinedButton = styled.button`
   color: white;
   font-size: 16px;
   cursor: pointer;
+  margin-top: 30px;
 
   &:hover {
     background: rgba(255, 255, 255, 0.15);

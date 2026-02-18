@@ -3,7 +3,7 @@ import { ActivityCard } from "./ActivityCard";
 import { Battery } from "./BatteryComponent";
 import { useState } from "react";
 
-export const ActivityPlanner = ({ activities, selectedActivities, energyLeft, batteryPulse, toggleActivity, showForm, setShowForm, handleAddActivity, onNext }) => {
+export const ActivityPlanner = ({ activities, selectedActivities, energyLeft, batteryPulse, toggleActivity, showForm, setShowForm, handleAddActivity, onNext, onBack }) => {
   const [showModal, setShowModal] = useState(false);
 
   return (
@@ -97,6 +97,10 @@ export const ActivityPlanner = ({ activities, selectedActivities, energyLeft, ba
             <ToggleFormButton onClick={() => setShowForm(true)}>
               + Lägg till egen aktivitet
             </ToggleFormButton>
+
+            <DoneButton onClick={() => setShowModal(false)}>
+              Klar
+            </DoneButton>
           </ModalContent>
         </ModalOverlay >
       )}
@@ -106,8 +110,6 @@ export const ActivityPlanner = ({ activities, selectedActivities, energyLeft, ba
     </>
   );
 };
-
-
 
 // ======= STYLED COMPONENTS ======= //
 
@@ -252,24 +254,6 @@ const AddForm = styled.form`
   gap: 10px;
 `;
 
-const ShowButtonWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  margin-top: 20px;
-`;
-
-const NextButton = styled.button`
-  padding: 12px 24px;
-  border: none;
-  border-radius: 20px;
-  background: var(--color-primary);
-  color: white;
-  cursor: pointer;
-  font-size: 16px;
-`;
-
 const Input = styled.input`
   padding: 8px 10px;
   border: 1px solid var(--color-border);
@@ -312,4 +296,36 @@ const ToggleFormButton = styled.button`
   &:hover {
    opacity: 0.7;
   }
+`;
+
+const DoneButton = styled.button`
+  display: block;
+  width: 100%;
+  margin-top: 16px;
+  padding: 12px;
+  border: 2px solid var(--color-primary);
+  border-radius: 20px;
+  background: white;
+  color: var(--color-primary);
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+`;
+
+const ShowButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-top: 20px;
+`;
+
+const NextButton = styled.button`
+  padding: 12px 24px;
+  border: none;
+  border-radius: 20px;
+  background: var(--color-primary);
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
 `;

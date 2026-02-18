@@ -76,8 +76,6 @@ export const DaySummary = ({ activities, selectedActivities, energyLevel, energy
         </StatCard>
       </StatsGrid>
 
-
-
       <ShowButtonWrapper>
         <SecondaryButton onClick={onBack}> ← Ändra plan</SecondaryButton>
         <NextButton onClick={onSave} disabled={isSaved}>
@@ -274,6 +272,6 @@ const NextButton = styled.button`
 const SavedMessage = styled.p`
   margin: 0;
   font-size: 15px;
-  color: var(--color-success);
+  color: var(--color-forest);
   font-weight: 500;
 `;

@@ -1,6 +1,6 @@
 import { Navbar } from "../components/Navbar";
 import { useState, useEffect } from "react";
-import { fetchActivities, createActivity } from "../api/api";
+import { fetchActivities, createActivity, createDailyPlan } from "../api/api";
 import styled from "styled-components";
 import { EnergyPicker } from "../components/EnergyPicker";
 import { ActivityPlanner } from "../components/ActivityPlanner";
@@ -13,6 +13,7 @@ export const DailyPlan = () => {
   const [showForm, setShowForm] = useState(false);
   const [step, setStep] = useState(1);
   const [batteryPulse, setBatteryPulse] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
 
   // SHOWING ALL ACTIVITIES
   useEffect(() => {
@@ -49,6 +50,19 @@ export const DailyPlan = () => {
     e.target.reset();
     setShowForm(false);
   }
+
+  const handleSave = async () => {
+    await createDailyPlan({
+      date: new Date(),
+      startingEnergy: energyLevel,
+      activities: selectedActivities,
+      currentEnergy: energyLeft,
+    });
+    setIsSaved(true);
+  }
+
+
+
 
   // ENERGY LEFT PER DAY (startenergy - the chosen activities that takes energy)
   const energyLeft = energyLevel
@@ -97,7 +111,8 @@ export const DailyPlan = () => {
             energyLeft={energyLeft}
             recovery={recovery}
             onBack={() => setStep(2)}
-            onSave={() => {/* TODO: SPARA */ }}
+            onSave={handleSave}
+            isSaved={isSaved}
           />
         )}
       </PageWrapper >

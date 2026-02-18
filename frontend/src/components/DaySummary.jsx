@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Lightning, Calendar, Flag, Sparkle, RocketLaunch, Siren, Smiley, ShootingStar, FloppyDisk } from "@phosphor-icons/react";
 import { Battery } from "./BatteryComponent";
 
-export const DaySummary = ({ activities, selectedActivities, energyLevel, energyLeft, recovery, onBack, onSave }) => {
+export const DaySummary = ({ activities, selectedActivities, energyLevel, energyLeft, recovery, onBack, onSave, isSaved }) => {
   return (
     <BalanceWrapper>
       <h2>Så här ser din dag ut</h2>
@@ -80,7 +80,10 @@ export const DaySummary = ({ activities, selectedActivities, energyLevel, energy
 
       <ShowButtonWrapper>
         <SecondaryButton onClick={onBack}> ← Ändra plan</SecondaryButton>
-        <NextButton onClick={onSave}>Spara min dag <FloppyDisk size={26}></FloppyDisk></NextButton>
+        <NextButton onClick={onSave} disabled={isSaved}>
+          Spara min dag <FloppyDisk size={26} />
+        </NextButton>
+        {isSaved && <SavedMessage>Din dag är sparad!</SavedMessage>}
       </ShowButtonWrapper>
     </BalanceWrapper>
   );
@@ -261,4 +264,16 @@ const NextButton = styled.button`
     display: flex;
     align-items: center;
     gap: 8px;
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: default;
+    }
+`;
+
+const SavedMessage = styled.p`
+  margin: 0;
+  font-size: 15px;
+  color: var(--color-success);
+  font-weight: 500;
 `;

@@ -1,8 +1,11 @@
 import styled from "styled-components";
 import { Lightning, Calendar, Flag, Sparkle, RocketLaunch, Siren, Smiley, ShootingStar, FloppyDisk } from "@phosphor-icons/react";
 import { Battery } from "./BatteryComponent";
+import { useNavigate } from "react-router";
 
 export const DaySummary = ({ activities, selectedActivities, energyLevel, energyLeft, recovery, onBack, onSave, isSaved }) => {
+  const navigate = useNavigate();
+
   return (
     <BalanceWrapper>
       <h2>Så här ser din dag ut</h2>
@@ -82,6 +85,9 @@ export const DaySummary = ({ activities, selectedActivities, energyLevel, energy
           Spara min dag <FloppyDisk size={26} />
         </NextButton>
         {isSaved && <SavedMessage>Din dag är sparad!</SavedMessage>}
+        <SecondaryButton onClick={() => navigate("/history")}>
+          Se historik→
+        </SecondaryButton>
       </ShowButtonWrapper>
     </BalanceWrapper>
   );

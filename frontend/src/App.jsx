@@ -6,6 +6,7 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 import { GlobalStyles } from "./styles/GlobalStyle";
 import { About } from "./pages/About";
 import { Tips } from "./pages/Tips";
+import { History } from "./pages/History";
 
 export const App = () => {
   return (
@@ -36,6 +37,14 @@ export const App = () => {
           element={
             <ProtectedRoute>
               <DailyPlan />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/history"
+          element={
+            <ProtectedRoute>
+              <History />
             </ProtectedRoute>
           }
         />

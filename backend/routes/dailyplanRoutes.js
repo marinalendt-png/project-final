@@ -17,26 +17,17 @@ router.post("/dailyplan", authenticateUser, async (req, res) => {
   }
 });
 
-// Finds a dailyplan by date. NOT USED YET! 
-router.get("/dailyplan/:date", async (req, res) => {
+// GET dailyplan - for history
+router.get("/dailyplan", authenticateUser, async (req, res) => {
   try {
-    const { date } = req.params;
-    const startOfDay = new Date(date)
-    const endOfDay = new Date(date)
-    endOfDay.setHours(23, 59, 59, 999)
-    // $gte = greater than or equal, $lte less than or equal
-    const plan = await dailyPlan.findOne({
-      date: { $gte: startOfDay, $lte: endOfDay }
-    })
+    const plan = await dailyPlan.find({ user: req.user._id }).populate("activities")
 
-    if (!plan) {
-      return res.status(404).json({ error: "Dailyplan not found" });
-    }
     res.json(plan);
   } catch (error) {
-    res.status(400).json({ error: "Could not update dailyplan" });
+    res.status(400).json({ error: "Could not find dailyplan" });
   }
 });
+
 
 // Updates a dailyplan
 router.patch("/dailyplan/:id", async (req, res) => {

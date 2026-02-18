@@ -1,60 +1,104 @@
 import styled from "styled-components";
 import { ActivityCard } from "./ActivityCard";
 import { Battery } from "./BatteryComponent";
+import { useState } from "react";
 
 export const ActivityPlanner = ({ activities, selectedActivities, energyLeft, batteryPulse, toggleActivity, showForm, setShowForm, handleAddActivity, onNext }) => {
+  const [showModal, setShowModal] = useState(false);
+
   return (
     <>
       <h2 style={{ textAlign: "center" }}>Planera din dag</h2>
+
       <BatteryWrapper $pulse={batteryPulse}>
         <Battery energy={energyLeft} />
       </BatteryWrapper>
-      <ActivityTitle>Lägg till aktiviteter för din dag. Klicka i rutorna nedan</ActivityTitle>
 
-      <ActivitiesRow>
-        <ActivitiesColumn>
-          <ColumnHeader>Tar energi</ColumnHeader>
-          {activities.filter((a) => a.energyImpact < 0).map((activity) => (
-            <ActivityCard
-              key={activity._id}
-              activity={activity}
-              selected={selectedActivities.includes(activity._id)}
-              onClick={() => toggleActivity(activity._id)}
-            />
-          ))}
-        </ActivitiesColumn>
+      <OpenModalButton onClick={() => setShowModal(true)}>
+        Välj aktiviteter
+      </OpenModalButton>
 
-        <ActivitiesColumn>
-          <ColumnHeader>Ger energi</ColumnHeader>
-          {activities.filter((a) => a.energyImpact > 0).map((activity) => (
-            <ActivityCard
-              key={activity._id}
-              activity={activity}
-              selected={selectedActivities.includes(activity._id)}
-              onClick={() => toggleActivity(activity._id)}
-            />
-          ))}
-        </ActivitiesColumn>
-      </ActivitiesRow>
+      {selectedActivities.length > 0 && (
+        <SelectedBox>
+          <SelectedList>
+            {activities.filter(a => selectedActivities.includes(a._id)).map(a => (
+              <SelectedChip key={a._id} $positive={a.energyImpact > 0}>
+                {a.name} ({a.energyImpact > 0 ? "+" : ""}{a.energyImpact})
+              </SelectedChip>
+            ))}
+          </SelectedList>
+        </SelectedBox>
+      )}
 
-      {showForm && (
-        <AddForm onSubmit={handleAddActivity}>
-          <AddInput
-            type="text"
-            placeholder="Aktivitetsnamn"
-            name="name"
-            required
-          />
-          <AddInput
-            type="number"
-            placeholder="Energipoäng (t.ex. -2 eller 3)"
-            name="energyImpact"
-            min="-3"
-            max="3"
-            required
-          />
-          <AddButton type="submit">Spara</AddButton>
-        </AddForm>
+      {showModal && (
+        <ModalOverlay onClick={() => setShowModal(false)}>
+          <ModalContent onClick={e => e.stopPropagation()}>
+            <ModalHeader>
+              <h3>Välj aktiviteter</h3>
+              <CloseButton onClick={() => setShowModal(false)}>x</CloseButton>
+            </ModalHeader>
+
+            <ActivitiesRow>
+              <ActivitiesColumn>
+                <ColumnHeader>Tar energi</ColumnHeader>
+                {activities.filter((a) => a.energyImpact < 0).map((activity) => (
+                  <ActivityCard
+                    key={activity._id}
+                    activity={activity}
+                    selected={selectedActivities.includes(activity._id)}
+                    onClick={() => toggleActivity(activity._id)}
+                  />
+                ))}
+              </ActivitiesColumn>
+
+              <ActivitiesColumn>
+                <ColumnHeader>Ger energi</ColumnHeader>
+                {activities.filter((a) => a.energyImpact > 0).map((activity) => (
+                  <ActivityCard
+                    key={activity._id}
+                    activity={activity}
+                    selected={selectedActivities.includes(activity._id)}
+                    onClick={() => toggleActivity(activity._id)}
+                  />
+                ))}
+              </ActivitiesColumn>
+            </ActivitiesRow>
+            {showForm && (
+              <FormOverlay onClick={() => setShowForm(false)}>
+                <FormPopup onClick={e => e.stopPropagation()}>
+                  <ModalHeader>
+                    <h3>Lägg till aktivitet</h3>
+                    <CloseButton onClick={() => setShowForm(false)}>X</CloseButton>
+                  </ModalHeader>
+                  <AddForm onSubmit={handleAddActivity}>
+                    <Input type="text" name="name" placeholder="Namn" required />
+                    <Select name="energyImpact" required>
+                      <option value="">Energi</option>
+                      <option value="-3">-3</option>
+                      <option value="-2">-2</option>
+                      <option value="-1">-1</option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                    </Select>
+                    <Select name="category" required>
+                      <option value="kategori">Kategori</option>
+                      <option value="rörelse">Rörelse</option>
+                      <option value="vila">Vila</option>
+                      <option value="jobb">Jobb</option>
+                      <option value="vardag">Vardag</option>
+                    </Select>
+                    <AddButton type="submit">Lägg till aktivitet</AddButton>
+                  </AddForm>
+                </FormPopup>
+              </FormOverlay>
+            )}
+
+            <ToggleFormButton onClick={() => setShowForm(true)}>
+              + Lägg till egen aktivitet
+            </ToggleFormButton>
+          </ModalContent>
+        </ModalOverlay >
       )}
       <ShowButtonWrapper>
         <NextButton onClick={onNext}>Se min dag</NextButton>
@@ -63,88 +107,209 @@ export const ActivityPlanner = ({ activities, selectedActivities, energyLeft, ba
   );
 };
 
+
+
 // ======= STYLED COMPONENTS ======= //
 
 const BatteryWrapper = styled.div`
-      display: flex;
-      justify-content: center;
-      margin: 8px 0;
+  display: flex;
+  justify-content: center;
+  margin: 8px 0;
 
-      ${props => props.$pulse && `
-        animation: batteryPulse 0.4s ease-out;
-        `}
-        
-      @keyframes batteryPulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.1); filter: drop-shadow(0 0  20px rgba(168, 213, 186, 0.6)); }
-      100% { transform: scale(1); }
-      }
-    `;
+  ${props => props.$pulse && `
+  animation: batteryPulse 0.4s ease-out;
+  `}
 
-const ActivityTitle = styled.h3`
-    text-align: center;
-    font-size: 14px;
+  @keyframes batteryPulse {
+    0 % { transform: scale(1); }
+    50% {transform: scale(1.1); filter: drop-shadow(0 0  20px rgba(168, 213, 186, 0.6)); }
+    100% {transform: scale(1); }
+  }
+`;
+
+const ModalOverlay = styled.div`
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+`;
+
+const ModalContent = styled.div`
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+`;
+
+const ModalHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+
+  h3 {margin: 0; }
+`;
+
+const CloseButton = styled.button`
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: var(--color-text);
+`;
+
+const OpenModalButton = styled.button`
+  display: block;
+  margin: 16px auto;
+  padding: 12px 24px;
+  border: 2px solid var(--color-primary);
+  border-radius: 20px;
+  background: white;
+  color: var(--color-primary);
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+`;
+
+const SelectedBox = styled.div`
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 16px;
+  margin: 16px 0;
+`;
+
+const SelectedList = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+`;
+
+const SelectedChip = styled.span`
+  padding: 10px 14px;
+  border-radius: 16px;
+  font-size: 14px;
+  color: var(--color-text);
+  background: ${props => props.$positive
+    ? "var(--color-success-light)"
+    : "var(--color-error-light)"
+  };
+  border: 1px solid ${props => props.$positive
+    ? "var(--color-success)"
+    : "var(--color-error)"
+  };
 `;
 
 const ActivitiesRow = styled.div`
-      display: flex;
-      gap: 16px;
-      margin-top: 16px;
-      `;
+  display: flex;
+  gap: 16px;
+  margin-top: 16px;
+`;
 
 const ActivitiesColumn = styled.div`
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      `;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`;
 
 const ColumnHeader = styled.h3`
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--color-text);
-      margin-bottom: 6px;
-      text-align: center;
-      `;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 6px;
+  text-align: center;
+`;
+
+const FormOverlay = styled.div`
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200; 
+`;
+
+const FormPopup = styled.div`
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  width: 85%;
+  max-width: 360px;
+`;
+
+const AddForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
 
 const ShowButtonWrapper = styled.div`
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 16px;
-      margin-top: 20px;
-      `;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-top: 20px;
+`;
 
 const NextButton = styled.button`
-    padding: 12px 24px;
-    border: none;
-    border-radius: 20px;
-    background: var(--color-primary);
-    color: white;
-    cursor: pointer;
-    font-size: 16px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 20px;
+  background: var(--color-primary);
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+`;
+
+const Input = styled.input`
+  padding: 8px 10px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  font-size: 13px;
+`;
+
+const Select = styled.select`
+  padding: 10px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  font-size: 14px;
+  background: white;
 `;
 
 const AddButton = styled.button`
-      padding: 12px 24px;
-      border: 1px solid var(--color-border) ;
-      border-radius: 20px;
-      background: white;
-      cursor: pointer;
-      font-size: 16px;
-      `;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+  background: var(--color-primary);
+  color: white;
+  font-weight: 700;
+  font-size: 18px;
+  cursor: pointer;
+  flex-shrink: 0;
+`;
 
-const AddForm = styled.form`
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      width: 100%;
-      max-width: 300px;
-      `;
+const ToggleFormButton = styled.button`
+  display: block;
+  margin: 16px auto 0;
+  padding: 10px 20px;
+  background: var(--color-primary);
+  border: none;
+  border-radius: 20px;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
 
-const AddInput = styled.input`
-      padding: 10px;
-      border: 1px solid var(--color-border);
-      border-radius: 4px;
-      font-size: 14px;
-      `;
+  &:hover {
+   opacity: 0.7;
+  }
+`;

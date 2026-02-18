@@ -1,6 +1,6 @@
 import { Navbar } from "../components/Navbar";
 import { useState, useEffect } from "react";
-import { fetchActivities } from "../api/api";
+import { fetchActivities, createActivity } from "../api/api";
 import styled from "styled-components";
 import { EnergyPicker } from "../components/EnergyPicker";
 import { ActivityPlanner } from "../components/ActivityPlanner";
@@ -35,17 +35,17 @@ export const DailyPlan = () => {
     setTimeout(() => setBatteryPulse(false), 400);
   };
 
-  // ADDS NEW ACTIVITY
-  // Hämtar värdena från formuläret i FormData, lägger till den nya aktiviteten i listan med id (setActivities) e.target.reset(tömmer formuläret) setShowForm(stänger formuläret. )
+  // CREATE NEW ACTIVITY
   const handleAddActivity = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const name = formData.get("name");
     const energyImpact = Number(formData.get("energyImpact"));
+    const category = formData.get("category");
 
-    const newActivity = { name, energyImpact };
-    //TODO POST till API + accessToken, just nu läggs den till lokalt. 
-    setActivities((prev) => [...prev, { ...newActivity, _id: Date.now().toString() }]);
+    const saved = await createActivity({ name, energyImpact, category });
+
+    setActivities((prev) => [...prev, saved]);
     e.target.reset();
     setShowForm(false);
   }
@@ -111,5 +111,10 @@ const PageWrapper = styled.div`
       max-width: 500px;
       margin: 0 auto;
       padding: 16px;
-      `;
+
+      @media (min-width: 768px) {
+        max-width: 700px;
+        padding: 60px 16px;
+      }
+`;
 

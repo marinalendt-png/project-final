@@ -10,6 +10,34 @@ export const DaySummary = ({ activities, selectedActivities, energyLevel, energy
         <Battery energy={energyLeft} size="large" />
       </BatteryWrapper>
 
+      <BalanceAssessment $level={
+        energyLeft < 2 ? "critical" :
+          energyLeft < 6 ? "moderate" :
+            energyLeft < 8 ? "good" : "excellent"
+      }>
+        <AssessmentIcon>
+          {energyLeft < 2 ? <Siren size={32} /> :
+            energyLeft < 6 ? <Smiley size={32} /> :
+              energyLeft < 8 ? <ShootingStar size={32} /> : <RocketLaunch size={32} />}
+        </AssessmentIcon>
+        <AssessmentText>
+          <strong>
+            {energyLeft < 2 ? "Du behöver dra ner på tempot!" :
+              energyLeft < 6 ? "Lagom balanserad planering" :
+                energyLeft < 8 ? "Bra energi" : "Mycket energi över"}
+          </strong>
+          <p>
+            {energyLeft < 2 ?
+              "Du har planerat väldigt mycket. Överväg att ta bort några aktiviteter för att undvika utmattning." :
+              energyLeft < 6 ?
+                "Bra balans mellan aktiviteter och återhämtning. Du kommer känna dig nöjd men lagom trött" :
+                energyLeft < 8 ?
+                  "Du har god energi kvar efter dagen. Perfekt för eventuellt produktivitet, eller återhämtning" :
+                  "Du har mycket energi över. Du kan lägga till flera aktiviteter, eller bara känna dig nöjd och njuta av övertiden"}
+          </p>
+        </AssessmentText>
+      </BalanceAssessment>
+
       <QuickList>
         <QuickListTitle>Dina planerade aktiviteter idag:</QuickListTitle>
         <ActivityChips>
@@ -48,33 +76,7 @@ export const DaySummary = ({ activities, selectedActivities, energyLevel, energy
         </StatCard>
       </StatsGrid>
 
-      <BalanceAssessment $level={
-        energyLeft < 2 ? "critical" :
-          energyLeft < 6 ? "moderate" :
-            energyLeft < 8 ? "good" : "excellent"
-      }>
-        <AssessmentIcon>
-          {energyLeft < 2 ? <Siren size={32} /> :
-            energyLeft < 6 ? <Smiley size={32} /> :
-              energyLeft < 8 ? <ShootingStar size={32} /> : <RocketLaunch size={32} />}
-        </AssessmentIcon>
-        <AssessmentText>
-          <strong>
-            {energyLeft < 2 ? "Du behöver dra ner på tempot!" :
-              energyLeft < 6 ? "Lagom balanserad planering" :
-                energyLeft < 8 ? "Bra energi" : "Mycket energi över"}
-          </strong>
-          <p>
-            {energyLeft < 2 ?
-              "Du har planerat väldigt mycket. Överväg att ta bort några aktiviteter för att undvika utmattning." :
-              energyLeft < 6 ?
-                "Bra balans mellan aktiviteter och återhämtning. Du kommer känna dig nöjd men lagom trött" :
-                energyLeft < 8 ?
-                  "Du har god energi kvar efter dagen. Perfekt för eventuellt produktivitet, eller återhämtning" :
-                  "Du har mycket energi över. Du kan lägga till flera aktiviteter, eller bara känna dig nöjd och njuta av övertiden"}
-          </p>
-        </AssessmentText>
-      </BalanceAssessment>
+
 
       <ShowButtonWrapper>
         <SecondaryButton onClick={onBack}> ← Ändra plan</SecondaryButton>

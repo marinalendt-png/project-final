@@ -24,7 +24,7 @@ router.post("/activities", authenticateUser, async (req, res) => {
       return res.status(400).json({ error: "Name, energyImpact and category are required" });
     }
 
-    const activity = new Activity({ name, energyImpact, category });
+    const activity = new Activity({ name, energyImpact, category, user: req.user._id });
     await activity.save();
     res.status(201).json(activity);
   } catch (error) {

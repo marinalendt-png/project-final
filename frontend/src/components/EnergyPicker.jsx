@@ -1,22 +1,27 @@
 import styled from "styled-components";
+import { useUserStore } from "../stores/userStore";
 
 export const EnergyPicker = ({ energyLevel, setEnergyLevel, onNext }) => {
-  return (<EnergyWrapper>
-    <h2>Hur mycket energi har du idag?</h2>
-    <EnergyButtonWrapper>
-      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
-        <EnergyButton
-          key={num}
-          $active={energyLevel === num}
-          onClick={() => setEnergyLevel(num)}
-        >
-          {num}
-        </EnergyButton>
-      ))}
-    </EnergyButtonWrapper>
-    <span>Idag: <strong style={{ color: "var(--color-primary)", fontSize: "20px" }}>{energyLevel}</strong> /10</span>
-    <NextButton onClick={onNext}>Nästa</NextButton>
-  </EnergyWrapper>
+  const username = useUserStore((state) => state.username);
+
+  return (
+    <EnergyWrapper>
+      <p>Varmt välkommen, {username?.split(" ")[0]}!</p>
+      <h2>Hur mycket energi har du idag?</h2>
+      <EnergyButtonWrapper>
+        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
+          <EnergyButton
+            key={num}
+            $active={energyLevel === num}
+            onClick={() => setEnergyLevel(num)}
+          >
+            {num}
+          </EnergyButton>
+        ))}
+      </EnergyButtonWrapper>
+      <span>Idag: <strong style={{ color: "var(--color-primary)", fontSize: "20px" }}>{energyLevel}</strong> /10</span>
+      <NextButton onClick={onNext}>Nästa</NextButton>
+    </EnergyWrapper>
   );
 };
 
@@ -32,6 +37,10 @@ const EnergyWrapper = styled.div`
       backdrop-filter: blur(10px);
       border-radius: 12px;
       padding: 24px;
+
+      p {
+        font-size: 16px;
+      }
       `;
 
 const EnergyButtonWrapper = styled.div`

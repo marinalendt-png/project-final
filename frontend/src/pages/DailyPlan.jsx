@@ -1,6 +1,6 @@
 import { Navbar } from "../components/Navbar";
 import { useState, useEffect } from "react";
-import { fetchActivities, createActivity, createDailyPlan } from "../api/api";
+import { fetchActivities, createActivity, deleteActivities, createDailyPlan } from "../api/api";
 import styled from "styled-components";
 import { EnergyPicker } from "../components/EnergyPicker";
 import { ActivityPlanner } from "../components/ActivityPlanner";
@@ -51,6 +51,7 @@ export const DailyPlan = () => {
     setShowForm(false);
   }
 
+  // SAVES dailyplan in database
   const handleSave = async () => {
     await createDailyPlan({
       date: new Date(),
@@ -61,7 +62,11 @@ export const DailyPlan = () => {
     setIsSaved(true);
   }
 
-
+  // DELETE an activity
+  const handleDelete = async (activityId) => {
+    await deleteActivities(activityId);
+    setActivities((prev) => prev.filter((a) => a._id !== activityId));
+  };
 
 
   // ENERGY LEFT PER DAY (startenergy - the chosen activities that takes energy)
@@ -99,6 +104,7 @@ export const DailyPlan = () => {
             showForm={showForm}
             setShowForm={setShowForm}
             handleAddActivity={handleAddActivity}
+            onDelete={handleDelete}
             onNext={() => setStep(3)}
           />
         )}

@@ -15,7 +15,7 @@ export const Home = () => {
 
   const handleLogin = (userData) => {
     if (userData.accessToken) {
-      login(userData.accessToken);
+      login(userData.accessToken, userData.name);
       navigate("/daily");
     }
   };

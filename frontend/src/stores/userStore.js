@@ -2,15 +2,18 @@ import { create } from "zustand";
 
 export const useUserStore = create((set) => ({
   accessToken: localStorage.getItem("accessToken"),
+  username: localStorage.getItem("username"),
 
-  login: (token) => {
+  login: (token, username) => {
     localStorage.setItem("accessToken", token);
-    set({ accessToken: token });
+    localStorage.setItem("username", username);
+    set({ accessToken: token, username });
   },
 
   logout: () => {
     localStorage.removeItem("accessToken");
-    set({ accessToken: null });
+    localStorage.removeItem("username");
+    set({ accessToken: null, username: null });
   },
 }));
 

@@ -3,7 +3,7 @@ import { ActivityCard } from "./ActivityCard";
 import { Battery } from "./BatteryComponent";
 import { useState } from "react";
 
-export const ActivityPlanner = ({ activities, selectedActivities, energyLeft, batteryPulse, toggleActivity, showForm, setShowForm, handleAddActivity, onNext, onBack }) => {
+export const ActivityPlanner = ({ activities, selectedActivities, energyLeft, batteryPulse, toggleActivity, showForm, setShowForm, handleAddActivity, onNext, onBack, onDelete }) => {
   const [showModal, setShowModal] = useState(false);
 
   return (
@@ -47,6 +47,7 @@ export const ActivityPlanner = ({ activities, selectedActivities, energyLeft, ba
                     activity={activity}
                     selected={selectedActivities.includes(activity._id)}
                     onClick={() => toggleActivity(activity._id)}
+                    onDelete={onDelete}
                   />
                 ))}
               </ActivitiesColumn>
@@ -59,6 +60,7 @@ export const ActivityPlanner = ({ activities, selectedActivities, energyLeft, ba
                     activity={activity}
                     selected={selectedActivities.includes(activity._id)}
                     onClick={() => toggleActivity(activity._id)}
+                    onDelete={onDelete}
                   />
                 ))}
               </ActivitiesColumn>

@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { PersonSimpleWalk, Leaf, Heart, FlowerLotus, Moon, Barbell, Briefcase, Users, DeviceMobile, Broom, CookingPot, Train, Acorn, Check } from "@phosphor-icons/react";
-
+import { PersonSimpleWalk, Leaf, Heart, FlowerLotus, Moon, Barbell, Briefcase, Users, DeviceMobile, Broom, CookingPot, Train, Acorn, Check, Trash } from "@phosphor-icons/react";
 
 const activityIcon = {
   "Promenad": PersonSimpleWalk,
@@ -38,6 +37,11 @@ export const ActivityCard = ({ activity, onClick, selected }) => {
           <CheckIcon $drain={isDraining}>
             <Check size={18} weight="bold" />
           </CheckIcon>
+        )}
+        {activity.user && (
+          <DeleteButton onClick={(e) => { e.stopPropagation(); onDelete(activity._id); }}>
+            <Trash size={14} />
+          </DeleteButton>
         )}
       </CardWrapper >
     </>
@@ -86,10 +90,10 @@ const CardWrapper = styled.div`
   `;
 
 const TopRow = styled.div`
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      `;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+`;
 
 const EnergyText = styled.span`
   color: ${(props) => (props.$positive ? "var(--color-primary)" : "var(--color-error)")};   
@@ -110,4 +114,22 @@ const CheckIcon = styled.div`
   align-items: center;
   justify-content: center;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+`;
+
+const DeleteButton = styled.button`
+  position: absolute;
+  bottom: 6px;
+  right: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-error);
+  opacity: 0.4;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    opacity: 1;
+  }
 `;

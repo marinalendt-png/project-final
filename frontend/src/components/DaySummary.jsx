@@ -101,14 +101,14 @@ const BalanceWrapper = styled.div`
   h2 {
     text-align: center;
     margin: 0;
-    }
+  }
 `;
 
 const BatteryWrapper = styled.div`
-      display: flex;
-      justify-content: center;
-      margin: 20px 0;
-  `;
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+`;
 
 const StatsGrid = styled.div`
   display: grid;
@@ -234,12 +234,12 @@ const ActivityChip = styled.span`
 `;
 
 const ShowButtonWrapper = styled.div`
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 16px;
-      margin-top: 20px;
-    `;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-top: 20px;
+`;
 
 const SecondaryButton = styled.button`
   flex: 1;
@@ -258,21 +258,21 @@ const SecondaryButton = styled.button`
 `;
 
 const NextButton = styled.button`
-    padding: 12px 24px;
-    border: none;
-    border-radius: 20px;
-    background: var(--color-primary);
-    color: white;
-    cursor: pointer;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 20px;
+  background: var(--color-primary);
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 
-    &:disabled {
-      opacity: 0.6;
-      cursor: default;
-    }
+  &:disabled {
+    opacity: 0.6;
+    cursor: default;
+  }
 `;
 
 const SavedMessage = styled.p`

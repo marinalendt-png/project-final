@@ -96,7 +96,6 @@ const ButtonRow = styled.div`
   display: flex;
   gap: 16px; 
   margin-bottom: 50px;
-
 `;
 
 const OutlinedButton = styled.button`

@@ -51,43 +51,42 @@ export const ActivityCard = ({ activity, onClick, selected, onDelete }) => {
 // ======= STYLED COMPONENTS ======= //
 
 const CardWrapper = styled.div`
-      display: flex;
-      position: relative;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-      padding: 8px;
-    
-      border-radius: 10px;
-      cursor: pointer;
-      transition: all 0.3 ease;
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3 ease;
 
-      /* Not chosen style*/
-      background: ${props => props.$selected ?
+  /* Not chosen style*/
+  background: ${props => props.$selected ?
     (props.$drain ? "rgba(239, 68, 68, 0.08)" : "rgba(34, 197, 94, 0.08)")
     : "var(--color-card)"
   };
 
-      border: 2px solid ${props => props.$selected ?
+  border: 2px solid ${props => props.$selected ?
     (props.$drain ? "#ef4444" : "#22c55e")
     : "var(--color-border)"
   };
 
-        box-shadow: ${props => props.$selected ?
+  box-shadow: ${props => props.$selected ?
     "0 4px 12px rgba(0, 0, 0, 0.1)"
     : "0 2px 4px rgba (0, 0, 0, 0.05)"
   };
 
-      &:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        border-color: ${props => props.$drain ? "#f87171" : "#4ade80"};  
-      }
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-color: ${props => props.$drain ? "#f87171" : "#4ade80"};  
+  }
 
-      &:active {
-        transform: translateY(0);
-      }
-  `;
+  &:active {
+    transform: translateY(0);
+  }
+`;
 
 const TopRow = styled.div`
   display: flex;

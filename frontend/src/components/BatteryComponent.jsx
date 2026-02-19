@@ -100,12 +100,7 @@ const EnergyFill = styled.div`
 const GlassOverlay = styled.div`
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.3) 0%,
-    rgba(255, 255, 255, 0.05) 50%,
-    transparent 100%
-  );
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%,rgba(255, 255, 255, 0.05) 50%, transparent 100%);
   pointer-events: none;
 `;
 

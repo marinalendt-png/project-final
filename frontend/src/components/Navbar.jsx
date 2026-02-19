@@ -55,7 +55,7 @@ const HamburgerButton = styled.button`
   display: flex;
 
   @media (min-width: 768px) {
-  display: none;
+    display: none;
   }
 `;
 
@@ -69,6 +69,7 @@ const Logo = styled.span`
   align-items: center;
   gap: 8px;
 `;
+
 const RightSection = styled.div`
 /* Mobil: dropdown-menu */
   display: ${props => props.$open ? "flex" : "none"};
@@ -92,7 +93,7 @@ const RightSection = styled.div`
     padding: 0;
     gap: 24px;
     align-items: center; 
-    }
+  }
 `;
 
 const NavLink = styled.button`

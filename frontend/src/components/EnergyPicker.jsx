@@ -28,51 +28,51 @@ export const EnergyPicker = ({ energyLevel, setEnergyLevel, onNext }) => {
 // ======= STYLED COMPONENTS ======= //
 
 const EnergyWrapper = styled.div`
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-      background: var(--color-card);
-      backdrop-filter: blur(10px);
-      border-radius: 12px;
-      padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  background: var(--color-card);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 24px;
 
-      p {
-        font-size: 16px;
-      }
-      `;
+  p {
+    font-size: 16px;
+  }
+`;
 
 const EnergyButtonWrapper = styled.div`
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-      `;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+`;
 
 const EnergyButton = styled.button`
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      border: 2px solid var(--color-border);
-      background: ${(props) => (props.$active ? "var(--color-primary)" : "white")};
-      color: ${(props) => (props.$active ? "white" : "var(--color-text)")};
-      cursor: pointer;
-      font-weight: bold;
-      font-size: 12px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--color-border);
+  background: ${(props) => (props.$active ? "var(--color-primary)" : "white")};
+  color: ${(props) => (props.$active ? "white" : "var(--color-text)")};
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 12px;
 
-      @media (min-width: 400px) {
-        width: 36px;
-      height: 36px;
-      font-size: 13px;
-      }
-      `;
+  @media (min-width: 400px) {
+    width: 36px;
+    height: 36px;
+    font-size: 13px;
+  }
+`;
 
 const NextButton = styled.button`
-      padding: 12px 24px;
-      border: none;
-      border-radius: 20px;
-      background: var(--color-primary);
-      color: white;
-      cursor: pointer;
-      font-size: 16px;
-      `;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 20px;
+  background: var(--color-primary);
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+`;

@@ -40,7 +40,9 @@ const PageWrapper = styled.div`
   flex-direction: column;
   gap: 20px;
 
-  h2 { text-align: center; }
+  h2 { 
+    text-align: center; 
+  }
 `;
 
 const Card = styled.div`

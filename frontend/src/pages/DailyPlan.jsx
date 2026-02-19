@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { EnergyPicker } from "../components/EnergyPicker";
 import { ActivityPlanner } from "../components/ActivityPlanner";
 import { DaySummary } from "../components/DaySummary";
+import { ArrowLeft } from "@phosphor-icons/react";
 
 export const DailyPlan = () => {
   const [activities, setActivities] = useState([]); //alla aktiviteter som finns i listan
@@ -84,8 +85,14 @@ export const DailyPlan = () => {
   return (
     <>
       <Navbar />
+      <BackRow>
+        {step > 1 && (
+          <BackButton onClick={() => setStep(step - 1)}>
+            <ArrowLeft size={20} /> Tillbaka
+          </BackButton>
+        )}
+      </BackRow>
       <PageWrapper>
-
         {step === 1 && (
           <EnergyPicker
             energyLevel={energyLevel}
@@ -129,13 +136,34 @@ export const DailyPlan = () => {
 // ======= STYLED COMPONENTS ======= //
 
 const PageWrapper = styled.div`
-      max-width: 500px;
-      margin: 0 auto;
-      padding: 16px;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 16px;
 
-      @media (min-width: 768px) {
-        max-width: 700px;
-        padding: 60px 16px;
-      }
+  @media (min-width: 768px) {
+    max-width: 700px;
+    padding: 60px 16px;
+  }
+`;
+
+const BackRow = styled.div`
+  padding: 8px 16px;
+`;
+
+const BackButton = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text);
+  font-size: 14px;
+  padding: 4px 0;
+  margin-bottom: 8px;
+
+  &:hover {
+    color: var(--color-primary);
+  }
 `;
 

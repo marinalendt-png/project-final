@@ -1,10 +1,19 @@
 import styled from "styled-components";
 import { Navbar } from "../components/Navbar";
+import { useNavigate } from "react-router";
+import { ArrowLeft } from "@phosphor-icons/react";
 
 export const About = () => {
+  const navigate = useNavigate();
+
   return (
     <>
       <Navbar />
+      <BackRow>
+        <BackButton onClick={() => navigate(-1)}>
+          <ArrowLeft size={20} /> Tillbaka
+        </BackButton>
+      </BackRow>
       <PageWrapper>
         <h2>Om balans</h2>
         <Card>
@@ -40,7 +49,34 @@ const Card = styled.div`
   border-radius: 12px;
   padding: 24px;
 
-  h3 { margin: 0 0 12px 0; }
-  p { margin: 0 0 8px 0; line-height: 1.6; color: var(--color-text); }
+  h3 { 
+    margin: 0 0 12px 0; 
+  }
+  p { 
+    margin: 0 0 8px 0; 
+    line-height: 1.6; 
+    color: var(--color-text);
+  }
+`;
+
+const BackRow = styled.div`
+  padding: 8px 16px;
+`;
+
+const BackButton = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text);
+  font-size: 14px;
+  padding: 4px 0;
+  margin-bottom: 8px;
+
+  &:hover {
+    color: var(--color-primary);
+  }
 `;
 

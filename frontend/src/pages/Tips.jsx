@@ -1,13 +1,21 @@
 import styled from "styled-components";
 import { Navbar } from "../components/Navbar";
+import { ArrowLeft } from "@phosphor-icons/react";
+import { useNavigate } from "react-router";
 
 export const Tips = () => {
+  const navigate = useNavigate();
+
   return (
     <>
       <Navbar />
+      <BackRow>
+        <BackButton onClick={() => navigate(-1)}>
+          <ArrowLeft size={20} /> Tillbaka
+        </BackButton>
+      </BackRow>
       <PageWrapper>
         <h2>Tips och råd</h2>
-
         <Card>
           <h3>Förstå din energi</h3>
           <LinkItem href="https://www.youtube.com/watch?v=XB8MrKHHkGU" target="_blank" rel="noopener noreferrer">
@@ -97,5 +105,26 @@ const LinkItem = styled.a`
 
   &:hover {
     background: var(--color-border);
+  }
+`;
+
+const BackRow = styled.div`
+  padding: 8px 16px;
+`;
+
+const BackButton = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text);
+  font-size: 14px;
+  padding: 4px 0;
+  margin-bottom: 8px;
+
+  &:hover {
+    color: var(--color-primary);
   }
 `;

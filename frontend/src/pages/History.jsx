@@ -2,9 +2,12 @@ import { useState, useEffect } from "react";
 import { fetchDailyPlan } from "../api/api";
 import { Navbar } from "../components/Navbar";
 import styled from "styled-components";
+import { ArrowLeft } from "@phosphor-icons/react";
+import { useNavigate } from "react-router";
 
 export const History = () => {
   const [plans, setPlans] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loadPlans = async () => {
@@ -17,6 +20,11 @@ export const History = () => {
   return (
     <>
       <Navbar />
+      <BackRow>
+        <BackButton onClick={() => navigate(-1)}>
+          <ArrowLeft size={20} /> Tillbaka
+        </BackButton>
+      </BackRow>
       <PageWrapper>
         {plans.map((plan) => (
           <PlanCard key={plan._id}>
@@ -85,4 +93,25 @@ const Chip = styled.span`
     ? "var(--color-success)"
     : "var(--color-error)"
   };
+`;
+
+const BackRow = styled.div`
+  padding: 8px 16px;
+`;
+
+const BackButton = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text);
+  font-size: 14px;
+  padding: 4px 0;
+  margin-bottom: 8px;
+
+  &:hover {
+    color: var(--color-primary);
+  }
 `;

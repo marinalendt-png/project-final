@@ -17,7 +17,7 @@ const activityIcon = {
   "Pendling": Train,
 }
 
-export const ActivityCard = ({ activity, onClick, selected }) => {
+export const ActivityCard = ({ activity, onClick, selected, onDelete }) => {
   const Icon = activityIcon[activity.name] || Acorn;
   // Drain is to know if an activity takes och gives energy. 
   const isDraining = activity.energyImpact < 0;

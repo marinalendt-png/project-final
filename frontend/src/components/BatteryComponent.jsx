@@ -1,13 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 
-export const Battery = ({ energy, maxEnergy = 10 }) => {
+export const Battery = ({ energy, maxEnergy = 10, size }) => {
   const percentage = (energy / maxEnergy) * 100;
 
   return (
     <BatteryWrapper>
-      <BatteryTop />
-      <BatteryBody>
+      <BatteryTop $small={size === "small"} />
+      <BatteryBody $small={size === "small"}>
         <EnergyFill $percentage={percentage} />
         <GlassOverlay />
         <EnergyText>Energi {energy} / {maxEnergy}</EnergyText>
@@ -27,7 +27,7 @@ const BatteryWrapper = styled.div`
 `;
 
 const BatteryTop = styled.div`
- width: 64px;
+  width: ${props => props.$small ? '42px' : '64px'};
   height: 14px;
   background: linear-gradient(
     to bottom,
@@ -46,8 +46,8 @@ const BatteryTop = styled.div`
 
 const BatteryBody = styled.div`
  position: relative;
-  width: 120px;
-  height: 200px;
+  width: ${props => props.$small ? '80px' : '120px'};
+  height: ${props => props.$small ? '130px' : '200px'};
   background: linear-gradient(
     120deg,
     #f5f5f4 0%,

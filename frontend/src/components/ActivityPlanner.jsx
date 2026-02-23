@@ -32,7 +32,7 @@ export const ActivityPlanner = ({ activities, selectedActivities, energyLeft, ba
 
       {showModal && (
         <ModalOverlay onClick={() => setShowModal(false)}>
-          <ModalContent onClick={e => e.stopPropagation()}>
+          <ModalContent onClick={e => e.stopPropagation()}><Battery energy={energyLeft} size="small" />
             <ModalHeader>
               <h3>Välj aktiviteter</h3>
               <CloseButton onClick={() => setShowModal(false)}>x</CloseButton>

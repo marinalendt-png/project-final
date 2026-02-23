@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Lightning, Calendar, Flag, Sparkle, RocketLaunch, Siren, Smiley, ShootingStar, FloppyDisk } from "@phosphor-icons/react";
+import { Lightning, Calendar, Flag, Sparkle, RocketLaunch, Siren, Smiley, ShootingStar, FloppyDisk, ArrowRight, ListBullets } from "@phosphor-icons/react";
 import { Battery } from "./BatteryComponent";
 import { useNavigate } from "react-router";
 
@@ -53,31 +53,27 @@ export const DaySummary = ({ activities, selectedActivities, energyLevel, energy
         </ActivityChips>
       </QuickList>
 
-      <StatsGrid>
-        <StatCard>
-          <StatIcon><Calendar size={32} /></StatIcon>
-          <StatValue>{selectedActivities.length}</StatValue>
-          <StatLabel>aktiviteter</StatLabel>
-        </StatCard>
+      <EnergyFlow>
+        <FlowNode>
+          <Lightning size={28} />
+          <FlowValue>{energyLevel}</FlowValue>
+          <FlowLabel>Startenergi</FlowLabel>
+        </FlowNode>
+        <ArrowRight size={20} color="var(--color-text-muted)" />
 
-        <StatCard>
-          <StatIcon><Lightning size={32} /></StatIcon>
-          <StatValue>{energyLevel}</StatValue>
-          <StatLabel>startenergi</StatLabel>
-        </StatCard>
+        <FlowNode>
+          <ListBullets size={28} />
+          <FlowValue>{selectedActivities.length}</FlowValue>
+          <FlowLabel>aktiviteter</FlowLabel>
+        </FlowNode>
+        <ArrowRight size={20} color="var(--color-text-muted)" />
 
-        <StatCard>
-          <StatIcon><Flag size={32} /></StatIcon>
-          <StatValue>{energyLeft}</StatValue>
-          <StatLabel>förväntad slutenergi</StatLabel>
-        </StatCard>
-
-        <StatCard>
-          <StatIcon><Sparkle size={32} /></StatIcon>
-          <StatValue>{recovery}</StatValue>
-          <StatLabel>återhämtning</StatLabel>
-        </StatCard>
-      </StatsGrid>
+        <FlowNode>
+          <Flag size={28} />
+          <FlowValue>{energyLeft}</FlowValue>
+          <FlowLabel>Slutnenergi</FlowLabel>
+        </FlowNode>
+      </EnergyFlow>
 
       <ShowButtonWrapper>
         <SecondaryButton onClick={onBack}> ← Ändra plan</SecondaryButton>
@@ -110,42 +106,39 @@ const BatteryWrapper = styled.div`
   margin: 20px 0;
 `;
 
-const StatsGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-`;
-
-const StatCard = styled.div`
+const EnergyFlow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px;
   background: var(--color-card);
   border: 1px solid var(--color-border);
-  border-radius: 12px;
-  padding: 10px;
+  border-radius: 16px;
+`;
+
+const FlowNode = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  transition: transform 0.2s;
-  
-  &:hover {
-    transform: translateY(-2px);
-  }
+  gap: 4px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: white;
+  border: 1px solid ${props => props.$end ? "var(--color-error)" : "var(--color-border)"};
+  flex: 1;
 `;
 
-const StatIcon = styled.div`
-  font-size: 26px;
-`;
-
-const StatValue = styled.div`
-  font-size: 22px;
+const FlowValue = styled.div`
+  font-size: 24px;
   font-weight: bold;
   color: var(--color-text);
 `;
 
-const StatLabel = styled.div`
-  font-size: 13px;
+const FlowLabel = styled.div`
+  font-size: 12px;
   color: var(--color-text-muted);
-  text-transform: lowercase;
+  text-align: center;
 `;
 
 const BalanceAssessment = styled.div`

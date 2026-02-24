@@ -79,6 +79,7 @@ export const LogInForm = ({ handleLogin }) => {
 };
 
 // ======= STYLED COMPONENTS ======= //
+
 const Form = styled.form`
   display: flex;
   flex-direction: column;
@@ -124,7 +125,7 @@ const Button = styled.button`
   cursor: pointer;
   border: none;
   border-radius: 8px;
- background-color: #B8750A;
+  background-color: var(--color-primary);
   color: white;
   margin-top: 10px;
 `;

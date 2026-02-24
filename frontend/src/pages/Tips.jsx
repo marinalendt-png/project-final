@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Navbar } from "../components/Navbar";
-import { ArrowLeft } from "@phosphor-icons/react";
+import { ArrowLeft, ArrowSquareOut } from "@phosphor-icons/react";
 import { useNavigate } from "react-router";
 
 export const Tips = () => {
@@ -15,11 +15,12 @@ export const Tips = () => {
         </BackButton>
       </BackRow>
       <PageWrapper>
-        <h2>Tips och råd</h2>
+        <h2>Tips och länkar</h2>
         <Card>
           <h3>Förstå din energi</h3>
           <LinkItem href="https://www.youtube.com/watch?v=XB8MrKHHkGU" target="_blank" rel="noopener noreferrer">
             Spoon Theory - Planera din energi (YouTube)
+            <ArrowSquareOut size={16} aria-label="öppnas i nytt fönster" />
           </LinkItem>
         </Card>
 
@@ -27,12 +28,15 @@ export const Tips = () => {
           <h3>Stresshantering</h3>
           <LinkItem href="https://www.1177.se/Skane/liv--halsa/stresshantering-och-somn/" target="_blank" rel="noopener noreferrer">
             1177 - Stresshantering och sömn
+            <ArrowSquareOut size={16} aria-label="öppnas i nytt fönster" />
           </LinkItem>
           <LinkItem href="https://dinpsykiskahalsa.se/artiklar/nar-livet-kanns-jobbigt/stress/" target="_blank" rel="noopener noreferrer">
             Din Psykiska Hälsa – Stress
+            <ArrowSquareOut size={16} aria-label="öppnas i nytt fönster" />
           </LinkItem>
           <LinkItem href="https://www.hjarnfonden.se/hjarnhalsa/stress/8-tips-for-att-minska-stressen/" target="_blank" rel="noopener noreferrer">
             Hjärnfonden – 8 tips för att minska stressen
+            <ArrowSquareOut size={16} aria-label="öppnas i nytt fönster" />
           </LinkItem>
         </Card>
 
@@ -40,9 +44,11 @@ export const Tips = () => {
           <h3>Sömn</h3>
           <LinkItem href="https://www.1177.se/Vasterbotten/liv--halsa/stresshantering-och-somn/somnskola/" target="_blank" rel="noopener noreferrer">
             1177 – Sömnsskola
+            <ArrowSquareOut size={16} aria-label="öppnas i nytt fönster" />
           </LinkItem>
           <LinkItem href="https://www.suntarbetsliv.se/rapporterat/5-tips-for-battre-somn/" target="_blank" rel="noopener noreferrer">
             Sunt Arbetsliv – 5 tips för bättre sömn
+            <ArrowSquareOut size={16} aria-label="öppnas i nytt fönster" />
           </LinkItem>
         </Card>
 
@@ -50,9 +56,11 @@ export const Tips = () => {
           <h3>Rörelse</h3>
           <LinkItem href="https://www.stressfrikropp.com/post/tr%C3%A4na-utan-bakslag-med-utmattningssyndrom" target="_blank" rel="noopener noreferrer">
             Stressfri Kropp – Träna utan bakslag med utmattningssyndrom
+            <ArrowSquareOut size={16} aria-label="öppnas i nytt fönster" />
           </LinkItem>
           <LinkItem href="https://www.hjarnfonden.se/hjarnhalsa/fysisk-aktivitet/fysisk-traning-och-depression/" target="_blank" rel="noopener noreferrer">
             Hjärnfonden – Fysisk träning och depression
+            <ArrowSquareOut size={16} aria-label="öppnas i nytt fönster" />
           </LinkItem>
         </Card>
       </PageWrapper>
@@ -91,7 +99,9 @@ const Card = styled.div`
 `;
 
 const LinkItem = styled.a`
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   padding: 12px 16px;
   margin-bottom: 8px;
   border-radius: 8px;

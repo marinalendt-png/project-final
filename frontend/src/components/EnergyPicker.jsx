@@ -13,6 +13,8 @@ export const EnergyPicker = ({ energyLevel, setEnergyLevel, onNext }) => {
           <EnergyButton
             key={num}
             $active={energyLevel === num}
+            aria-label={`Välj energinivå ${num}`}
+            aria-pressed={energyLevel === num}
             onClick={() => setEnergyLevel(num)}
           >
             {num}
@@ -20,7 +22,7 @@ export const EnergyPicker = ({ energyLevel, setEnergyLevel, onNext }) => {
         ))}
       </EnergyButtonWrapper>
       <span>Idag: <strong style={{ color: "var(--color-primary)", fontSize: "20px" }}>{energyLevel}</strong> /10</span>
-      <NextButton onClick={onNext}>Nästa</NextButton>
+      <NextButton onClick={onNext} disabled={!energyLevel}>Nästa</NextButton>
     </EnergyWrapper>
   );
 };
@@ -32,7 +34,6 @@ const EnergyWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 12px;
-  flex-wrap: wrap;
   background: var(--color-card);
   backdrop-filter: blur(10px);
   border-radius: 12px;
@@ -77,4 +78,9 @@ const NextButton = styled.button`
   color: white;
   cursor: pointer;
   font-size: 16px;
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
 `;

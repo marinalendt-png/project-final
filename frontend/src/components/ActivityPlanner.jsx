@@ -31,11 +31,11 @@ export const ActivityPlanner = ({ activities, selectedActivities, energyLeft, ba
       )}
 
       {showModal && (
-        <ModalOverlay onClick={() => setShowModal(false)}>
+        <ModalOverlay role="dialog" aria-modal="true" aria-labelledby="modal-title" onClick={() => setShowModal(false)}>
           <ModalContent onClick={e => e.stopPropagation()}><Battery energy={energyLeft} size="small" />
             <ModalHeader>
-              <h3>Välj aktiviteter</h3>
-              <CloseButton onClick={() => setShowModal(false)}>x</CloseButton>
+              <h3 id="modal-title">Välj aktiviteter</h3>
+              <CloseButton aria-label="Stäng" onClick={() => setShowModal(false)}>x</CloseButton>
             </ModalHeader>
 
             <ActivitiesRow>
@@ -70,11 +70,15 @@ export const ActivityPlanner = ({ activities, selectedActivities, energyLeft, ba
                 <FormPopup onClick={e => e.stopPropagation()}>
                   <ModalHeader>
                     <h3>Lägg till aktivitet</h3>
-                    <CloseButton onClick={() => setShowForm(false)}>X</CloseButton>
+                    <CloseButton aria-label="Stäng" onClick={() => setShowForm(false)}>X</CloseButton>
                   </ModalHeader>
+
                   <AddForm onSubmit={handleAddActivity}>
-                    <Input type="text" name="name" placeholder="Namn" required />
-                    <Select name="energyImpact" required>
+                    <label htmlFor="activity-name">Namn</label>
+                    <Input id="activity-name" type="text" name="name" placeholder="Namn" required />
+
+                    <label htmlFor="activity-energy">Energi</label>
+                    <Select id="energyImpact" name="energyImpact" required>
                       <option value="">Energi</option>
                       <option value="-3">-3</option>
                       <option value="-2">-2</option>
@@ -83,7 +87,9 @@ export const ActivityPlanner = ({ activities, selectedActivities, energyLeft, ba
                       <option value="2">2</option>
                       <option value="3">3</option>
                     </Select>
-                    <Select name="category" required>
+
+                    <label htmlFor="activity-category">Kategori</label>
+                    <Select id="activity-category" name="category" required>
                       <option value="kategori">Kategori</option>
                       <option value="rörelse">Rörelse</option>
                       <option value="vila">Vila</option>

@@ -45,7 +45,7 @@ const BatteryTop = styled.div`
 `;
 
 const BatteryBody = styled.div`
- position: relative;
+  position: relative;
   width: ${props => props.$small ? '80px' : '120px'};
   height: ${props => props.$small ? '130px' : '200px'};
   background: linear-gradient(
@@ -109,7 +109,11 @@ const EnergyText = styled.p`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 16px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  font-size: 14px;
   font-weight: 700;
   color: #334155;
   z-index: 2;

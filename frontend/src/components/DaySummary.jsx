@@ -89,7 +89,7 @@ export const DaySummary = ({ activities, selectedActivities, energyLevel, energy
   );
 };
 
-const BalanceWrapper = styled.div`
+const BalanceWrapper = styled.main`
   display: flex;
   flex-direction: column;
   gap: 24px;

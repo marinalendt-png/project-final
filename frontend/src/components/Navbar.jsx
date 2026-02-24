@@ -18,10 +18,11 @@ export const Navbar = () => {
 
     <Nav>
       <Logo onClick={() => navigate("/daily")}>
-        <Leaf size={36} weight="fill" /> Balans
+        <Leaf size={36} weight="fill" aria-hidden="true" /> Balans
       </Logo>
 
-      <HamburgerButton onClick={() => setMenuOpen(!menuOpen)}>
+      <HamburgerButton onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? "Stäng meny" : "Öppna meny"}
+        aria-expanded={menuOpen}>
         {menuOpen ? <X size={24} /> : <List size={24} />}
       </HamburgerButton>
 
@@ -59,15 +60,16 @@ const HamburgerButton = styled.button`
   }
 `;
 
-const Logo = styled.span`
+const Logo = styled.button`
   font-size: 36px;
   font-weight: 700;
-  color: var(--color-primary);
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+  color: #B8750A;
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 8px;
+  background: none;
+  border: none;
 `;
 
 const RightSection = styled.div`
@@ -120,6 +122,6 @@ const LogOutButton = styled.button`
   transition: background 0.2s;
 
   &:hover {
-    background: #b71c1c;
+    background: var(--color-primary-dark);
   }
 `;

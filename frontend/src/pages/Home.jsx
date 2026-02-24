@@ -21,7 +21,6 @@ export const Home = () => {
   };
 
   return (
-
     <HomeWrapper>
       <AppTitle>
         <Leaf size={56} weight="fill" /> Balans
@@ -47,7 +46,7 @@ export const Home = () => {
 
 // ======= STYLED COMPONENTS ======= //
 
-const HomeWrapper = styled.div`
+const HomeWrapper = styled.main`
   max-width: 400px;
   margin: 0 auto;
   padding: 80px 16px 40px;
@@ -58,7 +57,7 @@ const HomeWrapper = styled.div`
   gap: 16px;
 `;
 
-const AppTitle = styled.h2`
+const AppTitle = styled.h1`
   font-size: clamp(36px, 12vw, 64px);
   color: white;
   margin: 0;

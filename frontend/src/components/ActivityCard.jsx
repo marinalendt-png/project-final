@@ -23,7 +23,7 @@ export const ActivityCard = ({ activity, onClick, selected, onDelete }) => {
   const isDraining = activity.energyImpact < 0;
 
   return (
-    <>
+    <CardContainer>
       <CardWrapper onClick={onClick} $selected={selected} $drain={isDraining}>
         <TopRow>
           <Icon size={24} />
@@ -38,23 +38,29 @@ export const ActivityCard = ({ activity, onClick, selected, onDelete }) => {
             <Check size={18} weight="bold" />
           </CheckIcon>
         )}
-        {activity.user && (
-          <DeleteButton onClick={(e) => { e.stopPropagation(); onDelete(activity._id); }}>
-            <Trash size={14} />
-          </DeleteButton>
-        )}
       </CardWrapper >
-    </>
+
+      {activity.user && (
+        <DeleteButton onClick={(e) => { e.stopPropagation(); onDelete(activity._id); }} aria-label={`Radera ${activity.name}`} >
+          <Trash size={14} />
+        </DeleteButton>
+      )}
+    </CardContainer >
   );
 };
 
 // ======= STYLED COMPONENTS ======= //
 
-const CardWrapper = styled.div`
-  display: flex;
+const CardContainer = styled.div`
   position: relative;
+  width: 100%;
+`;
+
+const CardWrapper = styled.button`
+  display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
   gap: 4px;
   padding: 8px;
   border-radius: 10px;

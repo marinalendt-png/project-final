@@ -26,15 +26,24 @@ export const History = () => {
         </BackButton>
       </BackRow>
       <PageWrapper>
-        {plans.map((plan) => (
-          <PlanCard key={plan._id}>
-            <h3>{new Date(plan.date).toLocaleDateString("sv-SE", { weekday: "long", day: "numeric", month: "long" })}</h3>
-            <p>Start: {plan.startingEnergy}→ Slut: {plan.currentEnergy}</p>
-            <ActivityChips>
-              {plan.activities.map(a => <Chip key={a._id} $positive={a.energyImpact > 0}>{a.name}</Chip>)}
-            </ActivityChips>
-          </PlanCard>
-        ))}
+        {plans.length === 0 ? (
+          <EmptyState>
+            <span>🌿</span>
+            <p>Du har inte loggat någon dag ännu!</p>
+            <p>Gå tillbaka och planera din första dag.</p>
+          </EmptyState>
+        ) : (
+
+          plans.map((plan) => (
+            <PlanCard key={plan._id} $positive={plan.currentEnergy >= plan.startingEnergy}>
+              <h3>{new Date(plan.date).toLocaleDateString("sv-SE", { weekday: "long", day: "numeric", month: "long" })}</h3>
+              <p>Start: {plan.startingEnergy}→ Slut: {plan.currentEnergy}</p>
+              <ActivityChips>
+                {plan.activities.map(a => <Chip key={a._id} $positive={a.energyImpact > 0}>{a.name}</Chip>)}
+              </ActivityChips>
+            </PlanCard>
+          ))
+        )}
       </PageWrapper>
     </>
   )
@@ -53,9 +62,20 @@ const PageWrapper = styled.div`
   }
 `;
 
+const EmptyState = styled.div`
+  text-align: center;
+  padding: 48px 16px;
+  color: var(--color-text);
+
+  span {
+    font-size: 48px;
+  }
+`;
+
 const PlanCard = styled.div`
   background: var(--color-card);
   border: 1px solid var(--color-border);
+  border-left: 5px solid ${props => props.$positive ? "var(--color-forest)" : "var(--color-primary)"};
   border-radius: 12px;
   padding: 20px;
   margin-bottom: 16px;
@@ -83,15 +103,14 @@ const Chip = styled.span`
   border-radius: 16px;
   font-size: 14px;
   font-weight: 500;
-  gap: 8px;
   color: var(--color-text);
   background: ${props => props.$positive
-    ? "var(--color-success-light)"
-    : "var(--color-error-light)"
+    ? "rgba(74, 124, 89, 0.15)"
+    : "var(--color-primary-light)"
   };
   border: 1px solid ${props => props.$positive
-    ? "var(--color-success)"
-    : "var(--color-error)"
+    ? "var(--color-forest)"
+    : "var(--color-primary)"
   };
 `;
 

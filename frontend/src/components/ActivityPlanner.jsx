@@ -202,19 +202,24 @@ const SelectedChip = styled.span`
   font-size: 14px;
   color: var(--color-text);
   background: ${props => props.$positive
-    ? "var(--color-success-light)"
-    : "var(--color-error-light)"
+    ? "rgba(74, 124, 89, 0.15)"
+    : "var(--color-primary-light)"
   };
   border: 1px solid ${props => props.$positive
-    ? "var(--color-success)"
-    : "var(--color-error)"
+    ? "var(--color-forest)"
+    : "var(--color-primary)"
   };
 `;
 
 const ActivitiesRow = styled.div`
   display: flex;
+  flex-direction: column;
   gap: 16px;
   margin-top: 16px;
+
+  @media (min-width: 400px) {
+    flex-direction: row;
+  }
 `;
 
 const ActivitiesColumn = styled.div`

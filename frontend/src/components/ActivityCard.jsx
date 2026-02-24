@@ -95,7 +95,7 @@ const TopRow = styled.div`
 `;
 
 const EnergyText = styled.span`
-  color: ${(props) => (props.$positive ? "var(--color-primary)" : "var(--color-error)")};   
+  color: ${(props) => (props.$positive ? "var(--color-forest)" : "var(--color-primary)")};
   font-weight: 500;
   font-size: 13px;
 `;

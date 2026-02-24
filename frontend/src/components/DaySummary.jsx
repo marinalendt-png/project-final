@@ -111,10 +111,15 @@ const EnergyFlow = styled.div`
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 16px;
+  padding: 12px 8px;
   background: var(--color-card);
   border: 1px solid var(--color-border);
   border-radius: 16px;
+
+  @media (min-width: 400px) {
+    padding: 16px;
+    gap: 12px;
+  }
 `;
 
 const FlowNode = styled.div`
@@ -122,15 +127,20 @@ const FlowNode = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 4px;
-  padding: 12px 16px;
+  padding: 8px;
   border-radius: 12px;
   background: white;
   border: 1px solid ${props => props.$end ? "var(--color-error)" : "var(--color-border)"};
   flex: 1;
+  min-width: 0;
+
+  @media (min-width: 400px) {
+    padding: 12px 16px;
+  }
 `;
 
 const FlowValue = styled.div`
-  font-size: 24px;
+  font-size: clamp(18px, 5vw, 24px);
   font-weight: bold;
   color: var(--color-text);
 `;
@@ -144,19 +154,19 @@ const FlowLabel = styled.div`
 const BalanceAssessment = styled.div`
   background: ${props => {
     switch (props.$level) {
-      case 'critical': return "var(--color-error-light)";
-      case 'moderate': return "rgba(212, 165, 116, 0.2)";
-      case 'good': return "rgba(107, 155, 210, 0.15)";
-      case 'excellent': return "var(--color-success-light)";
+      case 'critical': return "#fde8e8";
+      case 'moderate': return "#fef3e2";
+      case 'good': return "#e8f5ee";
+      case 'excellent': return "#d4eddf";
       default: return "var(--color-card)";
     }
   }};
-  border: 2px solid ${props => {
+  border: 3px solid ${props => {
     switch (props.$level) {
-      case 'critical': return "var(--color-error)";
-      case 'moderate': return "var(--color-warning)";
-      case 'good': return "var(--color-info)";
-      case 'excellent': return "var(--color-success)";
+      case 'critical': return "#c47a7a";
+      case 'moderate': return "var(--color-primary)";
+      case 'good': return "#A8D5BA";
+      case 'excellent': return "var(--color-forest)";
       default: return '#e2e8f0';
     }
   }};
@@ -217,12 +227,12 @@ const ActivityChip = styled.span`
   font-weight: 500;
   color: var(--color-text);
   background: ${props => props.$positive
-    ? "var(--color-success-light)"
-    : "var(--color-error-light)"
+    ? "rgba(74, 124, 89, 0.15)"
+    : "var(--color-primary-light)"
   };
   border: 1px solid ${props => props.$positive
-    ? "var(--color-success)"
-    : "var(--color-error)"
+    ? "var(--color-forest)"
+    : "var(--color-primary)"
   };
 `;
 

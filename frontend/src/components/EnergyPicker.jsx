@@ -46,29 +46,31 @@ const EnergyWrapper = styled.div`
 const EnergyButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
   gap: 8px;
 `;
 
 const EnergyButton = styled.button`
-  width: 28px;
-  height: 28px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   border: 2px solid var(--color-border);
   background: ${(props) => (props.$active ? "var(--color-primary)" : "white")};
   color: ${(props) => (props.$active ? "white" : "var(--color-text)")};
   cursor: pointer;
   font-weight: bold;
-  font-size: 12px;
+  font-size: 13px;
 
   @media (min-width: 400px) {
-    width: 36px;
-    height: 36px;
-    font-size: 13px;
+    width: 44px;
+    height: 44px;
+    font-size: 15px;
   }
 `;
 
 const NextButton = styled.button`
-  padding: 12px 24px;
+  width: 100%;
+  padding: 14px 24px;
   border: none;
   border-radius: 20px;
   background: var(--color-primary);

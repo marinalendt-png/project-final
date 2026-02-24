@@ -59,7 +59,7 @@ const HomeWrapper = styled.div`
 `;
 
 const AppTitle = styled.h2`
-  font-size: 48px;
+  font-size: clamp(36px, 12vw, 64px);
   color: white;
   margin: 0;
   font-weight: 300;
@@ -71,10 +71,6 @@ const AppTitle = styled.h2`
   padding: 12px 24px;
   border-radius: 16px;
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
-
-  @media (min-width: 400px) {
-    font-size: 64px;
-  }
 `;
 
 const SubTitle = styled.p`
@@ -94,7 +90,9 @@ const SubText = styled.p`
 
 const ButtonRow = styled.div`
   display: flex;
-  gap: 16px; 
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
   margin-bottom: 50px;
 `;
 

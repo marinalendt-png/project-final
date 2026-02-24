@@ -3,7 +3,9 @@ import { createGlobalStyle } from "styled-components";
 export const GlobalStyles = createGlobalStyle`
 
 :root {
-    --color-primary: #d4a574;
+    --color-primary: #B8750A;
+    --color-primary-dark: #8A5700;
+    --color-primary-light: rgba(184, 117, 10, 0.15);
     --color-forest: #4a7c59;
     --color-card: rgba(255, 255, 255, 0.85);
     --color-card-selected: rgba(186, 199, 219, 0.9);
@@ -25,6 +27,16 @@ export const GlobalStyles = createGlobalStyle`
 * {
   box-sizing: border-box;
 }
+
+h1, h2, h3, h4 {
+  margin: 0;
+  line-height: 1.2;
+  color: var(--color-text);
+}
+
+h1 { font-size: clamp(24px, 6vw, 36px); }
+h2 { font-size: clamp(20px, 5vw, 28px); }
+h3 { font-size: clamp(16px, 4vw, 20px); }
 
 body {
   margin: 0;

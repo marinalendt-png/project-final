@@ -1,5 +1,5 @@
 import { Navbar } from "../components/Navbar";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { fetchActivities, createActivity, deleteActivities, createDailyPlan } from "../api/api";
 import styled from "styled-components";
 import { EnergyPicker } from "../components/EnergyPicker";
@@ -26,8 +26,8 @@ export const DailyPlan = () => {
     loadActivities();
   }, []);
 
-  // TOGGLING ACTIVITIES + making the battery pulsate
-  const toggleActivity = (activityId) => {
+  // TOGGLING ACTIVITIES + making the battery pulsate. 
+  const toggleActivity = useCallback((activityId) => {
     setSelectedActivities((prev) =>
       prev.includes(activityId)
         ? prev.filter((id) => id !== activityId)
@@ -35,7 +35,7 @@ export const DailyPlan = () => {
     );
     setBatteryPulse(true);
     setTimeout(() => setBatteryPulse(false), 400);
-  };
+  }, []);
 
   // CREATE NEW ACTIVITY
   const handleAddActivity = async (e) => {

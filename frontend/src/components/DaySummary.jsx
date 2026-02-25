@@ -1,7 +1,8 @@
 import styled from "styled-components";
-import { Lightning, Calendar, Flag, Sparkle, RocketLaunch, Siren, Smiley, ShootingStar, FloppyDisk, ArrowRight, ListBullets } from "@phosphor-icons/react";
+import { FloppyDisk } from "@phosphor-icons/react";
 import { Battery } from "./BatteryComponent";
 import { useNavigate } from "react-router";
+import { MascotTip } from "./MascotTip";
 
 export const DaySummary = ({ activities, selectedActivities, energyLevel, energyLeft, recovery, onBack, onSave, isSaved }) => {
   const navigate = useNavigate();
@@ -13,79 +14,38 @@ export const DaySummary = ({ activities, selectedActivities, energyLevel, energy
         <Battery energy={energyLeft} size="large" />
       </BatteryWrapper>
 
-      <BalanceAssessment $level={
-        energyLeft < 2 ? "critical" :
-          energyLeft < 6 ? "moderate" :
-            energyLeft < 8 ? "good" : "excellent"
-      }>
-        <AssessmentIcon>
-          {energyLeft < 2 ? <Siren size={32} /> :
-            energyLeft < 6 ? <Smiley size={32} /> :
-              energyLeft < 8 ? <ShootingStar size={32} /> : <RocketLaunch size={32} />}
-        </AssessmentIcon>
-        <AssessmentText>
-          <strong>
-            {energyLeft < 2 ? "Du behöver dra ner på tempot!" :
-              energyLeft < 6 ? "Lagom balanserad planering" :
-                energyLeft < 8 ? "Bra energi" : "Mycket energi över"}
-          </strong>
-          <p>
-            {energyLeft < 2 ?
-              "Du har planerat väldigt mycket. Överväg att ta bort några aktiviteter för att undvika utmattning." :
-              energyLeft < 6 ?
-                "Bra balans mellan aktiviteter och återhämtning. Du kommer känna dig nöjd men lagom trött" :
-                energyLeft < 8 ?
-                  "Du har god energi kvar efter dagen. Perfekt för eventuellt produktivitet, eller återhämtning" :
-                  "Du har mycket energi över. Du kan lägga till flera aktiviteter, eller bara känna dig nöjd och njuta av övertiden"}
-          </p>
-        </AssessmentText>
-      </BalanceAssessment>
+      <MascotTip energyLeft={energyLeft} recovery={recovery} />
 
       <QuickList>
         <QuickListTitle>Dina planerade aktiviteter idag:</QuickListTitle>
-        <ActivityChips>
-          {activities.filter((a) => selectedActivities.includes(a._id))
-            .map((activity) => (
-              <ActivityChip key={activity._id} $positive={activity.energyImpact > 0}>
-                {activity.name} ({activity.energyImpact > 0 ? "+" : ""}{activity.energyImpact})
-              </ActivityChip>
-            ))}
-        </ActivityChips>
+        <TwoColumnList>
+          <Column>
+            <ColumnLabel $positive>Ger energi</ColumnLabel>
+            {activities.filter(a => selectedActivities.includes(a._id) && a.energyImpact > 0)
+              .map(a => <ActivityChip key={a._id} $positive>{a.name}</ActivityChip>)}
+          </Column>
+          <Column>
+            <ColumnLabel>Tar energi</ColumnLabel>
+            {activities.filter(a => selectedActivities.includes(a._id) && a.energyImpact < 0)
+              .map(a => <ActivityChip key={a._id}>{a.name}</ActivityChip>)}
+          </Column>
+        </TwoColumnList>
       </QuickList>
 
-      <EnergyFlow>
-        <FlowNode>
-          <Lightning size={28} />
-          <FlowValue>{energyLevel}</FlowValue>
-          <FlowLabel>Startenergi</FlowLabel>
-        </FlowNode>
-        <ArrowRight size={20} color="var(--color-text-muted)" />
-
-        <FlowNode>
-          <ListBullets size={28} />
-          <FlowValue>{selectedActivities.length}</FlowValue>
-          <FlowLabel>aktiviteter</FlowLabel>
-        </FlowNode>
-        <ArrowRight size={20} color="var(--color-text-muted)" />
-
-        <FlowNode>
-          <Flag size={28} />
-          <FlowValue>{energyLeft}</FlowValue>
-          <FlowLabel>Slutnenergi</FlowLabel>
-        </FlowNode>
-      </EnergyFlow>
-
       <ShowButtonWrapper>
-        <SecondaryButton onClick={onBack}> ← Ändra plan</SecondaryButton>
         <NextButton onClick={onSave} disabled={isSaved}>
           Spara min dag <FloppyDisk size={26} />
         </NextButton>
+
         {isSaved && <SavedMessage>Din dag är sparad!</SavedMessage>}
-        <SecondaryButton onClick={() => navigate("/history")}>
-          Se historik→
-        </SecondaryButton>
+        <ButtonRow>
+          <SecondaryButton onClick={onBack}> ← Ändra plan</SecondaryButton>
+          <SecondaryButton onClick={() => navigate("/history")}>
+            Se historik→
+          </SecondaryButton>
+        </ButtonRow>
       </ShowButtonWrapper>
-    </BalanceWrapper>
+    </BalanceWrapper >
   );
 };
 
@@ -103,101 +63,6 @@ const BalanceWrapper = styled.main`
 const BatteryWrapper = styled.div`
   display: flex;
   justify-content: center;
-  margin: 20px 0;
-`;
-
-const EnergyFlow = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 12px 8px;
-  background: var(--color-card);
-  border: 1px solid var(--color-border);
-  border-radius: 16px;
-
-  @media (min-width: 400px) {
-    padding: 16px;
-    gap: 12px;
-  }
-`;
-
-const FlowNode = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  padding: 8px;
-  border-radius: 12px;
-  background: white;
-  border: 1px solid ${props => props.$end ? "var(--color-error)" : "var(--color-border)"};
-  flex: 1;
-  min-width: 0;
-
-  @media (min-width: 400px) {
-    padding: 12px 16px;
-  }
-`;
-
-const FlowValue = styled.div`
-  font-size: clamp(18px, 5vw, 24px);
-  font-weight: bold;
-  color: var(--color-text);
-`;
-
-const FlowLabel = styled.div`
-  font-size: 12px;
-  color: var(--color-text-muted);
-  text-align: center;
-`;
-
-const BalanceAssessment = styled.div`
-  background: ${props => {
-    switch (props.$level) {
-      case 'critical': return "#fde8e8";
-      case 'moderate': return "#fef3e2";
-      case 'good': return "#e8f5ee";
-      case 'excellent': return "#d4eddf";
-      default: return "var(--color-card)";
-    }
-  }};
-  border: 3px solid ${props => {
-    switch (props.$level) {
-      case 'critical': return "#c47a7a";
-      case 'moderate': return "var(--color-primary)";
-      case 'good': return "#A8D5BA";
-      case 'excellent': return "var(--color-forest)";
-      default: return '#e2e8f0';
-    }
-  }};
-  border-radius: 12px;
-  padding: 20px;
-  display: flex;
-  gap: 16px;
-  align-items: flex-start;
-`;
-
-const AssessmentIcon = styled.div`
-  font-size: 40px;
-  flex-shrink: 0;
-`;
-
-const AssessmentText = styled.div`
-  flex: 1;
-  
-  strong {
-    display: block;
-    font-size: 18px;
-    margin-bottom: 8px;
-    color: var(--color-text);
-  }
-  
-  p {
-    margin: 0;
-    font-size: 14px;
-    line-height: 1.5;
-    color: var(--color-text);
-  }
 `;
 
 const QuickList = styled.div`
@@ -213,10 +78,26 @@ const QuickListTitle = styled.h3`
   color: var(--color-text);
 `;
 
-const ActivityChips = styled.div`
+const TwoColumnList = styled.div`
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+  gap: 12px;
+  margin-top: 12px;
+`;
+
+const Column = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+`;
+
+const ColumnLabel = styled.p`
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: ${props => props.$positive ? "var(--color-forest)" : "var(--color-error)"};
+  margin: 0 0 4px 0;
 `;
 
 const ActivityChip = styled.span`
@@ -245,7 +126,6 @@ const ShowButtonWrapper = styled.div`
 `;
 
 const SecondaryButton = styled.button`
-  flex: 1;
   padding: 12px 24px;
   border: 1px solid var(--color-border);
   border-radius: 20px;
@@ -283,4 +163,10 @@ const SavedMessage = styled.p`
   font-size: 15px;
   color: var(--color-forest);
   font-weight: 500;
+`;
+
+const ButtonRow = styled.div`
+  display: flex;
+  gap: 20px;
+  justify-content: center;
 `;

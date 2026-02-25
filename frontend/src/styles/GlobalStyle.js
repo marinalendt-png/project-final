@@ -3,25 +3,25 @@ import { createGlobalStyle } from "styled-components";
 export const GlobalStyles = createGlobalStyle`
 
 :root {
-    --color-primary: #B8750A;
-    --color-primary-dark: #8A5700;
-    --color-primary-light: rgba(184, 117, 10, 0.15);
-    --color-forest: #4a7c59;
-    --color-card: rgba(255, 255, 255, 0.85);
-    --color-card-selected: rgba(186, 199, 219, 0.9);
-    --color-text: #333;
-    --color-border: #ccc;
-    --color-error: #c47a7a;
-    --color-text-muted: #999;
-    --color-text-light: rgba(255, 255, 255, 0.8);
-    --color-border-light: rgba(255, 255, 255, 0.3);
-    --color-input-bg: rgba(255, 255, 255, 0.9);
-    --color-glass: rgba(255, 255, 255, 0.3);
-    --color-success: #71e995c5;          
-    --color-success-light: rgba(104, 235, 143, 0.18);   
-    --color-error-light: rgba(186, 78, 78, 0.31); 
-    --color-warning: #d4a574;          
-    --color-info: #6b9bd2;             
+  --color-primary: #6b5e75;
+  --color-primary-dark: #4d4f59;
+  --color-primary-light: rgba(107, 94, 117, 0.15);
+  --color-forest: #4a7c59;
+  --color-card: rgba(227, 224, 217, 0.85);
+  --color-card-selected: rgba(121, 124, 139, 0.25);
+  --color-text: #302e2f;
+  --color-border: #bcb3a8;
+  --color-error: #c47a7a;
+  --color-text-muted: #646774;
+  --color-text-light: rgba(255, 255, 255, 0.8);
+  --color-border-light: rgba(255, 255, 255, 0.3);
+  --color-input-bg: rgba(227, 224, 217, 0.9);
+  --color-glass: rgba(227, 224, 217, 0.3);
+  --color-success: #71e995c5;
+  --color-success-light: rgba(104, 235, 143, 0.18);
+  --color-error-light: rgba(186, 78, 78, 0.12);
+  --color-warning: #bcb3a8;
+  --color-info: #797c8b;
 }
 
 * {

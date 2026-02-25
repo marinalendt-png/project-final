@@ -7,7 +7,6 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 import { GlobalStyles } from "./styles/GlobalStyle";
 import { Tips } from "./pages/Tips";
 
-
 const About = lazy(() => import("./pages/About").then(m => ({ default: m.About })));
 const History = lazy(() => import("./pages/History").then(m => ({ default: m.History })));
 

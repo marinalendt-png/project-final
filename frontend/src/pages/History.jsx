@@ -106,11 +106,11 @@ const Chip = styled.span`
   color: var(--color-text);
   background: ${props => props.$positive
     ? "rgba(74, 124, 89, 0.15)"
-    : "var(--color-primary-light)"
+    : "var(--color-error-light)"
   };
   border: 1px solid ${props => props.$positive
     ? "var(--color-forest)"
-    : "var(--color-primary)"
+    : "var(--color-error)"
   };
 `;
 

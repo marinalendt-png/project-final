@@ -63,7 +63,7 @@ const HamburgerButton = styled.button`
 const Logo = styled.button`
   font-size: 36px;
   font-weight: 700;
-  color: #B8750A;
+  color: var(--color-primary);
   cursor: pointer;
   display: flex;
   align-items: center;

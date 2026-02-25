@@ -5,6 +5,7 @@ import { useState } from "react";
 
 export const ActivityPlanner = ({ activities, selectedActivities, energyLeft, batteryPulse, toggleActivity, showForm, setShowForm, handleAddActivity, onNext, onBack, onDelete }) => {
   const [showModal, setShowModal] = useState(false);
+  const [activeCategory, setActiveCategory] = useState("alla");
 
   return (
     <>
@@ -38,31 +39,49 @@ export const ActivityPlanner = ({ activities, selectedActivities, energyLeft, ba
               <CloseButton aria-label="Stäng" onClick={() => setShowModal(false)}>x</CloseButton>
             </ModalHeader>
 
+            <CategoryFilters>
+              {["alla", "rörelse", "vila", "jobb", "vardag"].map(cat => (
+                <FilterButton
+                  key={cat}
+                  $active={activeCategory == cat}
+                  onClick={() => setActiveCategory(cat)}
+                >
+                  {cat}
+                </FilterButton>
+              ))}
+            </CategoryFilters>
+
             <ActivitiesRow>
               <ActivitiesColumn>
                 <ColumnHeader>Tar energi</ColumnHeader>
-                {activities.filter((a) => a.energyImpact < 0).map((activity) => (
-                  <ActivityCard
-                    key={activity._id}
-                    activity={activity}
-                    selected={selectedActivities.includes(activity._id)}
-                    onClick={() => toggleActivity(activity._id)}
-                    onDelete={onDelete}
-                  />
-                ))}
+                {activities
+                  .filter((a) => a.energyImpact < 0)
+                  .filter(a => activeCategory === "alla" || a.category === activeCategory)
+                  .map((activity) => (
+                    < ActivityCard
+                      key={activity._id}
+                      activity={activity}
+                      selected={selectedActivities.includes(activity._id)}
+                      onClick={() => toggleActivity(activity._id)}
+                      onDelete={onDelete}
+                    />
+                  ))}
               </ActivitiesColumn>
 
               <ActivitiesColumn>
                 <ColumnHeader>Ger energi</ColumnHeader>
-                {activities.filter((a) => a.energyImpact > 0).map((activity) => (
-                  <ActivityCard
-                    key={activity._id}
-                    activity={activity}
-                    selected={selectedActivities.includes(activity._id)}
-                    onClick={() => toggleActivity(activity._id)}
-                    onDelete={onDelete}
-                  />
-                ))}
+                {activities
+                  .filter((a) => a.energyImpact > 0)
+                  .filter(a => activeCategory === "alla" || a.category === activeCategory)
+                  .map((activity) => (
+                    <ActivityCard
+                      key={activity._id}
+                      activity={activity}
+                      selected={selectedActivities.includes(activity._id)}
+                      onClick={() => toggleActivity(activity._id)}
+                      onDelete={onDelete}
+                    />
+                  ))}
               </ActivitiesColumn>
             </ActivitiesRow>
             {showForm && (
@@ -341,4 +360,23 @@ const NextButton = styled.button`
   color: white;
   cursor: pointer;
   font-size: 16px;
+`;
+
+const CategoryFilters = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+`;
+
+const FilterButton = styled.button`
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid ${props => props.$active ? "var(--color-primary)" : "var(--color-border)"};
+  background: ${props => props.$active ? "var(--color-primary)" : "transparent"};
+  color: ${props => props.$active ? "white" : "var(--color-text)"};
+  font-size: 13px;
+  cursor: pointer;
+  text-transform: capitalize;
+  transition: all 0.2s ease;
 `;

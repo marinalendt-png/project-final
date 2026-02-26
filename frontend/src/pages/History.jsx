@@ -2,12 +2,18 @@ import { useState, useEffect } from "react";
 import { fetchDailyPlan } from "../api/api";
 import { Navbar } from "../components/Navbar";
 import styled from "styled-components";
-import { ArrowLeft } from "@phosphor-icons/react";
+import { ArrowLeft, CalendarBlank } from "@phosphor-icons/react";
 import { useNavigate } from "react-router";
 
 export const History = () => {
   const [plans, setPlans] = useState([]);
   const navigate = useNavigate();
+  const getDaySummary = (start, end) => {
+    const diff = end - start;
+    if (diff >= 0) return "Energin höll i sig bra idag!";
+    if (diff >= 2) return "Lite tyngre dag - men du tog dig igenom den.";
+    return "Tuff dag idag. Lägg in en vilosam aktivitet extra i morgon";
+  };
 
   useEffect(() => {
     const loadPlans = async () => {
@@ -36,8 +42,30 @@ export const History = () => {
 
           plans.map((plan) => (
             <PlanCard key={plan._id} $positive={plan.currentEnergy >= plan.startingEnergy}>
-              <h3>{new Date(plan.date).toLocaleDateString("sv-SE", { weekday: "long", day: "numeric", month: "long" })}</h3>
-              <p>Start: {plan.startingEnergy}→ Slut: {plan.currentEnergy}</p>
+              <CardHeader>
+                <CalendarBlank size={16} weight="fill" />
+                <h3>{new Date(plan.date).toLocaleDateString("sv-SE", { weekday: "long", day: "numeric", month: "long" })}</h3>
+              </CardHeader>
+
+              <EnergyRow>
+                <SummaryText>{getDaySummary(plan.startingEnergy, plan.currentEnergy)}</SummaryText>
+                <EnergyNumbers>
+                  <EnergyBlock>
+                    <EnergyNum>{plan.startingEnergy}</EnergyNum>
+                    <EnergyLabel>start</EnergyLabel>
+                  </EnergyBlock>
+                  <Arrow $positive={plan.currentEnergy >= plan.startingEnergy}>
+                    {plan.currentEnergy >= plan.startingEnergy ? "↑" : "↓"}
+                  </Arrow>
+                  <EnergyBlock>
+                    <EnergyNum $end $positive={plan.currentEnergy >= plan.startingEnergy}>
+                      {plan.currentEnergy}
+                    </EnergyNum>
+                    <EnergyLabel>slut</EnergyLabel>
+                  </EnergyBlock>
+                </EnergyNumbers>
+              </EnergyRow>
+
               <ActivityChips>
                 {plan.activities.map(a => <Chip key={a._id} $positive={a.energyImpact > 0}>{a.name}</Chip>)}
               </ActivityChips>
@@ -52,14 +80,7 @@ export const History = () => {
 // ======= STYLED COMPONENTS ======= //
 
 const PageWrapper = styled.div`
-  max-width: 500px;
-  margin: 0 auto;
-  padding: 16px;
-
-  @media (min-width: 768px) {
-    max-width: 700px;
-    padding: 60px 16px;
-  }
+  padding: 8px 16px 16px;
 `;
 
 const EmptyState = styled.div`
@@ -73,9 +94,10 @@ const EmptyState = styled.div`
 `;
 
 const PlanCard = styled.div`
-  background: var(--color-card);
-  border: 1px solid var(--color-border);
-  border-left: 5px solid ${props => props.$positive ? "var(--color-forest)" : "var(--color-primary)"};
+  background: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(6px);
+  border-left: 5px solid ${props => props.$positive ? "var(--color-forest)" : "var(--color-error)"};
   border-radius: 12px;
   padding: 20px;
   margin-bottom: 16px;
@@ -89,6 +111,72 @@ const PlanCard = styled.div`
     margin: 0 0 12px 0;
     color: var(--color-text-muted);
   }
+`;
+
+const CardHeader = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 12px;
+  color: var(--color-text-muted);
+
+  h3 {
+    margin: 0;
+    text-transform: capitalize;
+    font-size: 15px;
+  }
+`;
+
+const EnergyRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+`;
+
+const EnergyNumbers = styled.div`
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  flex-shrink: 0;
+`;
+
+const SummaryText = styled.p`
+  flex: 1;
+  font-size: 13px;
+  color: var(--color-text-muted);
+  font-style: italic;
+  margin: 0 0 12px 0;
+`;
+
+const EnergyNum = styled.span`
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1;
+  color: ${({ $end, $positive }) =>
+    !$end ? "var(--color-text-muted)" :
+      $positive ? "var(--color-forest)" :
+        "var(--color-error)"};
+`;
+
+const EnergyBlock = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const EnergyLabel = styled.span`
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-text-muted);
+`;
+
+const Arrow = styled.span`
+  font-size: 24px;
+  align-self: center;
+  color: ${({ $positive }) => $positive ? "var(--color-forest)" : "var(--color-error)"};
 `;
 
 const ActivityChips = styled.span`
@@ -115,7 +203,7 @@ const Chip = styled.span`
 `;
 
 const BackRow = styled.div`
-  padding: 8px 16px;
+  padding: 4px 16px;
 `;
 
 const BackButton = styled.button`

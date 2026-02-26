@@ -46,7 +46,15 @@ body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  background-attachment: fixed;
   min-height: 100vh;
   color: #333;
+}
+
+main {
+  max-width: 430px;
+  margin: 0 auto;
+  min-height: 100vh;
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.18);
 }
 `;

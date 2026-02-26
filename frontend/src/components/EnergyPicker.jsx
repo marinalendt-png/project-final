@@ -6,13 +6,14 @@ export const EnergyPicker = ({ energyLevel, setEnergyLevel, onNext }) => {
 
   return (
     <EnergyWrapper>
-      <p>Varmt välkommen, {username?.split(" ")[0]}!</p>
+      <p>Varmt välkommen, <span style={{ color: "var(--color-primary)", fontWeight: "700" }}>{username?.split(" ")[0]}</span>!</p>
       <h2>Hur mycket energi har du idag?</h2>
       <EnergyButtonWrapper>
         {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
           <EnergyButton
             key={num}
             $active={energyLevel === num}
+            $num={num}
             aria-label={`Välj energinivå ${num}`}
             aria-pressed={energyLevel === num}
             onClick={() => setEnergyLevel(num)}
@@ -21,7 +22,12 @@ export const EnergyPicker = ({ energyLevel, setEnergyLevel, onNext }) => {
           </EnergyButton>
         ))}
       </EnergyButtonWrapper>
-      <span>Idag: <strong style={{ color: "var(--color-primary)", fontSize: "20px" }}>{energyLevel}</strong> /10</span>
+      {energyLevel && (
+        <SelectedDisplay>
+          <strong>{energyLevel}</strong>
+          <span>/10</span>
+        </SelectedDisplay>
+      )}
       <NextButton onClick={onNext} disabled={!energyLevel}>Nästa</NextButton>
     </EnergyWrapper>
   );
@@ -33,54 +39,65 @@ const EnergyWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
-  background: var(--color-card);
-  backdrop-filter: blur(10px);
-  border-radius: 12px;
+  gap: 16px;
   padding: 24px;
 
-  p {
-    font-size: 16px;
+  h2 {
+    text-align: center;
+    font-size: clamp(16px, 4vw, 20px);
   }
 `;
-
 const EnergyButtonWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 8px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  width: 100%;
+  max-width: 320px;
 `;
 
 const EnergyButton = styled.button`
-  width: 36px;
-  height: 36px;
+  width: 100%;
+  aspect-ratio: 1;
   border-radius: 50%;
   border: 2px solid var(--color-border);
-  background: ${(props) => (props.$active ? "var(--color-primary)" : "white")};
-  color: ${(props) => (props.$active ? "white" : "var(--color-text)")};
+  background: ${({ $active }) => ($active ? "var(--color-primary)" : "white")};
+  color: ${({ $active }) => ($active ? "white" : "var(--color-text)")};
   cursor: pointer;
   font-weight: bold;
-  font-size: 13px;
+  font-size: 18px;
+`;
 
-  @media (min-width: 400px) {
-    width: 44px;
-    height: 44px;
-    font-size: 15px;
+const SelectedDisplay = styled.div`
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+
+  strong {
+    font-size: 52px;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--color-primary);
+  }
+
+  span {
+    font-size: 20px;
+    color: var(--color-text-muted);
   }
 `;
 
 const NextButton = styled.button`
-  width: 100%;
-  padding: 14px 24px;
-  border: none;
-  border-radius: 20px;
-  background: var(--color-primary);
-  color: white;
-  cursor: pointer;
-  font-size: 16px;
+width: 100%;
+padding: 14px 24px;
+border: none;
+border-radius: 20px;
+background: var(--color-primary);
+color: white;
+cursor: pointer;
+font-size: 16px;
+margin-top: 16px;
 
-  &:disabled {
-    opacity: 0.4;
-    cursor: default;
-  }
+&:disabled {
+  opacity: 0.4;
+  cursor: default ;
+}
 `;

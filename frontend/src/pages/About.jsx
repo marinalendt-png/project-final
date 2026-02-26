@@ -33,9 +33,7 @@ export const About = () => {
 // ======= STYLED COMPONENTS ======= //
 
 const PageWrapper = styled.div`
-  max-width: 700px;
-  margin: 0 auto;
-  padding: 32px 16px;
+  padding: 16px;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -46,10 +44,12 @@ const PageWrapper = styled.div`
 `;
 
 const Card = styled.div`
-  background: var(--color-card);
-  border: 1px solid var(--color-border);
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(6px);
   border-radius: 12px;
   padding: 24px;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+
 
   h3 { 
     margin: 0 0 12px 0; 

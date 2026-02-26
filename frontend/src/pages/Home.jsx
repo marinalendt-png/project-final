@@ -47,8 +47,6 @@ export const Home = () => {
 // ======= STYLED COMPONENTS ======= //
 
 const HomeWrapper = styled.main`
-  max-width: 400px;
-  margin: 0 auto;
   padding: 80px 16px 40px;
   padding-top: 10vh;
   display: flex;

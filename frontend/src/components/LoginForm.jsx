@@ -54,7 +54,7 @@ export const LogInForm = ({ handleLogin }) => {
       <Title>Logga in</Title>
       <InputWrapper>
         <Label>
-          Email
+          E-post
           <Input
             onChange={handleChange}
             type="email"
@@ -63,7 +63,7 @@ export const LogInForm = ({ handleLogin }) => {
           />
         </Label>
         <Label>
-          Password
+          Lösenord
           <Input
             onChange={handleChange}
             type="password"

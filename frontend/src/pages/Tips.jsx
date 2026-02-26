@@ -71,30 +71,31 @@ export const Tips = () => {
 // ======= STYLED COMPONENTS ======= //
 
 const PageWrapper = styled.div`
-  max-width: 700px;
-  margin: 0 auto;
   padding: 16px;
   display: flex;
   flex-direction: column;
   gap: 20px;
 
-  h2 { text-align: center; }
-
-  @media (min-width: 768px) {
-    padding: 32px 16px;
+  h2 { 
+    text-align: center; 
   }
+
 `;
 
 const Card = styled.div`
-  background: var(--color-card);
-  border: 1px solid var(--color-border);
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(6px);
   border-radius: 12px;
-  padding: 16px;
+  padding: 24px;
 
-  h3 { margin: 0 0 12px 0; }
+  h3 { 
+    margin: 0 0 12px 0; 
+  }
 
-  @media (min-width: 768px) {
-    padding: 24px;
+  p {
+   margin: 0 0 8px 0;
+   line-height: 1.6;
+   color: var(--color-text);
   }
 `;
 
@@ -111,10 +112,15 @@ const LinkItem = styled.a`
   font-weight: 500;
   border: 1px solid var(--color-border);
 
+  svg {
+    flex-shrink:0;
+    margin-top: 2px;
+  }
+
   &:last-child { margin-bottom: 0; }
 
   &:hover {
-    background: var(--color-border);
+    background: rgba(107, 94, 117, 0.08);
   }
 `;
 

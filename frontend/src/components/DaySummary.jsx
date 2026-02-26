@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { FloppyDisk } from "@phosphor-icons/react";
+import { FloppyDisk, Clover, BatteryLow } from "@phosphor-icons/react";
 import { Battery } from "./BatteryComponent";
 import { useNavigate } from "react-router";
 import { MascotTip } from "./MascotTip";
@@ -20,12 +20,12 @@ export const DaySummary = ({ activities, selectedActivities, energyLevel, energy
         <QuickListTitle>Dina planerade aktiviteter idag:</QuickListTitle>
         <TwoColumnList>
           <Column>
-            <ColumnLabel $positive>Ger energi</ColumnLabel>
+            <ColumnLabel $positive><Clover size={13} weight="fill" /> Ger energi</ColumnLabel>
             {activities.filter(a => selectedActivities.includes(a._id) && a.energyImpact > 0)
               .map(a => <ActivityChip key={a._id} $positive>{a.name}</ActivityChip>)}
           </Column>
           <Column>
-            <ColumnLabel>Tar energi</ColumnLabel>
+            <ColumnLabel><BatteryLow size={13} weight="fill" /> Tar energi</ColumnLabel>
             {activities.filter(a => selectedActivities.includes(a._id) && a.energyImpact < 0)
               .map(a => <ActivityChip key={a._id}>{a.name}</ActivityChip>)}
           </Column>
@@ -49,7 +49,7 @@ export const DaySummary = ({ activities, selectedActivities, energyLevel, energy
   );
 };
 
-const BalanceWrapper = styled.main`
+const BalanceWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -66,11 +66,12 @@ const BatteryWrapper = styled.div`
 `;
 
 const QuickList = styled.div`
-  background: var(--color-card);
-  border: 1px solid var(--color-border);
+  background: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(6px);
   border-radius: 12px;
-  padding: 24px;
-`;
+  padding: 16px;
+  `;
 
 const QuickListTitle = styled.h3`
   margin: 0 0 12px 0;
@@ -92,6 +93,9 @@ const Column = styled.div`
 `;
 
 const ColumnLabel = styled.p`
+  display: flex;
+  align-items: center;
+  gap: 4px;
   font-size: 12px;
   font-weight: 600;
   text-transform: uppercase;
@@ -108,12 +112,12 @@ const ActivityChip = styled.span`
   font-weight: 500;
   color: var(--color-text);
   background: ${props => props.$positive
-    ? "rgba(74, 124, 89, 0.15)"
-    : "var(--color-primary-light)"
+    ? "rgba(74, 124, 89, 0.25)"
+    : "var(--color-error-light)"
   };
   border: 1px solid ${props => props.$positive
     ? "var(--color-forest)"
-    : "var(--color-primary)"
+    : "var(--color-error)"
   };
 `;
 

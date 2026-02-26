@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router";
 import { useState } from "react";
-import { List, X, Leaf } from "@phosphor-icons/react";
+import { List, X, Leaf, Info, Lightbulb } from "@phosphor-icons/react";
 import { useUserStore } from "../stores/userStore";
 
 export const Navbar = () => {
@@ -15,25 +15,45 @@ export const Navbar = () => {
   };
 
   return (
+    <>
+      <Nav>
+        <Logo onClick={() => navigate("/daily")}>
+          <Leaf size={36} weight="fill" aria-hidden="true" /> Balans
+        </Logo>
 
-    <Nav>
-      <Logo onClick={() => navigate("/daily")}>
-        <Leaf size={36} weight="fill" aria-hidden="true" /> Balans
-      </Logo>
+        <HamburgerButton
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label={menuOpen ? "Stäng meny" : "Öppna meny"}
+          aria-expanded={menuOpen}>
+          <List size={28} />
+        </HamburgerButton>
+      </Nav>
 
-      <HamburgerButton onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? "Stäng meny" : "Öppna meny"}
-        aria-expanded={menuOpen}>
-        {menuOpen ? <X size={24} /> : <List size={24} />}
-      </HamburgerButton>
+      {menuOpen && <DrawerOverlay onClick={() => setMenuOpen(false)} />}
 
-      <RightSection $open={menuOpen}>
-        <NavLink onClick={() => navigate("/about")}>Om appen</NavLink>
-        <NavLink onClick={() => navigate("/tips")}>Tips och råd</NavLink>
-        <LogOutButton onClick={handleLogout}>Logga ut</LogOutButton>
-      </RightSection>
-    </Nav>
-  )
+      <Drawer $open={menuOpen} role="dialog" aria-label="Navigeringsmeny">
+        <DrawerTop>
+          <DrawerLogo><Leaf size={20} weight="fill" /> Balans</DrawerLogo>
+          <CloseDrawerButton onClick={() => setMenuOpen(false)} aria-label="Stäng meny">
+            <X size={22} />
+          </CloseDrawerButton>
+        </DrawerTop>
+
+        <NavLink onClick={() => { navigate("/about"); setMenuOpen(false); }}>
+          <Info size={18} /> Om appen
+        </NavLink>
+        <NavLink onClick={() => { navigate("/tips"); setMenuOpen(false); }}>
+          <Lightbulb size={18} /> Tips och länkar
+        </NavLink>
+
+        <DrawerBottom>
+          <LogOutButton onClick={handleLogout}>Logga ut</LogOutButton>
+        </DrawerBottom>
+      </Drawer>
+    </>
+  );
 };
+
 
 // ===== Styled Components ===== //
 
@@ -44,20 +64,7 @@ const Nav = styled.nav`
   background: white;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   padding: 16px 24px;
-  border-bottom: 1px solid var(--color-border);
   position: relative;
-`;
-
-const HamburgerButton = styled.button`
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: var(--color-text);
-  display: flex;
-
-  @media (min-width: 768px) {
-    display: none;
-  }
 `;
 
 const Logo = styled.button`
@@ -72,50 +79,13 @@ const Logo = styled.button`
   border: none;
 `;
 
-const RightSection = styled.div`
-/* Mobil: dropdown-menu */
-  display: ${props => props.$open ? "flex" : "none"};
-  flex-direction: column;
-  gap: 16px;
-  position: absolute;
-  top: 100%;
-  right: 0;
-  background: white;
-  padding: 16px 24px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  border-radius: 0 0 12px 12px;
-  z-index: 50;
-
-  /* Desktop: ordinary row */
-  @media (min-width: 768px) {
-    display: flex;
-    flex-direction: row;
-    position: static;
-    box-shadow: none;
-    padding: 0;
-    gap: 24px;
-    align-items: center; 
-  }
-`;
-
-const NavLink = styled.button`
-  background: none;
-  border: none;
-  color: var(--color-text);
-  cursor: pointer;
-  font-size: 14px;
-
-  &:hover {
-    color: var(--color-primary);
-  }
-`;
 
 const LogOutButton = styled.button`
   padding: 8px 16px;
   background: var(--color-primary);
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 20px;
   font-weight: 600;
   cursor: pointer;
   align-self: flex-end;
@@ -124,4 +94,82 @@ const LogOutButton = styled.button`
   &:hover {
     background: var(--color-primary-dark);
   }
+`;
+
+const HamburgerButton = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text);
+  display: flex;
+`;
+
+const DrawerOverlay = styled.div`
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 90;
+`;
+
+const Drawer = styled.div`
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 260px;
+  background: white;
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.12);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  transform: translateX(${props => props.$open ? "0" : "100%"});
+  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+`;
+
+const DrawerTop = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+`;
+
+const DrawerLogo = styled.div`
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+`;
+
+const CloseDrawerButton = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text);
+  display: flex;
+`;
+
+const NavLink = styled.button`
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text);
+  cursor: pointer;
+  font-size: 16px;
+  padding: 16px 0;
+  text-align: left;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  &:hover {
+    color: var(--color-primary);
+  }
+`;
+
+const DrawerBottom = styled.div`
+  margin-top: auto;
 `;

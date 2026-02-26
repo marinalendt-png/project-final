@@ -136,18 +136,11 @@ export const DailyPlan = () => {
 // ======= STYLED COMPONENTS ======= //
 
 const PageWrapper = styled.div`
-  max-width: 500px;
-  margin: 0 auto;
-  padding: 16px;
-
-  @media (min-width: 768px) {
-    max-width: 700px;
-    padding: 60px 16px;
-  }
+  padding: 8px 16px 16px;
 `;
 
 const BackRow = styled.div`
-  padding: 8px 16px;
+  padding: 4px 16px;
 `;
 
 const BackButton = styled.button`

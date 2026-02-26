@@ -40,12 +40,13 @@ const MascotRow = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: center;
   gap: 10px;
 `;
 
 const BlobWrapper = styled.div`
   animation: peekUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both;
-
+  filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.6));
   @keyframes peekUp {
     from { transform: translateY(80px); opacity: 0; }
     to   { transform: translateY(0);    opacity: 1; }
@@ -53,8 +54,8 @@ const BlobWrapper = styled.div`
 `;
 
 const Blob = styled.div`
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
   background: ${props => {
     if (props.$mood === "happy") return "var(--color-forest)";
     if (props.$mood === "tired") return "var(--color-error)";
@@ -87,8 +88,8 @@ const Blob = styled.div`
 }
 
 @media (min-width: 400px) {
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
 }
 `;
 
@@ -110,9 +111,11 @@ const Eye = styled.div`
 `;
 
 const TipBubble = styled.div`
+  align-self: flex-start;
   background: var(--color-card);
   border: 1px solid var(--color-border);
   border-radius: 12px 12px 12px 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   padding: 12px 16px;
   font-size: 12px;
   max-width: 160px;

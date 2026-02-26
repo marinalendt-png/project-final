@@ -64,7 +64,7 @@ export const SignUpForm = ({ handleLogin }) => {
           />
         </Label>
         <Label>
-          Email
+          E-post
           <Input
             onChange={handleChange}
             type="email"
@@ -73,7 +73,7 @@ export const SignUpForm = ({ handleLogin }) => {
           />
         </Label>
         <Label>
-          Password
+          Lösenord
           <Input
             onChange={handleChange}
             type="password"
@@ -134,7 +134,7 @@ const Button = styled.button`
   cursor: pointer;
   border: none;
   border-radius: 8px;
-  background-color: #B8750A;
+  background-color: var(--color-primary);
   color: white;
   margin-top: 10px;
 `;

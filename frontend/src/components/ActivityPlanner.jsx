@@ -208,7 +208,7 @@ const OpenModalButton = styled.button`
 
 const SelectedBox = styled.div`
   background: var(--color-card);
-  border: 1px solid var(--color-border);
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
   border-radius: 12px;
   padding: 16px;
   margin: 16px 0;

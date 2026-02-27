@@ -123,7 +123,7 @@ export const DailyPlan = () => {
             energyLevel={energyLevel}
             energyLeft={energyLeft}
             recovery={recovery}
-            onBack={() => setStep(2)}
+            onBack={() => { setStep(2); setIsSaved(false); }}
             onSave={handleSave}
             isSaved={isSaved}
           />

@@ -23,6 +23,7 @@ export const MascotTip = ({ energyLeft, recovery }) => {
 
   return (
     <MascotRow>
+      <TipBubble $mood={mood}>{tip}</TipBubble>
       <BlobWrapper>
         <Blob $mood={mood} $petted={isPetted} onClick={handlePet}>
           <Eyes>
@@ -31,20 +32,19 @@ export const MascotTip = ({ energyLeft, recovery }) => {
           </Eyes>
         </Blob>
       </BlobWrapper>
-      <TipBubble>{tip}</TipBubble>
     </MascotRow>
   );
 };
 
 const MascotRow = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 10px;
+  gap: 0;
 `;
 
 const BlobWrapper = styled.div`
+  margin-top: 14px;
   animation: peekUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both;
   filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.6));
   @keyframes peekUp {
@@ -54,8 +54,8 @@ const BlobWrapper = styled.div`
 `;
 
 const Blob = styled.div`
-  width: 60px;
-  height: 60px;
+  width: 80px;
+  height: 80px;
   background: ${props => {
     if (props.$mood === "happy") return "var(--color-forest)";
     if (props.$mood === "tired") return "var(--color-error)";
@@ -88,48 +88,70 @@ const Blob = styled.div`
 }
 
 @media (min-width: 400px) {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
 }
 `;
 
 const Eyes = styled.div`
   display: flex;
   gap: 10px;
-  margin-top: -6px;
 `;
 
 const Eye = styled.div`
-  width: ${props => props.$mood === "happy" ? "12px" : "9px"};
+  width: ${props => props.$mood === "happy" ? "16px" : props.$mood === "tired" ? "13px" : "11px"};
   height: ${props => {
-    if (props.$mood === "happy") return "6px";
+    if (props.$mood === "happy") return "10px";
     if (props.$mood === "tired") return "4px";
-    return "9px";
+    return "11px";
   }};
   background: white;
   border-radius: ${props => props.$mood === "happy" ? "50% 50% 0 0" : "50%"};
 `;
 
+
 const TipBubble = styled.div`
-  align-self: flex-start;
-  background: var(--color-card);
+  align-self: stretch;
+  position: relative;
+  background: ${props => {
+    if (props.$mood === "happy") return "rgba(74, 124, 89, 0.1)";
+    if (props.$mood === "tired") return "rgba(196, 122, 122, 0.1)";
+    return "rgba(107, 94, 117, 0.08)";
+  }};
+  backdrop-filter: blur(8px);
   border: 1px solid var(--color-border);
-  border-radius: 12px 12px 12px 4px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  padding: 12px 16px;
-  font-size: 12px;
-  max-width: 160px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  padding: 14px 18px;
+  font-size: 15px;
   color: var(--color-text);
-  line-height: 1.5;
+  line-height: 1.6;
   animation: fadeIn 0.4s ease 0.9s both;
+
+  &::before {
+    content: '';
+    position: absolute;
+    bottom: -11px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 11px solid transparent;
+    border-right: 11px solid transparent;
+    border-top: 11px solid var(--color-border);
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -9px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 9px solid transparent;
+    border-right: 9px solid transparent;
+    border-top: 9px solid var(--color-card);
+  }
 
   @keyframes fadeIn {
     from { opacity: 0; transform: scale(0.9); }
     to   { opacity: 1; transform: scale(1);   }
-  }
-
-  @media (min-width: 400px) {
-    font-size: 14px;
-    max-width: 220px;
   }
 `;

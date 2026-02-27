@@ -126,13 +126,14 @@ const Input = styled.input`
 
 const Button = styled.button`
   padding: 10px;
-  font-size: 14px;
+  font-size: 16px;
   cursor: pointer;
   border: none;
   border-radius: 20px;
   background-color: var(--color-primary);
   color: white;
   margin-top: 10px;
+  width: 100%;
 
   &:disabled {
     opacity: 0.6;

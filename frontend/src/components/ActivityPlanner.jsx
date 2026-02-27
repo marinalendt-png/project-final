@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import { ActivityCard } from "./ActivityCard";
+import { ActivityCard, activityIcon } from "./ActivityCard";
+import { Acorn } from "@phosphor-icons/react";
 import { Battery } from "./BatteryComponent";
 import { useState } from "react";
 
@@ -15,18 +16,30 @@ export const ActivityPlanner = ({ activities, selectedActivities, energyLeft, ba
         <Battery energy={energyLeft} />
       </BatteryWrapper>
 
+
+      <EnergyLabel $energy={energyLeft}>
+        Du har {energyLeft} energi kvar idag
+      </EnergyLabel>
+
+
       <OpenModalButton onClick={() => setShowModal(true)}>
         Välj aktiviteter
       </OpenModalButton>
 
       {selectedActivities.length > 0 && (
         <SelectedBox>
+          <p style={{ margin: "0 0 10px 0", fontSize: "13px", fontWeight: 600, textAlign: "center", opacity: 0.6 }}>
+            {selectedActivities.length} {selectedActivities.length === 1 ? "aktivitet vald" : "aktiviteter valda"}
+          </p>
           <SelectedList>
-            {activities.filter(a => selectedActivities.includes(a._id)).map(a => (
-              <SelectedChip key={a._id} $positive={a.energyImpact > 0}>
-                {a.name} ({a.energyImpact > 0 ? "+" : ""}{a.energyImpact})
-              </SelectedChip>
-            ))}
+            {activities.filter(a => selectedActivities.includes(a._id))
+              .sort((a, b) => b.energyImpact - a.energyImpact)
+              .map(a => (
+                <SelectedChip key={a._id} $positive={a.energyImpact > 0}>
+                  {(() => { const Icon = activityIcon[a.name] || Acorn; return <Icon size={13} />; })()}
+                  {a.name}
+                </SelectedChip>
+              ))}
           </SelectedList>
         </SelectedBox>
       )}
@@ -36,7 +49,7 @@ export const ActivityPlanner = ({ activities, selectedActivities, energyLeft, ba
           <ModalContent onClick={e => e.stopPropagation()}><Battery energy={energyLeft} size="small" />
             <ModalHeader>
               <h3 id="modal-title">Välj aktiviteter</h3>
-              <CloseButton aria-label="Stäng" onClick={() => setShowModal(false)}>x</CloseButton>
+              <CloseButton aria-label="Stäng" onClick={() => setShowModal(false)}>X</CloseButton>
             </ModalHeader>
 
             <CategoryFilters>
@@ -53,12 +66,12 @@ export const ActivityPlanner = ({ activities, selectedActivities, energyLeft, ba
 
             <ActivitiesRow>
               <ActivitiesColumn>
-                <ColumnHeader>Tar energi</ColumnHeader>
+                <ColumnHeader>Ger energi</ColumnHeader>
                 {activities
-                  .filter((a) => a.energyImpact < 0)
+                  .filter((a) => a.energyImpact > 0)
                   .filter(a => activeCategory === "alla" || a.category === activeCategory)
                   .map((activity) => (
-                    < ActivityCard
+                    <ActivityCard
                       key={activity._id}
                       activity={activity}
                       selected={selectedActivities.includes(activity._id)}
@@ -69,9 +82,9 @@ export const ActivityPlanner = ({ activities, selectedActivities, energyLeft, ba
               </ActivitiesColumn>
 
               <ActivitiesColumn>
-                <ColumnHeader>Ger energi</ColumnHeader>
+                <ColumnHeader>Tar energi</ColumnHeader>
                 {activities
-                  .filter((a) => a.energyImpact > 0)
+                  .filter((a) => a.energyImpact < 0)
                   .filter(a => activeCategory === "alla" || a.category === activeCategory)
                   .map((activity) => (
                     <ActivityCard
@@ -156,6 +169,19 @@ const BatteryWrapper = styled.div`
   }
 `;
 
+const EnergyLabel = styled.p`
+  text-align: center;
+  width: fit-content;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(4px);
+  border-radius: 20px;
+  padding: 4px 16px;
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0 auto;
+  color: var(--color-text);
+`;
+
 const ModalOverlay = styled.div`
   position: fixed;
   inset: 0;
@@ -195,23 +221,30 @@ const CloseButton = styled.button`
 
 const OpenModalButton = styled.button`
   display: block;
-  margin: 16px auto;
+  width: 100%;
+  margin: 16px 0;
   padding: 12px 24px;
   border: 2px solid var(--color-primary);
   border-radius: 20px;
-  background: white;
-  color: var(--color-primary);
+  background: var(--color-primary);
+  color: white;
   cursor: pointer;
   font-size: 16px;
-  font-weight: 600;
 `;
 
 const SelectedBox = styled.div`
-  background: var(--color-card);
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(6px);
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
   border-radius: 12px;
   padding: 16px;
   margin: 16px 0;
+  animation: fadeUp 0.3s ease-out;
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
 `;
 
 const SelectedList = styled.div`
@@ -222,10 +255,17 @@ const SelectedList = styled.div`
 `;
 
 const SelectedChip = styled.span`
-  padding: 10px 14px;
+  padding: 10px 16px;
   border-radius: 16px;
   font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   color: var(--color-text);
+  box-shadow: ${props => props.$positive
+    ? "0 2px 8px rgba(74, 124, 89, 0.3)"
+    : "0 2px 8px rgba(196, 122, 122, 0.3)"
+  };
   background: ${props => props.$positive
     ? "rgba(74, 124, 89, 0.15)"
     : "var(--color-error-light)"
@@ -234,6 +274,19 @@ const SelectedChip = styled.span`
     ? "var(--color-forest)"
     : "var(--color-error)"
   };
+
+  animation: chipIn 0.25s ease-out;
+
+  @keyframes chipIn {
+    from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.95);
+    }
+    to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    }
+  }
 `;
 
 const ActivitiesRow = styled.div`
@@ -322,8 +375,7 @@ const ToggleFormButton = styled.button`
   border-radius: 20px;
   color: white;
   cursor: pointer;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 16px;
 
   &:hover {
    opacity: 0.7;
@@ -341,12 +393,12 @@ const DoneButton = styled.button`
   color: var(--color-primary);
   cursor: pointer;
   font-size: 16px;
-  font-weight: 600;
 `;
 
 const ShowButtonWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
   align-items: center;
   gap: 16px;
   margin-top: 20px;
@@ -354,6 +406,7 @@ const ShowButtonWrapper = styled.div`
 
 const NextButton = styled.button`
   padding: 12px 24px;
+  width: 100%;
   border: none;
   border-radius: 20px;
   background: var(--color-primary);

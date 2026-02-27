@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { PersonSimpleWalk, Leaf, Heart, FlowerLotus, Moon, Barbell, Briefcase, Users, DeviceMobile, Broom, CookingPot, Train, Acorn, Check, Trash } from "@phosphor-icons/react";
 
-const activityIcon = {
+export const activityIcon = {
   "Promenad": PersonSimpleWalk,
   "Yoga": Leaf,
   "Umgås": Heart,
@@ -65,7 +65,7 @@ const CardWrapper = styled.button`
   padding: 8px;
   border-radius: 10px;
   cursor: pointer;
-  transition: all 0.3 ease;
+  transition: all 0.3s ease;
 
   /* Not chosen style*/
   background: ${props => props.$selected ?
@@ -74,13 +74,13 @@ const CardWrapper = styled.button`
   };
 
   border: 2px solid ${props => props.$selected ?
-    (props.$drain ? "#ef4444" : "#22c55e")
+    (props.$drain ? "#ab2f2fff" : "#22c55e")
     : "var(--color-border)"
   };
 
   box-shadow: ${props => props.$selected ?
     "0 4px 12px rgba(0, 0, 0, 0.1)"
-    : "0 2px 4px rgba (0, 0, 0, 0.05)"
+    : "0 2px 4px rgba(0, 0, 0, 0.05)"
   };
 
   &:hover {
@@ -101,7 +101,7 @@ const TopRow = styled.div`
 `;
 
 const EnergyText = styled.span`
-  color: ${(props) => (props.$positive ? "var(--color-forest)" : "var(--color-primary)")};
+  color: ${(props) => (props.$positive ? "var(--color-forest)" : "var(--color-error)")};
   font-weight: 500;
   font-size: 13px;
 `;

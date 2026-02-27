@@ -1,6 +1,5 @@
 import styled from "styled-components";
-import { FloppyDisk, Clover, BatteryLow } from "@phosphor-icons/react";
-import { Battery } from "./BatteryComponent";
+import { FloppyDisk, Clover, BatteryLow, CheckCircle, ArrowLeft, ArrowRight } from "@phosphor-icons/react";
 import { useNavigate } from "react-router";
 import { MascotTip } from "./MascotTip";
 
@@ -10,9 +9,6 @@ export const DaySummary = ({ activities, selectedActivities, energyLevel, energy
   return (
     <BalanceWrapper>
       <h2>Så här ser din dag ut</h2>
-      <BatteryWrapper>
-        <Battery energy={energyLeft} size="large" />
-      </BatteryWrapper>
 
       <MascotTip energyLeft={energyLeft} recovery={recovery} />
 
@@ -33,15 +29,16 @@ export const DaySummary = ({ activities, selectedActivities, energyLevel, energy
       </QuickList>
 
       <ShowButtonWrapper>
-        <NextButton onClick={onSave} disabled={isSaved}>
-          Spara min dag <FloppyDisk size={26} />
+        <NextButton onClick={onSave} disabled={isSaved} $saved={isSaved}>
+          {isSaved ? <>Sparad! <CheckCircle size={26} weight="fill" /></> : <>Spara min dag <FloppyDisk size={26} /></>}
         </NextButton>
 
-        {isSaved && <SavedMessage>Din dag är sparad!</SavedMessage>}
         <ButtonRow>
-          <SecondaryButton onClick={onBack}> ← Ändra plan</SecondaryButton>
-          <SecondaryButton onClick={() => navigate("/history")}>
-            Se historik→
+          <SecondaryButton onClick={onBack}>
+            <ArrowLeft size={16} /> Ändra plan
+          </SecondaryButton>
+          <SecondaryButton $forward onClick={() => navigate("/history")}>
+            Se historik <ArrowRight size={16} />
           </SecondaryButton>
         </ButtonRow>
       </ShowButtonWrapper>
@@ -60,11 +57,6 @@ const BalanceWrapper = styled.div`
   }
 `;
 
-const BatteryWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-`;
-
 const QuickList = styled.div`
   background: rgba(255, 255, 255, 0.4);
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
@@ -81,6 +73,7 @@ const QuickListTitle = styled.h3`
 
 const TwoColumnList = styled.div`
   display: flex;
+  flex-direction: column;
   gap: 12px;
   margin-top: 12px;
 `;
@@ -126,10 +119,12 @@ const ShowButtonWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 16px;
-  margin-top: 20px;
 `;
 
 const SecondaryButton = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 6px;
   padding: 12px 24px;
   border: 1px solid var(--color-border);
   border-radius: 20px;
@@ -148,25 +143,27 @@ const NextButton = styled.button`
   padding: 12px 24px;
   border: none;
   border-radius: 20px;
-  background: var(--color-primary);
+ 
   color: white;
   cursor: pointer;
   font-size: 16px;
   display: flex;
   align-items: center;
   gap: 8px;
+  background: ${props => props.$saved ? "var(--color-forest)" : "var(--color-primary)"};
+  transition: background 0.3s ease;
 
-  &:disabled {
-    opacity: 0.6;
-    cursor: default;
-  }
-`;
+  ${props => props.$saved && `animation: savedPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);`}
 
-const SavedMessage = styled.p`
-  margin: 0;
-  font-size: 15px;
-  color: var(--color-forest);
-  font-weight: 500;
+@keyframes savedPop {
+  0% { transform: scale(0.85); }
+  100% { transform: scale(1); }
+}
+
+&:disabled {
+  opacity: 1;
+  cursor: default;
+}
 `;
 
 const ButtonRow = styled.div`
@@ -174,3 +171,4 @@ const ButtonRow = styled.div`
   gap: 20px;
   justify-content: center;
 `;
+

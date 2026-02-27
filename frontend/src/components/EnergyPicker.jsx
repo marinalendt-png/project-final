@@ -6,7 +6,7 @@ export const EnergyPicker = ({ energyLevel, setEnergyLevel, onNext }) => {
 
   return (
     <EnergyWrapper>
-      <p>Varmt välkommen, <span style={{ color: "var(--color-primary)", fontWeight: "700" }}>{username?.split(" ")[0]}</span>!</p>
+      <p>Varmt välkommen, <span style={{ fontSize: "20px", color: "var(--color-primary)", fontWeight: "700", textShadow: "0 2px 8px rgba(107, 94, 117, 0.3)" }}>{username?.split(" ")[0]}</span>!</p>
       <h2>Hur mycket energi har du idag?</h2>
       <EnergyButtonWrapper>
         {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
@@ -77,11 +77,12 @@ const SelectedDisplay = styled.div`
     font-weight: 700;
     line-height: 1;
     color: var(--color-primary);
+    text-shadow: 0 0 16px rgba(255, 255, 255, 0.8)
   }
 
   span {
     font-size: 20px;
-    color: var(--color-text-muted);
+    color: var(--color-text);
   }
 `;
 

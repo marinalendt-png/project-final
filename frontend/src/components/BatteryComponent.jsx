@@ -5,12 +5,12 @@ export const Battery = ({ energy, maxEnergy = 10, size }) => {
   const percentage = (energy / maxEnergy) * 100;
 
   return (
-    <BatteryWrapper>
+    <BatteryWrapper $percentage={percentage}>
       <BatteryTop $small={size === "small"} />
       <BatteryBody $small={size === "small"}>
         <EnergyFill $percentage={percentage} />
         <GlassOverlay />
-        <EnergyText>Energi {energy} / {maxEnergy}</EnergyText>
+
       </BatteryBody>
 
     </BatteryWrapper>
@@ -24,10 +24,16 @@ const BatteryWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   position: relative;
+  filter: ${props => {
+    const p = props.$percentage;
+    if (p > 70) return "drop-shadow(0 0 12px rgba(168, 213, 186, 0.6))";
+    if (p > 40) return "drop-shadow(0 0 12px rgba(107, 94, 117, 0.4))";
+    return "drop-shadow(0 0 12px rgba(196, 122, 122, 0.6))";
+  }};
 `;
 
 const BatteryTop = styled.div`
-  width: ${props => props.$small ? '42px' : '64px'};
+  width: ${props => props.$small ? '36px' : '52px'};
   height: 14px;
   background: linear-gradient(
     to bottom,
@@ -46,8 +52,8 @@ const BatteryTop = styled.div`
 
 const BatteryBody = styled.div`
   position: relative;
-  width: ${props => props.$small ? '80px' : '120px'};
-  height: ${props => props.$small ? '130px' : '200px'};
+  width: ${props => props.$small ? '68px' : '100px'};
+  height: ${props => props.$small ? '110px' : '160px'};
   background: linear-gradient(
     120deg,
     #f5f5f4 0%,
@@ -69,31 +75,36 @@ const EnergyFill = styled.div`
   left: 0;
   right: 0;
   height: ${props => props.$percentage}%;
-  background: ${props => {
-    const p = props.$percentage;
-    if (p > 70) return "linear-gradient(to top, #A8D5Ba, var(--color-forest))";
-    if (p > 40) return "linear-gradient(to top, var(--color-primary), #A8D5BA)";
-    return "linear-gradient(to top, #c47a7a, var(--color-primary))";
-  }};
+  background: linear-gradient(to top, #c47a7a, #f0c060, #a8d5ba);
   border-radius: 0 0 20px 20px;
-  box-shadow: 0 -10px 30px rgba(168, 213, 186, 0.3);
+  overflow: hidden;
+  box-shadow: ${props => {
+    const p = props.$percentage;
+    if (p > 70) return "0 -10px 30px rgba(168, 213, 186, 0.4)";
+    if (p > 40) return "0 -10px 30px rgba(107, 94, 117, 0.3)";
+    return "0 -10px 30px rgba(196, 122, 122, 0.4)";
+  }};
   transition: height 0.7s ease-out;
 
-    &::after {
+  &::after {
     content: '';
     position: absolute;
-    top: -12px;
-    left: -20%;
-    width: 140%;
-    height: 24px;
-    background: inherit;
-    border-radius: 50%;
-    animation: wave 2.5s ease-in-out infinite;
+    top: 0;
+    bottom: 0;
+    left: -50%;
+    width: 200%;
+    background: linear-gradient(
+      120deg,
+      transparent 35%,
+      rgba(255, 255, 255, 0.35) 50%,
+      transparent 65%
+    );
+    animation: shimmer 3s ease-in-out infinite;
   }
 
-  @keyframes wave {
-    0%, 100% { transform: translateX(-5%) rotate(-1deg); }
-    50% { transform: translateX(5%) rotate(1deg); }
+  @keyframes shimmer {
+    0% { transform: translateX(-50%); }
+    100% { transform: translateX(50%); }
   }
 `;
 
@@ -104,20 +115,4 @@ const GlassOverlay = styled.div`
   pointer-events: none;
 `;
 
-const EnergyText = styled.p`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  align-items: center;
-  font-size: 14px;
-  font-weight: 700;
-  color: #334155;
-  z-index: 2;
-  margin: 0;
-  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
-`;
 

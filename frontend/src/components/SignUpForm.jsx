@@ -3,6 +3,7 @@ import { BASE_URL } from "../api/api.js";
 import styled from "styled-components";
 
 export const SignUpForm = ({ handleLogin }) => {
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [formData, setFormData] = useState({
     name: "",
@@ -12,6 +13,13 @@ export const SignUpForm = ({ handleLogin }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!formData.name || !formData.email || !formData.password) {
+      setError("Fyll i alla fälten");
+      return;
+    }
+    setError("");
+    setLoading(true);
 
     try {
       const response = await fetch(`${BASE_URL}/signup`, {
@@ -27,13 +35,13 @@ export const SignUpForm = ({ handleLogin }) => {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to create user");
+        throw new Error("Kunde inte skapa konto, vänligen försök igen!");
       }
 
       const resJson = await response.json();
 
       if (!resJson.success) {
-        throw new Error(resJson.message || "Failed to create user");
+        throw new Error(resJson.message || "Kunde inte skapa konto, vänligen försök igen!");
       }
 
       handleLogin(resJson.response);
@@ -41,6 +49,8 @@ export const SignUpForm = ({ handleLogin }) => {
     } catch (error) {
       setError(error.message);
       console.log("An error occurred during signup", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -55,7 +65,7 @@ export const SignUpForm = ({ handleLogin }) => {
       <Title>Registrera dig</Title>
       <InputWrapper>
         <Label>
-          Name
+          Namn
           <Input
             onChange={handleChange}
             type="text"
@@ -82,8 +92,9 @@ export const SignUpForm = ({ handleLogin }) => {
           />
         </Label>
       </InputWrapper>
-      {error && <ErrorText>{error}</ErrorText>}
-      <Button type="submit">Registrera dig</Button>
+      {error && <ErrorText role="alert">{error}</ErrorText>}
+      <Button type="submit" disabled={loading}>{loading ? "Laddar..." : "Registrera dig"}
+      </Button>
     </Form>
   );
 };
@@ -101,7 +112,7 @@ const Form = styled.form`
 
 const Title = styled.h1`
   text-align: center;
-  color: var(--color-card);
+  color: white;
   margin: 0;
   font-weight: 400;
 `;
@@ -117,7 +128,7 @@ const Label = styled.label`
   flex-direction: column;
   gap: 4px;
   font-size: 13px;
-  color: var(--color-text-light);
+  color: white;
 `;
 
 const Input = styled.input`
@@ -133,10 +144,15 @@ const Button = styled.button`
   font-size: 14px;
   cursor: pointer;
   border: none;
-  border-radius: 8px;
+  border-radius: 20px;
   background-color: var(--color-primary);
   color: white;
   margin-top: 10px;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
 `;
 
 const ErrorText = styled.p`

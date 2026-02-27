@@ -47,12 +47,12 @@ export const Home = () => {
 // ======= STYLED COMPONENTS ======= //
 
 const HomeWrapper = styled.main`
-  padding: 80px 16px 40px;
-  padding-top: 10vh;
+  padding: 10vh 16px 40px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 16px;
+  background: rgba(0, 0, 0, 0.1)
 `;
 
 const AppTitle = styled.h1`
@@ -64,14 +64,11 @@ const AppTitle = styled.h1`
   display: flex;
   align-items: center;
   gap: 12px;
-  background: rgba(0, 0, 0, 0.2);
-  padding: 12px 24px;
-  border-radius: 16px;
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
 `;
 
 const SubTitle = styled.p`
-  color: var(--color-text-light);
+  color: white;
   font-size: 20px;
   margin: 0 0 8px 0;
   text-align: center;
@@ -79,7 +76,7 @@ const SubTitle = styled.p`
 `;
 
 const SubText = styled.p`
-  color: var(--color-text-light);
+  color: white;
   font-size: 14px;
   text-align: center;
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
@@ -95,6 +92,7 @@ const ButtonRow = styled.div`
 
 const OutlinedButton = styled.button`
   padding: 12px 24px;
+  min-width: 140px;
   border: 2px solid white;
   border-radius: 24px;
   background: transparent;

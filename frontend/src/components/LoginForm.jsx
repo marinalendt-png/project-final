@@ -3,21 +3,22 @@ import { BASE_URL } from "../api/api.js";
 import styled from "styled-components";
 
 export const LogInForm = ({ handleLogin }) => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
-  const [error, setError] = useState("");
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!formData.email || !formData.password) {
-      setError("Please fill in both fields");
+      setError("Vänligen fyll i båda fälten");
       return;
     }
     setError("");
+    setLoading(true);
 
     try {
       const res = await fetch(`${BASE_URL}/login`, {
@@ -32,14 +33,16 @@ export const LogInForm = ({ handleLogin }) => {
       });
 
       if (!res.ok) {
-        throw new Error("Network response was not ok");
+        throw new Error("Kunde inte logga in, vänligen försök igen!");
       }
 
       const data = await res.json();
       handleLogin(data.response);
     } catch (error) {
-      setError("Invalid email or password");
+      setError("Fel e-post eller lösenord. Försök igen!");
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -72,8 +75,10 @@ export const LogInForm = ({ handleLogin }) => {
           />
         </Label>
       </InputWrapper>
-      {error && <ErrorText>{error}</ErrorText>}
-      <Button type="submit">Logga in</Button>
+      {error && <ErrorText role="alert">{error}</ErrorText>}
+      <Button type="submit" disabled={loading}>
+        {loading ? "Laddar..." : "Logga in"}
+      </Button>
     </Form>
   );
 };
@@ -92,7 +97,7 @@ const Form = styled.form`
 
 const Title = styled.h1`
   text-align: center;
-  color: var(--color-card);
+  color: white;
   margin: 0;
   font-weight: 400;
 `;
@@ -108,7 +113,7 @@ const Label = styled.label`
   flex-direction: column;
   gap: 4px;
   font-size: 13px;
-  color: var(--color-text-light);
+  color: white;
 `;
 
 const Input = styled.input`
@@ -124,10 +129,15 @@ const Button = styled.button`
   font-size: 14px;
   cursor: pointer;
   border: none;
-  border-radius: 8px;
+  border-radius: 20px;
   background-color: var(--color-primary);
   color: white;
   margin-top: 10px;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
 `;
 
 const ErrorText = styled.p`

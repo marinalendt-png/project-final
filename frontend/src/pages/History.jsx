@@ -2,13 +2,17 @@ import { useState, useEffect } from "react";
 import { fetchDailyPlan } from "../api/api";
 import { Navbar } from "../components/Navbar";
 import styled from "styled-components";
-import { ArrowLeft, CalendarBlank } from "@phosphor-icons/react";
+import { ArrowLeft, CalendarBlank, CaretDown } from "@phosphor-icons/react";
 import { useNavigate } from "react-router";
+import { EnergyGraf } from "../components/EnergyHistory.jsx"
 
 export const History = () => {
   const [plans, setPlans] = useState([]);
+  const [openId, setOpenId] = useState(null);
   const navigate = useNavigate();
   const getDaySummary = (start, end) => {
+
+
     const diff = end - start;
     if (diff >= 0) return "Energin höll i sig bra idag!";
     if (diff >= 2) return "Lite tyngre dag - men du tog dig igenom den.";
@@ -39,38 +43,50 @@ export const History = () => {
             <p>Gå tillbaka och planera din första dag.</p>
           </EmptyState>
         ) : (
+          <>
+            <EnergyGraf plans={plans} />
 
-          plans.map((plan) => (
-            <PlanCard key={plan._id} $positive={plan.currentEnergy >= plan.startingEnergy}>
-              <CardHeader>
-                <CalendarBlank size={16} weight="fill" />
-                <h3>{new Date(plan.date).toLocaleDateString("sv-SE", { weekday: "long", day: "numeric", month: "long" })}</h3>
-              </CardHeader>
+            {plans.map((plan) => (
+              <PlanCard
+                key={plan._id}
+                $energy={plan.currentEnergy}
+                $open={openId === plan._id}
+                onClick={() => setOpenId(openId === plan._id ? null : plan._id)}
+              >
+                <CardHeader $open={openId === plan._id}>
+                  <CalendarBlank size={16} weight="fill" />
+                  <h3>{new Date(plan.date).toLocaleDateString("sv-SE", { weekday: "long", day: "numeric", month: "long" })}</h3>
+                  <CaretDown size={14} style={{ marginLeft: "auto", transition: "transform 0.2s", transform: openId === plan._id ? "rotate(180deg)" : "rotate(0deg)" }} />
+                </CardHeader>
+                {openId === plan._id && (
+                  <>
+                    <EnergyRow>
+                      <EnergyNumbers>
+                        <EnergyBlock>
+                          <EnergyNum>{plan.startingEnergy}</EnergyNum>
+                          <EnergyLabel>start</EnergyLabel>
+                        </EnergyBlock>
+                        <Arrow $positive={plan.currentEnergy >= plan.startingEnergy}>
+                          {plan.currentEnergy >= plan.startingEnergy ? "↑" : "↓"}
+                        </Arrow>
+                        <EnergyBlock>
+                          <EnergyNum $end $positive={plan.currentEnergy >= plan.startingEnergy}>
+                            {plan.currentEnergy}
+                          </EnergyNum>
+                          <EnergyLabel>slut</EnergyLabel>
+                        </EnergyBlock>
+                      </EnergyNumbers>
+                    </EnergyRow>
 
-              <EnergyRow>
-                <SummaryText>{getDaySummary(plan.startingEnergy, plan.currentEnergy)}</SummaryText>
-                <EnergyNumbers>
-                  <EnergyBlock>
-                    <EnergyNum>{plan.startingEnergy}</EnergyNum>
-                    <EnergyLabel>start</EnergyLabel>
-                  </EnergyBlock>
-                  <Arrow $positive={plan.currentEnergy >= plan.startingEnergy}>
-                    {plan.currentEnergy >= plan.startingEnergy ? "↑" : "↓"}
-                  </Arrow>
-                  <EnergyBlock>
-                    <EnergyNum $end $positive={plan.currentEnergy >= plan.startingEnergy}>
-                      {plan.currentEnergy}
-                    </EnergyNum>
-                    <EnergyLabel>slut</EnergyLabel>
-                  </EnergyBlock>
-                </EnergyNumbers>
-              </EnergyRow>
-
-              <ActivityChips>
-                {plan.activities.map(a => <Chip key={a._id} $positive={a.energyImpact > 0}>{a.name}</Chip>)}
-              </ActivityChips>
-            </PlanCard>
-          ))
+                    <SummaryText>{getDaySummary(plan.startingEnergy, plan.currentEnergy)}</SummaryText>
+                    <ActivityChips>
+                      {plan.activities.map(a => <Chip key={a._id} $positive={a.energyImpact > 0}>{a.name}</Chip>)}
+                    </ActivityChips>
+                  </>
+                )}
+              </PlanCard>
+            ))}
+          </>
         )}
       </PageWrapper>
     </>
@@ -97,10 +113,16 @@ const PlanCard = styled.div`
   background: rgba(255, 255, 255, 0.4);
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
   backdrop-filter: blur(6px);
-  border-left: 5px solid ${props => props.$positive ? "var(--color-forest)" : "var(--color-error)"};
+  border-left: 5px solid ${props => {
+    if (props.$energy >= 7) return "#a8d5ba";
+    if (props.$energy >= 4) return "#f0c060";
+    return "#c47a7a";
+  }};
+
   border-radius: 12px;
-  padding: 20px;
-  margin-bottom: 16px;
+  padding: ${props => props.$open ? "10px" : "8px 10px"};
+  margin-bottom: 10px;
+  cursor: pointer;
 
   h3 {
     margin: 0 0 8px 0;
@@ -157,7 +179,8 @@ const EnergyNum = styled.span`
   color: ${({ $end, $positive }) =>
     !$end ? "var(--color-text-muted)" :
       $positive ? "var(--color-forest)" :
-        "var(--color-error)"};
+        "var(--color-error)"
+  };
 `;
 
 const EnergyBlock = styled.div`
@@ -220,5 +243,5 @@ const BackButton = styled.button`
 
   &:hover {
     color: var(--color-primary);
-  }
+}
 `;

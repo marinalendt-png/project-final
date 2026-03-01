@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { FloppyDisk, Clover, BatteryLow, CheckCircle, ArrowLeft, ArrowRight } from "@phosphor-icons/react";
 import { useNavigate } from "react-router";
-import { EnergyBlob } from "./Mascot";
+import { MascotTip } from "./MascotTip";
 
 export const DaySummary = ({ activities, selectedActivities, energyLevel, energyLeft, recovery, onBack, onSave, isSaved }) => {
   const navigate = useNavigate();
@@ -10,8 +10,7 @@ export const DaySummary = ({ activities, selectedActivities, energyLevel, energy
     <BalanceWrapper>
       <h2>Så här ser din dag ut</h2>
 
-      { /* <MascotTip energyLeft={energyLeft} recovery={recovery} /> */}
-      <EnergyBlob energy={energyLeft} />
+      <MascotTip energyLeft={energyLeft} recovery={recovery} />
       <QuickList>
         <QuickListTitle>Dina planerade aktiviteter idag:</QuickListTitle>
         <TwoColumnList>

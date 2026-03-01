@@ -25,7 +25,6 @@ export const EnergyBlob = ({ energy = 7 }) => {
   return (
     <motion.div
       animate={jumpControls}
-      whileHover={{ scale: 1.06 }}
       whileTap={{ scale: 0.94 }}
       onClick={handleClick}
       style={{ cursor: "pointer", width: "fit-content" }}
@@ -36,7 +35,7 @@ export const EnergyBlob = ({ energy = 7 }) => {
         y: isLow ? [0, 4, 0] : 0,
       }}
       transition={{ repeat: isHigh || isLow ? Infinity : 0, duration: 2, ease: "easeInOut" }}
-      style={{ width: 200 }}
+      style={{ width: 130 }}
     >
       <svg viewBox="0 0 200 230" overflow="visible">
         <defs>

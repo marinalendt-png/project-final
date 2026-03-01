@@ -65,6 +65,7 @@ const CardWrapper = styled.button`
   padding: 8px;
   border-radius: 10px;
   cursor: pointer;
+  color: var(--color-text);
   transition: all 0.3s ease;
 
   /* Not chosen style*/

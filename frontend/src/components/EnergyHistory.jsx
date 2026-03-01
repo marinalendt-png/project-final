@@ -53,6 +53,7 @@ const GrafWrapper = styled.div`
   border-radius: 12px;
   padding: 16px;
   margin-bottom: 16px;
+  overflow: hidden;
 `;
 
 const GrafHeader = styled.div`
@@ -88,6 +89,7 @@ const BarsContainer = styled.div`
   align-items: flex-end;
   gap: 6px;
   justify-content: space-around;
+  overflow-x: auto;
 `;
 
 const BarColumn = styled.div`

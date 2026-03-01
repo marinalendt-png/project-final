@@ -413,7 +413,7 @@ const NextButton = styled.button`
   color: white;
   cursor: pointer;
   font-size: 16px;
-`;
+  `;
 
 const CategoryFilters = styled.div`
   display: flex;

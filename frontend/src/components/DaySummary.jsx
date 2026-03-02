@@ -1,7 +1,8 @@
 import styled from "styled-components";
-import { FloppyDisk, Clover, BatteryLow, CheckCircle, ArrowLeft, ArrowRight } from "@phosphor-icons/react";
+import { FloppyDisk, Clover, BatteryLow, CheckCircle, ArrowLeft, ArrowRight, Acorn } from "@phosphor-icons/react";
 import { useNavigate } from "react-router";
 import { MascotTip } from "./MascotTip";
+import { activityIcon } from "./ActivityCard";
 
 export const DaySummary = ({ activities, selectedActivities, energyLevel, energyLeft, recovery, onBack, onSave, isSaved, saveError }) => {
   const navigate = useNavigate();
@@ -17,12 +18,26 @@ export const DaySummary = ({ activities, selectedActivities, energyLevel, energy
           <Column>
             <ColumnLabel $positive><Clover size={13} weight="fill" /> Ger energi</ColumnLabel>
             {activities.filter(a => selectedActivities.includes(a._id) && a.energyImpact > 0)
-              .map(a => <ActivityChip key={a._id} $positive>{a.name}</ActivityChip>)}
+              .map(a => {
+                const Icon = activityIcon[a.name] || Acorn;
+                return (
+                  <ActivityChip key={a._id} $positive>
+                    <Icon size={13} /> {a.name}
+                  </ActivityChip>
+                );
+              })}
           </Column>
           <Column>
             <ColumnLabel><BatteryLow size={13} weight="fill" /> Tar energi</ColumnLabel>
             {activities.filter(a => selectedActivities.includes(a._id) && a.energyImpact < 0)
-              .map(a => <ActivityChip key={a._id}>{a.name}</ActivityChip>)}
+              .map(a => {
+                const Icon = activityIcon[a.name] || Acorn;
+                return (
+                  <ActivityChip key={a._id}>
+                    <Icon size={13} /> {a.name}
+                  </ActivityChip>
+                );
+              })}
           </Column>
         </TwoColumnList>
       </QuickList>
@@ -89,16 +104,19 @@ const ColumnLabel = styled.p`
   display: flex;
   align-items: center;
   gap: 4px;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   color: ${props => props.$positive ? "var(--color-forest)" : "var(--color-error)"};
+  font-weight: 700;
   margin: 0 0 4px 0;
 `;
 
 const ActivityChip = styled.span`
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  gap: 4px;
   padding: 10px 14px;
   border-radius: 16px;
   font-size: 14px;
@@ -173,7 +191,7 @@ const ButtonRow = styled.div`
 `;
 
 const ErrorText = styled.p`
-  color: var(--color-error);
+  color: var(--color-error-dark);
   font-size: 14px;
   text-align: center;
   margin: 0;

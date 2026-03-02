@@ -27,6 +27,10 @@ export const GlobalStyles = createGlobalStyle`
 * {
   box-sizing: border-box;
 }
+  
+input, select, textarea {
+  font-size: 16px;
+}
 
 h1, h2, h3, h4 {
   margin: 0;
@@ -48,6 +52,7 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 main {
@@ -55,5 +60,6 @@ main {
   margin: 0 auto;
   min-height: 100vh;
   box-shadow: 0 0 60px rgba(0, 0, 0, 0.18);
+  overflow-x: hidden;
 }
 `;

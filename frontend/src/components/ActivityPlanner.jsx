@@ -233,7 +233,7 @@ const OpenModalButton = styled.button`
 `;
 
 const SelectedBox = styled.div`
-  background: rgba(255, 255, 255, 0.4);
+  background: var(--color-glass-card);
   backdrop-filter: blur(6px);
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
   border-radius: 12px;
@@ -272,7 +272,7 @@ const SelectedChip = styled.span`
   };
   border: 1px solid ${props => props.$positive
     ? "var(--color-forest)"
-    : "var(--color-error)"
+    : "var(--color-error-dark)"
   };
 
   animation: chipIn 0.25s ease-out;

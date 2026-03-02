@@ -47,7 +47,7 @@ export const EnergyGraf = ({ plans }) => {
 // ======= STYLED COMPONENTS ======= //
 
 const GrafWrapper = styled.div`
-  background: rgba(255, 255, 255, 0.4);
+  background: var(--color-glass-card);
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
   backdrop-filter: blur(6px);
   border-radius: 12px;

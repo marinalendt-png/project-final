@@ -110,13 +110,13 @@ const EmptyState = styled.div`
 `;
 
 const PlanCard = styled.div`
-  background: rgba(255, 255, 255, 0.4);
+  background: var(--color-glass-card);
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
   backdrop-filter: blur(6px);
   border-left: 5px solid ${props => {
-    if (props.$energy >= 7) return "#a8d5ba";
-    if (props.$energy >= 4) return "#f0c060";
-    return "#c47a7a";
+    if (props.$energy >= 7) return "var(--color-energy-high)";
+    if (props.$energy >= 4) return "var(--color-energy-mid)";
+    return "var(--color-energy-low)";
   }};
 
   border-radius: 12px;
@@ -221,7 +221,7 @@ const Chip = styled.span`
   };
   border: 1px solid ${props => props.$positive
     ? "var(--color-forest)"
-    : "var(--color-error)"
+    : "var(--color-error-dark)"
   };
 `;
 

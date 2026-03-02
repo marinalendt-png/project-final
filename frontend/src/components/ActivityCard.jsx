@@ -70,12 +70,12 @@ const CardWrapper = styled.button`
 
   /* Not chosen style*/
   background: ${props => props.$selected ?
-    (props.$drain ? "rgba(239, 68, 68, 0.08)" : "rgba(34, 197, 94, 0.08)")
+    (props.$drain ? "var(--color-error-light)" : "var(--color-forest-light)")
     : "var(--color-card)"
   };
 
   border: 2px solid ${props => props.$selected ?
-    (props.$drain ? "#ab2f2fff" : "#22c55e")
+    (props.$drain ? "var(--color-error)" : "var(--color-forest)")
     : "var(--color-border)"
   };
 
@@ -87,7 +87,7 @@ const CardWrapper = styled.button`
   &:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    border-color: ${props => props.$drain ? "#f87171" : "#4ade80"};  
+    border-color: ${props => props.$drain ? "var(--color-error)" : "var(--color-forest)"};
   }
 
   &:active {
@@ -114,7 +114,7 @@ const CheckIcon = styled.div`
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: ${props => props.$drain ? "#ef4444" : "#22c55e"};
+  background: ${props => props.$drain ? "var(--color-error)" : "var(--color-forest)"};
   color: white;
   display: flex;
   align-items: center;

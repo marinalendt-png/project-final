@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { PersonSimpleWalk, Leaf, Heart, FlowerLotus, Moon, Barbell, Briefcase, Users, DeviceMobile, Broom, CookingPot, Train, Acorn, Check, Trash } from "@phosphor-icons/react";
+import { PersonSimpleWalk, Leaf, Heart, FlowerLotus, Moon, Barbell, Briefcase, Users, DeviceMobile, Broom, CookingPot, Train, Acorn, Check, Trash, PersonSimple, Sun, Carrot } from "@phosphor-icons/react";
 
 export const activityIcon = {
   "Promenad": PersonSimpleWalk,
@@ -8,13 +8,16 @@ export const activityIcon = {
   "Umgås": Heart,
   "Meditation": FlowerLotus,
   "Powernap": Moon,
-  "Träning": Barbell,
+  "Träning lätt": PersonSimple,
+  "Natur": Sun,
   "Jobb": Briefcase,
   "Möte": Users,
   "Skärmtid": DeviceMobile,
   "Städning": Broom,
   "Matlagning": CookingPot,
   "Pendling": Train,
+  "Handla": Carrot,
+  "Träning tung": Barbell,
 }
 
 export const ActivityCard = ({ activity, onClick, selected, onDelete }) => {

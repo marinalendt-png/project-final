@@ -13,8 +13,8 @@ export const defaults = [
     category: "rörelse"
   },
   {
-    name: "Träning",
-    energyImpact: 2,
+    name: "Träning lätt",
+    energyImpact: 1,
     category: "rörelse"
   },
   {
@@ -31,6 +31,11 @@ export const defaults = [
     name: "Umgås",
     energyImpact: 2,
     category: "socialt"
+  },
+  {
+    name: "Natur",
+    energyImpact: 2,
+    category: "vardag",
   },
 
   // Energy demanding
@@ -63,6 +68,16 @@ export const defaults = [
     name: "Pendling",
     energyImpact: -2,
     category: "vardag"
+  },
+  {
+    name: "Handla",
+    energyImpact: -2,
+    category: "vardag"
+  },
+  {
+    name: "Träning tung",
+    energyImpact: -3,
+    category: "rörelse",
   }
 ];
 

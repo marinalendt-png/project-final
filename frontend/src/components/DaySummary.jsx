@@ -3,7 +3,7 @@ import { FloppyDisk, Clover, BatteryLow, CheckCircle, ArrowLeft, ArrowRight } fr
 import { useNavigate } from "react-router";
 import { MascotTip } from "./MascotTip";
 
-export const DaySummary = ({ activities, selectedActivities, energyLevel, energyLeft, recovery, onBack, onSave, isSaved }) => {
+export const DaySummary = ({ activities, selectedActivities, energyLevel, energyLeft, recovery, onBack, onSave, isSaved, saveError }) => {
   const navigate = useNavigate();
 
   return (
@@ -28,6 +28,7 @@ export const DaySummary = ({ activities, selectedActivities, energyLevel, energy
       </QuickList>
 
       <ShowButtonWrapper>
+        {saveError && <ErrorText>{saveError}</ErrorText>}
         <NextButton onClick={onSave} disabled={isSaved} $saved={isSaved}>
           {isSaved ? <>Sparad! <CheckCircle size={26} weight="fill" /></> : <>Spara min dag <FloppyDisk size={26} /></>}
         </NextButton>
@@ -171,3 +172,9 @@ const ButtonRow = styled.div`
   justify-content: center;
 `;
 
+const ErrorText = styled.p`
+  color: var(--color-error);
+  font-size: 14px;
+  text-align: center;
+  margin: 0;
+`;

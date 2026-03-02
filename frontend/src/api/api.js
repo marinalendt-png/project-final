@@ -32,6 +32,7 @@ export const createActivity = async (activity) => {
       },
       body: JSON.stringify(activity)
     });
+
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return res.json();
   } catch (error) {
@@ -52,6 +53,7 @@ export const patchActivities = async (activityId, updates) => {
       },
       body: JSON.stringify(updates),
     });
+
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return res.json();
   } catch (error) {
@@ -71,6 +73,7 @@ export const deleteActivities = async (activityId) => {
         "Authorization": accessToken
       }
     });
+
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return res.json();
   } catch (error) {
@@ -93,8 +96,13 @@ export const createDailyPlan = async (plan) => {
       },
       body: JSON.stringify(plan)
     });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+    if (!res.ok) {
+      const body = await res.json();
+      throw new Error(body.error || `HTTP ${res.status}`);
+    }
     return res.json();
+
   } catch (error) {
     console.error("posting dailyplan failed:", error)
     throw error;
@@ -113,6 +121,7 @@ export const patchDailyPlan = async (dailyPlanId, updates) => {
       },
       body: JSON.stringify(updates),
     });
+
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return res.json();
   } catch (error) {
@@ -132,6 +141,7 @@ export const deleteDailyPlan = async (dailyPlanId) => {
         "Authorization": accessToken
       }
     });
+
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return res.json();
   } catch (error) {

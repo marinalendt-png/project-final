@@ -8,8 +8,21 @@ export const router = express.Router();
 router.post("/dailyplan", authenticateUser, async (req, res) => {
   try {
     const { date, startingEnergy, activities, currentEnergy } = req.body
-    const newPlan = new dailyPlan({ user: req.user._id, date, startingEnergy, activities, currentEnergy });
+    const start = new Date(date);
+    start.setHours(0, 0, 0, 0);
+    const end = new Date(date);
+    end.setHours(23, 59, 59, 999);
 
+    const existing = await dailyPlan.findOne({
+      user: req.user._id,
+      date: { $gte: start, $lte: end }
+    });
+
+    if (existing) {
+      return res.status(409).json({ error: "Du har redan sparat en plan idag, du kan gå tillbaka och ändra din nuvarande plan" });
+    }
+
+    const newPlan = new dailyPlan({ user: req.user._id, date, startingEnergy, activities, currentEnergy });
     await newPlan.save();
     res.status(201).json(newPlan)
   } catch (error) {
@@ -24,7 +37,7 @@ router.get("/dailyplan", authenticateUser, async (req, res) => {
 
     res.json(plan);
   } catch (error) {
-    res.status(400).json({ error: "Could not find dailyplan" });
+    res.status(400).json({ error: "Could not create dailyplan" });
   }
 });
 
@@ -38,11 +51,11 @@ router.patch("/dailyplan/:id", async (req, res) => {
 
 
     if (!updatedPlan) {
-      return res.status(404).json({ error: "Dailyplan not found" });
+      return res.status(404).json({ error: "Could not find dailyplan" });
     }
     res.json(updatedPlan);
   } catch (error) {
-    res.status(400).json({ error: "Could not update activity" })
+    res.status(400).json({ error: "Could not update your plan" })
   }
 });
 
@@ -57,6 +70,6 @@ router.delete("/dailyplan/:id", async (req, res) => {
     }
     res.json(deletedDailyPlan)
   } catch (error) {
-    res.status(500).json({ error: "Could not delete dailyplan" })
+    res.status(500).json({ error: "Could not create dailyplan" })
   }
 });

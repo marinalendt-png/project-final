@@ -15,6 +15,7 @@ export const DailyPlan = () => {
   const [step, setStep] = useState(1);
   const [batteryPulse, setBatteryPulse] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
+  const [saveError, setSaveError] = useState(null);
 
   // SHOWING ALL ACTIVITIES
   useEffect(() => {
@@ -54,13 +55,18 @@ export const DailyPlan = () => {
 
   // SAVES dailyplan in database
   const handleSave = async () => {
-    await createDailyPlan({
-      date: new Date(),
-      startingEnergy: energyLevel,
-      activities: selectedActivities,
-      currentEnergy: energyLeft,
-    });
-    setIsSaved(true);
+    try {
+      setSaveError(null);
+      await createDailyPlan({
+        date: new Date(),
+        startingEnergy: energyLevel,
+        activities: selectedActivities,
+        currentEnergy: energyLeft,
+      });
+      setIsSaved(true);
+    } catch (error) {
+      setSaveError(error.message);
+    }
   }
 
   // DELETE an activity
@@ -126,6 +132,7 @@ export const DailyPlan = () => {
             onBack={() => { setStep(2); setIsSaved(false); }}
             onSave={handleSave}
             isSaved={isSaved}
+            saveError={saveError}
           />
         )}
       </PageWrapper >

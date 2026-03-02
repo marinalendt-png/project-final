@@ -1,19 +1,33 @@
 import styled, { keyframes } from "styled-components";
 import { EnergyBlob } from "./Mascot";
 
+const tips = {
+  tired: [
+    "Idag ser ut att bli en tuff dag! Försök lägga in en vila tidigt.",
+    "Kom ihåg att ta det lugnt idag, lyssna på vad kroppen signalerar och behöver.",
+    "En dag i taget. En liten insats räknas också!",
+  ],
+  okay: [
+    "Lagom balanserat - lyssna på kroppen under dagen.",
+    "Du har inga återhämtande aktiviteter - mitt tips är att lägga till en!",
+    "Bra planering! Glöm inte att ta pauser.",
+  ],
+  happy: [
+    "Fin energibalans! Du har gott om utrymme kvar idag.",
+    "Toppen-dag planerad! Kom ihåg att njuta av det.",
+    "Du tar hand om dig själv - mycket bra jobbat!",
+  ]
+}
+
 const getTip = (energyLeft, recovery) => {
-  if (energyLeft < 2)
-    return "Tuff dag framför dig! Försök lägga in en vila tidigt.";
-  if (recovery === 0)
-    return "Du har inga återhämtande aktiviteter - lägg till en!";
-  if (energyLeft >= 7)
-    return "Fin energibalans! Du har gott om utrymme kvar idag.";
-  return "Lagom balanserat - lyssna på kroppen under dagen.";
+  const mood = energyLeft >= 7 ? "happy" : energyLeft >= 3 ? "okay" : "tired";
+  const arr = tips[mood];
+  return arr[Math.floor(Math.random() * arr.length)];
 };
 
 export const MascotTip = ({ energyLeft, recovery }) => {
-  const tip = getTip(energyLeft, recovery);
   const mood = energyLeft >= 7 ? "happy" : energyLeft >= 3 ? "okay" : "tired";
+  const tip = getTip(energyLeft, recovery);
 
   return (
     <MascotRow>

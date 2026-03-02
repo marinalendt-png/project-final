@@ -21,6 +21,10 @@ const dailyPlanSchema = new Schema({
   }],
   currentEnergy: {
     type: Number,
+  },
+  notes: {
+    type: String,
+    default: "",
   }
 })
 

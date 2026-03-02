@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { fetchDailyPlan } from "../api/api";
+import { fetchDailyPlan, patchDailyPlan } from "../api/api";
 import { Navbar } from "../components/Navbar";
 import styled from "styled-components";
 import { ArrowLeft, CalendarBlank, CaretDown } from "@phosphor-icons/react";
@@ -9,13 +9,14 @@ import { EnergyGraf } from "../components/EnergyHistory.jsx"
 export const History = () => {
   const [plans, setPlans] = useState([]);
   const [openId, setOpenId] = useState(null);
+  const [notes, setNotes] = useState({});
+
   const navigate = useNavigate();
+
   const getDaySummary = (start, end) => {
-
-
     const diff = end - start;
     if (diff >= 0) return "Energin höll i sig bra idag!";
-    if (diff >= 2) return "Lite tyngre dag - men du tog dig igenom den.";
+    if (diff >= -2) return "Lite tyngre dag - men du tog dig igenom den.";
     return "Tuff dag idag. Lägg in en vilosam aktivitet extra i morgon";
   };
 
@@ -23,6 +24,9 @@ export const History = () => {
     const loadPlans = async () => {
       const data = await fetchDailyPlan();
       setPlans(data);
+      const notesMap = {};
+      data.forEach(p => { notesMap[p._id] = p.notes || ""; });
+      setNotes(notesMap);
     };
     loadPlans();
   }, []);
@@ -66,22 +70,28 @@ export const History = () => {
                           <EnergyNum>{plan.startingEnergy}</EnergyNum>
                           <EnergyLabel>start</EnergyLabel>
                         </EnergyBlock>
-                        <Arrow $positive={plan.currentEnergy >= plan.startingEnergy}>
+                        <Arrow $energy={plan.currentEnergy}>
                           {plan.currentEnergy >= plan.startingEnergy ? "↑" : "↓"}
                         </Arrow>
                         <EnergyBlock>
-                          <EnergyNum $end $positive={plan.currentEnergy >= plan.startingEnergy}>
+                          <EnergyNum $end $energy={plan.currentEnergy}>
                             {plan.currentEnergy}
                           </EnergyNum>
                           <EnergyLabel>slut</EnergyLabel>
                         </EnergyBlock>
                       </EnergyNumbers>
                     </EnergyRow>
-
-                    <SummaryText>{getDaySummary(plan.startingEnergy, plan.currentEnergy)}</SummaryText>
                     <ActivityChips>
                       {plan.activities.map(a => <Chip key={a._id} $positive={a.energyImpact > 0}>{a.name}</Chip>)}
                     </ActivityChips>
+                    <NoteArea
+                      value={notes[plan._id] ?? ""}
+                      onChange={e => setNotes(prev => ({ ...prev, [plan._id]: e.target.value }))}
+                      onBlur={() => patchDailyPlan(plan._id, { notes: notes[plan._id] })}
+                      onClick={e => e.stopPropagation()}
+                      placeholder="Egna tankar om dagen..."
+                      rows={2}
+                    />
                   </>
                 )}
               </PlanCard>
@@ -120,7 +130,7 @@ const PlanCard = styled.div`
   }};
 
   border-radius: 12px;
-  padding: ${props => props.$open ? "10px" : "8px 10px"};
+  padding: ${props => props.$open ? "10px 16px" : "8px 10px"};
   margin-bottom: 10px;
   cursor: pointer;
 
@@ -164,22 +174,15 @@ const EnergyNumbers = styled.div`
   flex-shrink: 0;
 `;
 
-const SummaryText = styled.p`
-  flex: 1;
-  font-size: 13px;
-  color: var(--color-text-muted);
-  font-style: italic;
-  margin: 0 0 12px 0;
-`;
-
 const EnergyNum = styled.span`
   font-size: 36px;
   font-weight: 700;
   line-height: 1;
-  color: ${({ $end, $positive }) =>
+  color: ${({ $end, $energy }) =>
     !$end ? "var(--color-text-muted)" :
-      $positive ? "var(--color-forest)" :
-        "var(--color-error)"
+      $energy >= 7 ? "var(--color-forest)" :
+        $energy >= 4 ? "var(--color-energy-mid-dark)" :
+          "var(--color-error)"
   };
 `;
 
@@ -199,7 +202,11 @@ const EnergyLabel = styled.span`
 const Arrow = styled.span`
   font-size: 24px;
   align-self: center;
-  color: ${({ $positive }) => $positive ? "var(--color-forest)" : "var(--color-error)"};
+  color: ${({ $energy }) =>
+    $energy >= 7 ? "var(--color-forest)" :
+      $energy >= 4 ? "var(--color-energy-mid-dark)" :
+        "var(--color-error)"
+  };
 `;
 
 const ActivityChips = styled.span`
@@ -244,4 +251,27 @@ const BackButton = styled.button`
   &:hover {
     color: var(--color-primary);
 }
+`;
+
+const NoteArea = styled.textarea`
+  width: 100%;
+  margin-top: 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  background: var(--color-input-bg);
+  font-size: 14px;
+  color: var(--color-text);
+  resize: none;
+  font-family: inherit;
+  line-height: 1.5;
+
+  &:focus {
+    outline: none;
+    border-color: var(--color-primary);
+  }
+
+  &::placeholder {
+    color: var(--color-text-muted);
+  }
 `;

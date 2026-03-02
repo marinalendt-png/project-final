@@ -13,6 +13,7 @@ export const GlobalStyles = createGlobalStyle`
   --color-border-light: rgba(255, 255, 255, 0.3);
   --color-energy-high: #a8d5ba;
   --color-energy-mid: #f0c060;
+  --color-energy-mid-dark: #c89020;
   --color-energy-low: #c26e6eff;
   --color-error: #c47a7a;
   --color-error-light: rgba(186, 78, 78, 0.12);

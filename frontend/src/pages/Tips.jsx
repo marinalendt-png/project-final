@@ -1,16 +1,17 @@
 import styled from "styled-components";
 import { Navbar } from "../components/Navbar";
 import { ArrowLeft, ArrowSquareOut } from "@phosphor-icons/react";
-import { useNavigate } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 
 export const Tips = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   return (
     <>
       <Navbar />
       <BackRow>
-        <BackButton onClick={() => navigate(-1)}>
+        <BackButton onClick={() => navigate(location.state?.from || "/daily")}>
           <ArrowLeft size={20} /> Tillbaka
         </BackButton>
       </BackRow>
@@ -83,7 +84,7 @@ const PageWrapper = styled.div`
 `;
 
 const Card = styled.div`
-  background: rgba(255, 255, 255, 0.4);
+  background: var(--color-glass-card);
   backdrop-filter: blur(6px);
   border-radius: 12px;
   padding: 24px;

@@ -1,11 +1,12 @@
 import styled from "styled-components";
-import { useNavigate } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 import { useState } from "react";
 import { List, X, Leaf, Info, Lightbulb } from "@phosphor-icons/react";
 import { useUserStore } from "../stores/userStore";
 
 export const Navbar = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const logout = useUserStore((state) => state.logout);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -39,10 +40,10 @@ export const Navbar = () => {
           </CloseDrawerButton>
         </DrawerTop>
 
-        <NavLink onClick={() => { navigate("/about"); setMenuOpen(false); }}>
+        <NavLink onClick={() => { navigate("/about", { state: { from: location.pathname } }); setMenuOpen(false); }}>
           <Info size={18} /> Om appen
         </NavLink>
-        <NavLink onClick={() => { navigate("/tips"); setMenuOpen(false); }}>
+        <NavLink onClick={() => { navigate("/tips", { state: { from: location.pathname } }); setMenuOpen(false); }}>
           <Lightbulb size={18} /> Tips och länkar
         </NavLink>
 

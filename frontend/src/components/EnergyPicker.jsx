@@ -88,7 +88,7 @@ const SelectedDisplay = styled.div`
 
 const NextButton = styled.button`
 width: 100%;
-padding: 14px 24px;
+padding: 12px 24px;
 border: none;
 border-radius: 20px;
 background: var(--color-primary);

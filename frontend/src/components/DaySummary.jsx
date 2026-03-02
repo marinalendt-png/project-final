@@ -12,6 +12,23 @@ export const DaySummary = ({ activities, selectedActivities, energyLevel, energy
       <h2>Så här ser din dag ut</h2>
 
       <MascotTip energyLeft={energyLeft} recovery={recovery} />
+
+      <EnergyRow>
+        <EnergyItem>
+          <span>Startenergi</span>
+          <strong>{energyLevel}</strong>
+        </EnergyItem>
+        <span style={{ marginTop: "20px" }}>
+          <ArrowRight size={16} />
+        </span>
+        <EnergyItem>
+          <span>Energi kvar</span>
+          <strong style={{ color: energyLeft < 3 ? "var(--color-error)" : "var(--color-forest)" }}>
+            {energyLeft}
+          </strong>
+        </EnergyItem>
+      </EnergyRow>
+
       <QuickList>
         <QuickListTitle>Dina planerade aktiviteter idag:</QuickListTitle>
         <TwoColumnList>
@@ -161,7 +178,7 @@ const NextButton = styled.button`
   padding: 12px 24px;
   border: none;
   border-radius: 20px;
- 
+  width: 100%;
   color: white;
   cursor: pointer;
   font-size: 16px;
@@ -195,4 +212,34 @@ const ErrorText = styled.p`
   font-size: 14px;
   text-align: center;
   margin: 0;
+`;
+
+const EnergyRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  background: var(--color-glass-card);
+  backdrop-filter: blur(6px);
+  border-radius: 12px;
+  padding: 12px 16px;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+`;
+
+const EnergyItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+
+  span {
+    font-size: 12px;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  strong {
+    font-size: 22px;
+  }
 `;

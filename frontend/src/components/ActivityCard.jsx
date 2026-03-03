@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import { PersonSimpleWalk, Leaf, Heart, FlowerLotus, Moon, Barbell, Briefcase, Users, DeviceMobile, Broom, CookingPot, Train, Acorn, Check, Trash, PersonSimple, Sun, Carrot } from "@phosphor-icons/react";
 
@@ -22,14 +21,18 @@ export const activityIcon = {
 
 export const ActivityCard = ({ activity, onClick, selected, onDelete }) => {
   const Icon = activityIcon[activity.name] || Acorn;
-  // Drain is to know if an activity takes och gives energy. 
+  // Drain is to know if an activity takes or gives energy. 
   const isDraining = activity.energyImpact < 0;
 
   return (
     <CardContainer>
-      <CardWrapper onClick={onClick} $selected={selected} $drain={isDraining}>
+      <CardWrapper
+        onClick={onClick}
+        $selected={selected}
+        $drain={isDraining}
+        aria-pressed={selected}>
         <TopRow>
-          <Icon size={24} />
+          <Icon size={24} aria-hidden="true" />
           <strong>{activity.name}</strong>
         </TopRow>
         <EnergyText $positive={activity.energyImpact > 0}>
@@ -38,14 +41,14 @@ export const ActivityCard = ({ activity, onClick, selected, onDelete }) => {
 
         {selected && (
           <CheckIcon $drain={isDraining}>
-            <Check size={18} weight="bold" />
+            <Check size={18} weight="bold" aria-hidden="true" />
           </CheckIcon>
         )}
       </CardWrapper >
 
       {activity.user && (
         <DeleteButton onClick={(e) => { e.stopPropagation(); onDelete(activity._id); }} aria-label={`Radera ${activity.name}`} >
-          <Trash size={14} />
+          <Trash size={14} aria-hidden="true" />
         </DeleteButton>
       )}
     </CardContainer >
@@ -63,6 +66,7 @@ const CardWrapper = styled.button`
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
   width: 100%;
   gap: 4px;
   padding: 8px;
@@ -71,7 +75,7 @@ const CardWrapper = styled.button`
   color: var(--color-text);
   transition: all 0.3s ease;
 
-  /* Not chosen style*/
+  
   background: ${props => props.$selected ?
     (props.$drain ? "var(--color-error-light)" : "var(--color-forest-light)")
     : "var(--color-card)"

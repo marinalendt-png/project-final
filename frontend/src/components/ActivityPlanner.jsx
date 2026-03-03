@@ -1,23 +1,23 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { ActivityCard, activityIcon } from "./ActivityCard";
 import { Acorn } from "@phosphor-icons/react";
 import { Battery } from "./BatteryComponent";
 import { useState } from "react";
 
-export const ActivityPlanner = ({ activities, selectedActivities, energyLeft, batteryPulse, toggleActivity, showForm, setShowForm, handleAddActivity, onNext, onBack, onDelete }) => {
+export const ActivityPlanner = ({ activities, selectedActivities, energyLeft, batteryPulse, toggleActivity, showForm, setShowForm, handleAddActivity, onNext, onDelete }) => {
   const [showModal, setShowModal] = useState(false);
   const [activeCategory, setActiveCategory] = useState("alla");
 
   return (
     <>
-      <h2 style={{ textAlign: "center" }}>Planera din dag</h2>
+      <PlannerTitle>Planera din dag</PlannerTitle>
 
       <BatteryWrapper $pulse={batteryPulse}>
         <Battery energy={energyLeft} />
       </BatteryWrapper>
 
 
-      <EnergyLabel $energy={energyLeft}>
+      <EnergyLabel>
         Du har {energyLeft} energi kvar idag
       </EnergyLabel>
 
@@ -28,24 +28,34 @@ export const ActivityPlanner = ({ activities, selectedActivities, energyLeft, ba
 
       {selectedActivities.length > 0 && (
         <SelectedBox>
-          <p style={{ margin: "0 0 10px 0", fontSize: "13px", fontWeight: 600, textAlign: "center", opacity: 0.6 }}>
+          <SelectedCount>
             {selectedActivities.length} {selectedActivities.length === 1 ? "aktivitet vald" : "aktiviteter valda"}
-          </p>
+          </SelectedCount>
           <SelectedList>
             {activities.filter(a => selectedActivities.includes(a._id))
               .sort((a, b) => b.energyImpact - a.energyImpact)
-              .map(a => (
-                <SelectedChip key={a._id} $positive={a.energyImpact > 0}>
-                  {(() => { const Icon = activityIcon[a.name] || Acorn; return <Icon size={13} />; })()}
-                  {a.name}
-                </SelectedChip>
-              ))}
+              .map(a => {
+                const Icon = activityIcon[a.name] || Acorn;
+                return (
+                  <SelectedChip key={a._id} $positive={a.energyImpact > 0}>
+                    <Icon size={13} aria-hidden="true" />
+                    {a.name}
+                  </SelectedChip>
+                );
+              })}
           </SelectedList>
         </SelectedBox>
       )}
 
       {showModal && (
-        <ModalOverlay role="dialog" aria-modal="true" aria-labelledby="modal-title" onClick={() => setShowModal(false)}>
+        <ModalOverlay
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modal-title"
+          tabIndex={-1}
+          onClick={() => setShowModal(false)}
+          onKeyDown={(e) => { if (e.key === "Escape") setShowModal(false); }}
+        >
           <ModalContent onClick={e => e.stopPropagation()}><Battery energy={energyLeft} size="small" />
             <ModalHeader>
               <h3 id="modal-title">Välj aktiviteter</h3>
@@ -56,8 +66,9 @@ export const ActivityPlanner = ({ activities, selectedActivities, energyLeft, ba
               {["alla", "rörelse", "vila", "jobb", "vardag"].map(cat => (
                 <FilterButton
                   key={cat}
-                  $active={activeCategory == cat}
+                  $active={activeCategory === cat}
                   onClick={() => setActiveCategory(cat)}
+                  aria-pressed={activeCategory === cat}
                 >
                   {cat}
                 </FilterButton>
@@ -110,7 +121,7 @@ export const ActivityPlanner = ({ activities, selectedActivities, energyLeft, ba
                     <Input id="activity-name" type="text" name="name" placeholder="Namn" required />
 
                     <label htmlFor="activity-energy">Energi</label>
-                    <Select id="energyImpact" name="energyImpact" required>
+                    <Select id="activity-energy" name="energyImpact" required>
                       <option value="">Energi</option>
                       <option value="-3">-3</option>
                       <option value="-2">-2</option>
@@ -151,22 +162,35 @@ export const ActivityPlanner = ({ activities, selectedActivities, energyLeft, ba
   );
 };
 
+// ======= KEYFRAMES ======= //
+
+const batteryPulse = keyframes`
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); filter: drop-shadow(0 0 20px rgba(168, 213, 186, 0.6)); }
+  100% { transform: scale(1); }
+`;
+
+const fadeUp = keyframes`
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+`;
+
+const chipIn = keyframes`
+  from { opacity: 0; transform: translateY(6px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+`;
+
 // ======= STYLED COMPONENTS ======= //
+
+const PlannerTitle = styled.h2`
+  text-align: center;
+`;
 
 const BatteryWrapper = styled.div`
   display: flex;
   justify-content: center;
   margin: 8px 0;
-
-  ${props => props.$pulse && `
-  animation: batteryPulse 0.4s ease-out;
-  `}
-
-  @keyframes batteryPulse {
-    0 % { transform: scale(1); }
-    50% {transform: scale(1.1); filter: drop-shadow(0 0  20px rgba(168, 213, 186, 0.6)); }
-    100% {transform: scale(1); }
-  }
+  ${props => props.$pulse && `animation: ${batteryPulse} 0.4s ease-out;`}
 `;
 
 const EnergyLabel = styled.p`
@@ -180,6 +204,68 @@ const EnergyLabel = styled.p`
   font-weight: 600;
   margin: 0 auto;
   color: var(--color-text);
+`;
+
+const OpenModalButton = styled.button`
+  display: block;
+  width: 100%;
+  margin: 16px 0;
+  padding: 12px 24px;
+  border: 2px solid var(--color-primary);
+  border-radius: 20px;
+  background: var(--color-primary);
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+`;
+
+const SelectedBox = styled.div`
+  background: var(--color-glass-card);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  padding: 16px;
+  margin: 16px 0;
+  animation: ${fadeUp} 0.3s ease-out;
+`;
+
+const SelectedCount = styled.p`
+  margin: 0 0 10px 0;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+  opacity: 0.6;
+`;
+
+const SelectedList = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+`;
+
+const SelectedChip = styled.span`
+  padding: 10px 16px;
+  border-radius: 16px;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--color-text);
+  box-shadow: ${props => props.$positive
+    ? "0 2px 8px rgba(74, 124, 89, 0.3)"
+    : "0 2px 8px rgba(196, 122, 122, 0.3)"
+  };
+  background: ${props => props.$positive
+    ? "rgba(74, 124, 89, 0.15)"
+    : "var(--color-error-light)"
+  };
+  border: 1px solid ${props => props.$positive
+    ? "var(--color-forest)"
+    : "var(--color-error-dark)"
+  };
+
+  animation: ${chipIn} 0.25s ease-out;
 `;
 
 const ModalOverlay = styled.div`
@@ -219,74 +305,23 @@ const CloseButton = styled.button`
   color: var(--color-text);
 `;
 
-const OpenModalButton = styled.button`
-  display: block;
-  width: 100%;
-  margin: 16px 0;
-  padding: 12px 24px;
-  border: 2px solid var(--color-primary);
-  border-radius: 20px;
-  background: var(--color-primary);
-  color: white;
-  cursor: pointer;
-  font-size: 16px;
-`;
-
-const SelectedBox = styled.div`
-  background: var(--color-glass-card);
-  backdrop-filter: blur(6px);
-  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
-  border-radius: 12px;
-  padding: 16px;
-  margin: 16px 0;
-  animation: fadeUp 0.3s ease-out;
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-`;
-
-const SelectedList = styled.div`
+const CategoryFilters = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  justify-content: center;
+  margin-bottom: 16px;
 `;
 
-const SelectedChip = styled.span`
-  padding: 10px 16px;
-  border-radius: 16px;
-  font-size: 14px;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  color: var(--color-text);
-  box-shadow: ${props => props.$positive
-    ? "0 2px 8px rgba(74, 124, 89, 0.3)"
-    : "0 2px 8px rgba(196, 122, 122, 0.3)"
-  };
-  background: ${props => props.$positive
-    ? "rgba(74, 124, 89, 0.15)"
-    : "var(--color-error-light)"
-  };
-  border: 1px solid ${props => props.$positive
-    ? "var(--color-forest)"
-    : "var(--color-error-dark)"
-  };
-
-  animation: chipIn 0.25s ease-out;
-
-  @keyframes chipIn {
-    from {
-    opacity: 0;
-    transform: translateY(6px) scale(0.95);
-    }
-    to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    }
-  }
+const FilterButton = styled.button`
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid ${props => props.$active ? "var(--color-primary)" : "var(--color-border)"};
+  background: ${props => props.$active ? "var(--color-primary)" : "transparent"};
+  color: ${props => props.$active ? "white" : "var(--color-text)"};
+  font-size: 13px;
+  cursor: pointer;
+  text-transform: capitalize;
+  transition: all 0.2s ease;
 `;
 
 const ActivitiesRow = styled.div`
@@ -415,21 +450,3 @@ const NextButton = styled.button`
   font-size: 16px;
   `;
 
-const CategoryFilters = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 16px;
-`;
-
-const FilterButton = styled.button`
-  padding: 6px 14px;
-  border-radius: 20px;
-  border: 1px solid ${props => props.$active ? "var(--color-primary)" : "var(--color-border)"};
-  background: ${props => props.$active ? "var(--color-primary)" : "transparent"};
-  color: ${props => props.$active ? "white" : "var(--color-text)"};
-  font-size: 13px;
-  cursor: pointer;
-  text-transform: capitalize;
-  transition: all 0.2s ease;
-`;

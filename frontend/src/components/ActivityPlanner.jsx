@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled, { keyframes, css } from "styled-components";
 import { ActivityCard, activityIcon } from "./ActivityCard";
 import { Acorn } from "@phosphor-icons/react";
 import { Battery } from "./BatteryComponent";
@@ -190,7 +190,7 @@ const BatteryWrapper = styled.div`
   display: flex;
   justify-content: center;
   margin: 8px 0;
-  ${props => props.$pulse && `animation: ${batteryPulse} 0.4s ease-out;`}
+  ${props => props.$pulse && css`animation: ${batteryPulse} 0.4s ease-out;`}
 `;
 
 const EnergyLabel = styled.p`

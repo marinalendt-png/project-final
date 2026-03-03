@@ -97,6 +97,7 @@ export const History = () => {
                       onChange={e => setNotes(prev => ({ ...prev, [plan._id]: e.target.value }))}
                       onBlur={() => patchDailyPlan(plan._id, { notes: notes[plan._id] })}
                       onClick={e => e.stopPropagation()}
+                      onKeyDown={e => e.stopPropagation()}
                       placeholder="Egna tankar om dagen..."
                       rows={2}
                       aria-label="Egna tankar om dagen"

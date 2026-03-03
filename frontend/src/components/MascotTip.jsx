@@ -9,7 +9,6 @@ const tips = {
   ],
   okay: [
     "Lagom balanserat - lyssna på kroppen under dagen.",
-    "Du har inga återhämtande aktiviteter - mitt tips är att lägga till en!",
     "Bra planering! Glöm inte att ta pauser.",
   ],
   happy: [
@@ -17,17 +16,17 @@ const tips = {
     "Toppen-dag planerad! Kom ihåg att njuta av det.",
     "Du tar hand om dig själv - mycket bra jobbat!",
   ]
-}
+};
 
-const getTip = (energyLeft, recovery) => {
+const getTip = (energyLeft) => {
   const mood = energyLeft >= 7 ? "happy" : energyLeft >= 3 ? "okay" : "tired";
   const arr = tips[mood];
   return arr[Math.floor(Math.random() * arr.length)];
 };
 
-export const MascotTip = ({ energyLeft, recovery }) => {
+export const MascotTip = ({ energyLeft }) => {
   const mood = energyLeft >= 7 ? "happy" : energyLeft >= 3 ? "okay" : "tired";
-  const tip = getTip(energyLeft, recovery);
+  const tip = getTip(energyLeft);
 
   return (
     <MascotRow>
@@ -37,10 +36,14 @@ export const MascotTip = ({ energyLeft, recovery }) => {
   );
 };
 
+// ======= KEYFRAMES ======= //
+
 const fadeIn = keyframes`
   from { opacity: 0; transform: scale(0.9); }
   to   { opacity: 1; transform: scale(1);   }
 `;
+
+// ======= STYLED COMPONENTS ======= //
 
 const MascotRow = styled.div`
   display: flex;

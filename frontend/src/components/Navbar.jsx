@@ -26,7 +26,7 @@ export const Navbar = () => {
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label={menuOpen ? "Stäng meny" : "Öppna meny"}
           aria-expanded={menuOpen}>
-          <List size={28} />
+          <List size={28} aria-hidden="true" />
         </HamburgerButton>
       </Nav>
 
@@ -34,17 +34,17 @@ export const Navbar = () => {
 
       <Drawer $open={menuOpen} role="dialog" aria-label="Navigeringsmeny">
         <DrawerTop>
-          <DrawerLogo><Leaf size={20} weight="fill" /> Balans</DrawerLogo>
+          <DrawerLogo><Leaf size={20} weight="fill" aria-hidden="true" /> Balans</DrawerLogo>
           <CloseDrawerButton onClick={() => setMenuOpen(false)} aria-label="Stäng meny">
-            <X size={22} />
+            <X size={22} aria-hidden="true" />
           </CloseDrawerButton>
         </DrawerTop>
 
         <NavLink onClick={() => { navigate("/about", { state: { from: location.pathname } }); setMenuOpen(false); }}>
-          <Info size={18} /> Om appen
+          <Info size={18} aria-hidden="true" /> Om appen
         </NavLink>
         <NavLink onClick={() => { navigate("/tips", { state: { from: location.pathname } }); setMenuOpen(false); }}>
-          <Lightbulb size={18} /> Tips och länkar
+          <Lightbulb size={18} aria-hidden="true" /> Tips och länkar
         </NavLink>
 
         <DrawerBottom>
@@ -55,8 +55,7 @@ export const Navbar = () => {
   );
 };
 
-
-// ===== Styled Components ===== //
+// ======= STYLED COMPONENTS ======= //
 
 const Nav = styled.nav`
   display: flex;
@@ -78,23 +77,6 @@ const Logo = styled.button`
   gap: 8px;
   background: none;
   border: none;
-`;
-
-
-const LogOutButton = styled.button`
-  padding: 8px 16px;
-  background: var(--color-primary);
-  color: white;
-  border: none;
-  border-radius: 20px;
-  font-weight: 600;
-  cursor: pointer;
-  align-self: flex-end;
-  transition: background 0.2s;
-
-  &:hover {
-    background: var(--color-primary-dark);
-  }
 `;
 
 const HamburgerButton = styled.button`
@@ -173,4 +155,20 @@ const NavLink = styled.button`
 
 const DrawerBottom = styled.div`
   margin-top: auto;
+`;
+
+const LogOutButton = styled.button`
+  padding: 8px 16px;
+  background: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  align-self: flex-end;
+  transition: background 0.2s;
+
+  &:hover {
+    background: var(--color-primary-dark);
+  }
 `;

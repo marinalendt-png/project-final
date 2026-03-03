@@ -48,7 +48,6 @@ export const SignUpForm = ({ handleLogin }) => {
       e.target.reset();
     } catch (error) {
       setError(error.message);
-      console.log("An error occurred during signup", error);
     } finally {
       setLoading(false);
     }
@@ -93,13 +92,15 @@ export const SignUpForm = ({ handleLogin }) => {
         </Label>
       </InputWrapper>
       {error && <ErrorText role="alert">{error}</ErrorText>}
-      <Button type="submit" disabled={loading}>{loading ? "Laddar..." : "Registrera dig"}
+      <Button type="submit" disabled={loading}>
+        {loading ? "Laddar..." : "Registrera dig"}
       </Button>
     </Form>
   );
 };
 
 // ======= STYLED COMPONENTS ======= //
+
 const Form = styled.form`
   display: flex;
   flex-direction: column;

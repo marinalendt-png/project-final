@@ -4,7 +4,7 @@ import { Navbar } from "../components/Navbar";
 import styled from "styled-components";
 import { ArrowLeft, CalendarBlank, CaretDown } from "@phosphor-icons/react";
 import { useNavigate } from "react-router";
-import { EnergyGraf } from "../components/EnergyHistory.jsx"
+import { EnergyGraf } from "../components/EnergyHistory.jsx";
 
 export const History = () => {
   const [plans, setPlans] = useState([]);
@@ -15,11 +15,15 @@ export const History = () => {
 
   useEffect(() => {
     const loadPlans = async () => {
-      const data = await fetchDailyPlan();
-      setPlans(data);
-      const notesMap = {};
-      data.forEach(p => { notesMap[p._id] = p.notes || ""; });
-      setNotes(notesMap);
+      try {
+        const data = await fetchDailyPlan();
+        setPlans(data);
+        const notesMap = {};
+        data.forEach(p => { notesMap[p._id] = p.notes || ""; });
+        setNotes(notesMap);
+      } catch (error) {
+        console.error("Kunde inte hämta plan:", error);
+      }
     };
     loadPlans();
   }, []);
@@ -105,10 +109,31 @@ export const History = () => {
         )}
       </PageWrapper>
     </>
-  )
-}
+  );
+};
 
 // ======= STYLED COMPONENTS ======= //
+
+const BackRow = styled.div`
+  padding: 4px 16px;
+`;
+
+const BackButton = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text);
+  font-size: 14px;
+  padding: 4px 0;
+  margin-bottom: 8px;
+
+  &:hover {
+    color: var(--color-primary);
+  }
+`;
 
 const PageWrapper = styled.div`
   padding: 8px 16px 16px;
@@ -249,25 +274,3 @@ const CardHeader = styled.div`
     font-size: 15px;
   }
 `;
-
-const BackRow = styled.div`
-  padding: 4px 16px;
-`;
-
-const BackButton = styled.button`
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: var(--color-text);
-  font-size: 14px;
-  padding: 4px 0;
-  margin-bottom: 8px;
-
-  &:hover {
-    color: var(--color-primary);
-  }
-`;
-

@@ -40,7 +40,6 @@ export const LogInForm = ({ handleLogin }) => {
       handleLogin(data.response);
     } catch (error) {
       setError("Fel e-post eller lösenord. Försök igen!");
-      console.log(error);
     } finally {
       setLoading(false);
     }

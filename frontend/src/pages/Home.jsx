@@ -23,7 +23,7 @@ export const Home = () => {
   return (
     <HomeWrapper>
       <AppTitle>
-        <Leaf size={56} weight="fill" /> Balans
+        <Leaf size={56} weight="fill" aria-hidden="true" /> Balans
       </AppTitle>
 
       <SubTitle>Planera din dag med den energi du har.</SubTitle>
@@ -52,7 +52,7 @@ const HomeWrapper = styled.main`
   flex-direction: column;
   align-items: center;
   gap: 16px;
-  background: rgba(0, 0, 0, 0.1)
+  background: rgba(0, 0, 0, 0.1);
 `;
 
 const AppTitle = styled.h1`

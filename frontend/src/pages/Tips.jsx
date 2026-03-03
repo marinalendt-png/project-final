@@ -12,16 +12,16 @@ export const Tips = () => {
       <Navbar />
       <BackRow>
         <BackButton onClick={() => navigate(location.state?.from || "/daily")}>
-          <ArrowLeft size={20} /> Tillbaka
+          <ArrowLeft size={20} aria-hidden="true" /> Tillbaka
         </BackButton>
       </BackRow>
       <PageWrapper>
-        <h2>Tips och länkar</h2>
+        <PageTitle>Tips och länkar</PageTitle>
         <Card>
           <h3>Förstå din energi</h3>
           <LinkItem href="https://www.youtube.com/watch?v=XB8MrKHHkGU" target="_blank" rel="noopener noreferrer">
             Spoon Theory - Planera din energi (YouTube)
-            <ArrowSquareOut size={16} aria-label="öppnas i nytt fönster" />
+            <ArrowSquareOut size={16} aria-hidden="true" />
           </LinkItem>
         </Card>
 
@@ -29,15 +29,15 @@ export const Tips = () => {
           <h3>Stresshantering</h3>
           <LinkItem href="https://www.1177.se/Skane/liv--halsa/stresshantering-och-somn/" target="_blank" rel="noopener noreferrer">
             1177 - Stresshantering och sömn
-            <ArrowSquareOut size={16} aria-label="öppnas i nytt fönster" />
+            <ArrowSquareOut size={16} aria-hidden="true" />
           </LinkItem>
           <LinkItem href="https://dinpsykiskahalsa.se/artiklar/nar-livet-kanns-jobbigt/stress/" target="_blank" rel="noopener noreferrer">
             Din Psykiska Hälsa – Stress
-            <ArrowSquareOut size={16} aria-label="öppnas i nytt fönster" />
+            <ArrowSquareOut size={16} aria-hidden="true" />
           </LinkItem>
           <LinkItem href="https://www.hjarnfonden.se/hjarnhalsa/stress/8-tips-for-att-minska-stressen/" target="_blank" rel="noopener noreferrer">
             Hjärnfonden – 8 tips för att minska stressen
-            <ArrowSquareOut size={16} aria-label="öppnas i nytt fönster" />
+            <ArrowSquareOut size={16} aria-hidden="true" />
           </LinkItem>
         </Card>
 
@@ -45,11 +45,11 @@ export const Tips = () => {
           <h3>Sömn</h3>
           <LinkItem href="https://www.1177.se/Vasterbotten/liv--halsa/stresshantering-och-somn/somnskola/" target="_blank" rel="noopener noreferrer">
             1177 – Sömnsskola
-            <ArrowSquareOut size={16} aria-label="öppnas i nytt fönster" />
+            <ArrowSquareOut size={16} aria-hidden="true" />
           </LinkItem>
           <LinkItem href="https://www.suntarbetsliv.se/rapporterat/5-tips-for-battre-somn/" target="_blank" rel="noopener noreferrer">
             Sunt Arbetsliv – 5 tips för bättre sömn
-            <ArrowSquareOut size={16} aria-label="öppnas i nytt fönster" />
+            <ArrowSquareOut size={16} aria-hidden="true" />
           </LinkItem>
         </Card>
 
@@ -57,11 +57,11 @@ export const Tips = () => {
           <h3>Rörelse</h3>
           <LinkItem href="https://www.stressfrikropp.com/post/tr%C3%A4na-utan-bakslag-med-utmattningssyndrom" target="_blank" rel="noopener noreferrer">
             Stressfri Kropp – Träna utan bakslag med utmattningssyndrom
-            <ArrowSquareOut size={16} aria-label="öppnas i nytt fönster" />
+            <ArrowSquareOut size={16} aria-hidden="true" />
           </LinkItem>
           <LinkItem href="https://www.hjarnfonden.se/hjarnhalsa/fysisk-aktivitet/fysisk-traning-och-depression/" target="_blank" rel="noopener noreferrer">
             Hjärnfonden – Fysisk träning och depression
-            <ArrowSquareOut size={16} aria-label="öppnas i nytt fönster" />
+            <ArrowSquareOut size={16} aria-hidden="true" />
           </LinkItem>
         </Card>
       </PageWrapper>
@@ -70,60 +70,6 @@ export const Tips = () => {
 };
 
 // ======= STYLED COMPONENTS ======= //
-
-const PageWrapper = styled.div`
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-
-  h2 { 
-    text-align: center; 
-  }
-
-`;
-
-const Card = styled.div`
-  background: var(--color-glass-card);
-  backdrop-filter: blur(6px);
-  border-radius: 12px;
-  padding: 24px;
-
-  h3 { 
-    margin: 0 0 12px 0; 
-  }
-
-  p {
-   margin: 0 0 8px 0;
-   line-height: 1.6;
-   color: var(--color-text);
-  }
-`;
-
-const LinkItem = styled.a`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 16px;
-  margin-bottom: 8px;
-  border-radius: 8px;
-  background: white;
-  color: var(--color-primary);
-  text-decoration: none;
-  font-weight: 500;
-  border: 1px solid var(--color-border);
-
-  svg {
-    flex-shrink:0;
-    margin-top: 2px;
-  }
-
-  &:last-child { margin-bottom: 0; }
-
-  &:hover {
-    background: rgba(107, 94, 117, 0.08);
-  }
-`;
 
 const BackRow = styled.div`
   padding: 8px 16px;
@@ -143,5 +89,52 @@ const BackButton = styled.button`
 
   &:hover {
     color: var(--color-primary);
+  }
+`;
+
+const PageWrapper = styled.div`
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`;
+
+const PageTitle = styled.h2`
+  text-align: center;
+`;
+
+const Card = styled.div`
+  background: var(--color-glass-card);
+  backdrop-filter: blur(6px);
+  border-radius: 12px;
+  padding: 24px;
+
+  h3 { 
+    margin: 0 0 12px 0; 
+  }
+`;
+
+const LinkItem = styled.a`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  background: white;
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 500;
+  border: 1px solid var(--color-border);
+
+  svg {
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  &:last-child { margin-bottom: 0; }
+
+  &:hover {
+    background: rgba(107, 94, 117, 0.08);
   }
 `;

@@ -12,11 +12,11 @@ export const About = () => {
       <Navbar />
       <BackRow>
         <BackButton onClick={() => navigate(location.state?.from || "/daily")}>
-          <ArrowLeft size={20} /> Tillbaka
+          <ArrowLeft size={20} aria-hidden="true" /> Tillbaka
         </BackButton>
       </BackRow>
       <PageWrapper>
-        <h2>Om balans</h2>
+        <PageTitle>Om balans</PageTitle>
         <Card>
           <p>Balans är en app för dig som vill planera din dag utifrån den energi du har. Genom att välja aktiviteter och se hur de påverkar din energinivå kan du hitta en balans som fungerar för dig.</p>
         </Card>
@@ -38,10 +38,10 @@ const PageWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
+`;
 
-  h2 { 
-    text-align: center; 
-  }
+const PageTitle = styled.h2`
+  text-align: center;
 `;
 
 const Card = styled.div`
@@ -50,7 +50,6 @@ const Card = styled.div`
   border-radius: 12px;
   padding: 24px;
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
-
 
   h3 { 
     margin: 0 0 12px 0; 
@@ -82,4 +81,3 @@ const BackButton = styled.button`
     color: var(--color-primary);
   }
 `;
-

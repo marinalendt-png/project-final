@@ -8,9 +8,9 @@ import { DaySummary } from "../components/DaySummary";
 import { ArrowLeft } from "@phosphor-icons/react";
 
 export const DailyPlan = () => {
-  const [activities, setActivities] = useState([]); //alla aktiviteter som finns i listan
-  const [selectedActivities, setSelectedActivities] = useState([]); // de aktiviteter som användaren väljer. 
-  const [energyLevel, setEnergyLevel] = useState(null); // för att kunna välja startenergi-nivå
+  const [activities, setActivities] = useState([]);
+  const [selectedActivities, setSelectedActivities] = useState([]);
+  const [energyLevel, setEnergyLevel] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [step, setStep] = useState(1);
   const [batteryPulse, setBatteryPulse] = useState(false);
@@ -20,8 +20,12 @@ export const DailyPlan = () => {
   // SHOWING ALL ACTIVITIES
   useEffect(() => {
     const loadActivities = async () => {
-      const data = await fetchActivities();
-      setActivities(data);
+      try {
+        const data = await fetchActivities();
+        setActivities(data);
+      } catch (error) {
+        console.error("Kunde inte ladda aktiviteter:", error);
+      }
     };
 
     loadActivities();
@@ -45,15 +49,17 @@ export const DailyPlan = () => {
     const name = formData.get("name");
     const energyImpact = Number(formData.get("energyImpact"));
     const category = formData.get("category");
+    try {
+      const saved = await createActivity({ name, energyImpact, category });
+      setActivities((prev) => [...prev, saved]);
+      e.target.reset();
+      setShowForm(false);
+    } catch (error) {
+      console.error("Kunde inte spara aktivitet:", error);
+    }
+  };
 
-    const saved = await createActivity({ name, energyImpact, category });
-
-    setActivities((prev) => [...prev, saved]);
-    e.target.reset();
-    setShowForm(false);
-  }
-
-  // SAVES dailyplan in database
+  // SAVES DAILYPLAN IN DATABASE
   const handleSave = async () => {
     try {
       setSaveError(null);
@@ -67,26 +73,24 @@ export const DailyPlan = () => {
     } catch (error) {
       setSaveError(error.message);
     }
-  }
-
-  // DELETE an activity
-  const handleDelete = async (activityId) => {
-    await deleteActivities(activityId);
-    setActivities((prev) => prev.filter((a) => a._id !== activityId));
   };
 
+  // DELETES AN ACTIVITY
+  const handleDelete = async (activityId) => {
+    try {
+      await deleteActivities(activityId);
+      setActivities((prev) => prev.filter((a) => a._id !== activityId));
+    } catch (error) {
+      console.error("Kunde inte ta bort aktivitet:", error)
+    }
+  };
 
-  // ENERGY LEFT PER DAY (startenergy - the chosen activities that takes energy)
+  // ENERGY LEFT PER DAY (starting energy - the chosen activities that takes energy)
   const energyLeft = energyLevel
     ? energyLevel + activities
       .filter((a) => selectedActivities.includes(a._id))
       .reduce((sum, a) => sum + a.energyImpact, 0)
     : 0;
-
-  // RECOVERY LEFT PER DAY (the sum of the chosen activities that gives energy)
-  const recovery = activities
-    .filter((a) => selectedActivities.includes(a._id) && a.energyImpact > 0)
-    .reduce((sum, a) => sum + a.energyImpact, 0);
 
   return (
     <>
@@ -94,7 +98,7 @@ export const DailyPlan = () => {
       <BackRow>
         {step > 1 && (
           <BackButton onClick={() => setStep(step - 1)}>
-            <ArrowLeft size={20} /> Tillbaka
+            <ArrowLeft size={20} aria-hidden="true" /> Tillbaka
           </BackButton>
         )}
       </BackRow>
@@ -128,14 +132,13 @@ export const DailyPlan = () => {
             selectedActivities={selectedActivities}
             energyLevel={energyLevel}
             energyLeft={energyLeft}
-            recovery={recovery}
             onBack={() => { setStep(2); setIsSaved(false); }}
             onSave={handleSave}
             isSaved={isSaved}
             saveError={saveError}
           />
         )}
-      </PageWrapper >
+      </PageWrapper>
     </>
   );
 };
@@ -166,4 +169,3 @@ const BackButton = styled.button`
     color: var(--color-primary);
   }
 `;
-

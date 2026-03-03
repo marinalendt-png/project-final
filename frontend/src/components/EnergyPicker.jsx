@@ -6,14 +6,13 @@ export const EnergyPicker = ({ energyLevel, setEnergyLevel, onNext }) => {
 
   return (
     <EnergyWrapper>
-      <p>Varmt välkommen, <span style={{ fontSize: "20px", color: "var(--color-primary)", fontWeight: "700", textShadow: "0 2px 8px rgba(107, 94, 117, 0.3)" }}>{username?.split(" ")[0]}</span>!</p>
-      <h2>Hur mycket energi har du idag?</h2>
+      <p>Varmt välkommen, <UsernameSpan>{username?.split(" ")[0]}</UsernameSpan>!</p>
+      <EnergyTitle>Hur mycket energi har du idag?</EnergyTitle>
       <EnergyButtonWrapper>
         {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
           <EnergyButton
             key={num}
             $active={energyLevel === num}
-            $num={num}
             aria-label={`Välj energinivå ${num}`}
             aria-pressed={energyLevel === num}
             onClick={() => setEnergyLevel(num)}
@@ -41,12 +40,20 @@ const EnergyWrapper = styled.div`
   align-items: center;
   gap: 16px;
   padding: 24px;
-
-  h2 {
-    text-align: center;
-    font-size: clamp(16px, 4vw, 20px);
-  }
 `;
+
+const UsernameSpan = styled.span`
+  font-size: 20px;
+  color: var(--color-primary);
+  font-weight: 700;
+  text-shadow: 0 2px 8px rgba(107, 94, 117, 0.3);
+`;
+
+const EnergyTitle = styled.h2`
+  text-align: center;
+  font-size: clamp(16px, 4vw, 20px);
+`;
+
 const EnergyButtonWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -87,18 +94,18 @@ const SelectedDisplay = styled.div`
 `;
 
 const NextButton = styled.button`
-width: 100%;
-padding: 12px 24px;
-border: none;
-border-radius: 20px;
-background: var(--color-primary);
-color: white;
-cursor: pointer;
-font-size: 16px;
-margin-top: 16px;
+  width: 100%;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 20px;
+  background: var(--color-primary);
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 16px;
 
-&:disabled {
-  opacity: 0.4;
-  cursor: default ;
-}
+  &:disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
 `;

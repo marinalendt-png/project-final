@@ -1,21 +1,25 @@
-import React from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 export const Battery = ({ energy, maxEnergy = 10, size }) => {
   const percentage = (energy / maxEnergy) * 100;
 
   return (
-    <BatteryWrapper $percentage={percentage}>
+    <BatteryWrapper $percentage={percentage} aria-hidden="true">
       <BatteryTop $small={size === "small"} />
       <BatteryBody $small={size === "small"}>
         <EnergyFill $percentage={percentage} />
         <GlassOverlay />
-
       </BatteryBody>
-
     </BatteryWrapper>
   );
 };
+
+// ======= KEYFRAMES ======= //
+
+const shimmer = keyframes`
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(50%); }
+`;
 
 // ======= STYLED COMPONENTS ======= //
 
@@ -99,12 +103,7 @@ const EnergyFill = styled.div`
       rgba(255, 255, 255, 0.35) 50%,
       transparent 65%
     );
-    animation: shimmer 3s ease-in-out infinite;
-  }
-
-  @keyframes shimmer {
-    0% { transform: translateX(-50%); }
-    100% { transform: translateX(50%); }
+    animation: ${shimmer} 3s ease-in-out infinite;
   }
 `;
 
@@ -114,5 +113,3 @@ const GlassOverlay = styled.div`
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%,rgba(255, 255, 255, 0.05) 50%, transparent 100%);
   pointer-events: none;
 `;
-
-

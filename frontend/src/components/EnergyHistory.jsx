@@ -32,22 +32,22 @@ export const EnergyGraf = ({ plans }) => {
           {range === 7 && <WeekLabel>Vecka {getWeekNumber(now)}</WeekLabel>}
         </div>
         <ToggleRow>
-          <ToggleButton $active={range === 7} onClick={() => setRange(7)}>Vecka</ToggleButton>
-          <ToggleButton $active={range === 30} onClick={() => setRange(30)}>Månad</ToggleButton>
+          <ToggleButton $active={range === 7} onClick={() => setRange(7)} aria-pressed={range === 7}>Vecka</ToggleButton>
+          <ToggleButton $active={range === 30} onClick={() => setRange(30)} aria-pressed={range === 30}>Månad</ToggleButton>
         </ToggleRow>
       </GrafHeader>
 
       {filtered.length === 0 ? (
         <EmptyGraf>Ingen data för perioden</EmptyGraf>
       ) : (
-        <BarsContainer>
+        <BarsContainer role="img" aria-label="Energiöversikt som stapeldiagram">
           {filtered.map(plan => (
             <BarColumn key={plan._id}>
               <BarWrapper>
                 <Bar $height={(plan.currentEnergy / 10) * 100} $color={getBarColor(plan.currentEnergy)} />
               </BarWrapper>
               <BarLabel>{new Date(plan.date).toLocaleDateString("sv-SE", { weekday: "short" })}</BarLabel>
-              <BarValue><Lightning size={11} weight="fill" />{plan.currentEnergy}</BarValue>
+              <BarValue><Lightning size={11} weight="fill" aria-hidden="true" />{plan.currentEnergy}</BarValue>
             </BarColumn>
           ))}
         </BarsContainer>

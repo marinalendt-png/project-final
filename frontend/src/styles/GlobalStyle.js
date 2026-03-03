@@ -6,6 +6,7 @@ export const GlobalStyles = createGlobalStyle`
   --color-primary: #6b5e75;
   --color-primary-dark: #4d4f59;
   --color-forest: #4a7c59;
+  --color-forest-dark: #3a6347;
   --color-forest-light: rgba(74, 124, 89, 0.25);
   --color-card: rgba(227, 224, 217, 0.85);
   --color-text: #302e2f;
@@ -17,7 +18,7 @@ export const GlobalStyles = createGlobalStyle`
   --color-energy-low: #c26e6eff;
   --color-error: #c47a7a;
   --color-error-light: rgba(186, 78, 78, 0.12);
-  --color-error-dark: #a05050;
+  --color-error-dark: #7a3030;
   --color-text-muted: #646774;
   --color-input-bg: rgba(227, 224, 217, 0.9);
   --color-glass: rgba(227, 224, 217, 0.3);

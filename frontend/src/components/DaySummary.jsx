@@ -135,7 +135,7 @@ const ArrowSpacer = styled.span`
 
 const EnergyValue = styled.strong`
   font-size: 22px;
-  color: ${props => props.$low ? "var(--color-error)" : "var(--color-forest)"};
+  color: ${props => props.$low ? "var(--color-error-dark)" : "var(--color-forest-dark)"};
 `;
 
 const QuickList = styled.div`
@@ -174,7 +174,7 @@ const ColumnLabel = styled.p`
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  color: ${props => props.$positive ? "var(--color-forest)" : "var(--color-error)"};
+  color: ${props => props.$positive ? "var(--color-forest-dark)" : "var(--color-error-dark)"};
   margin: 0 0 4px 0;
 `;
 

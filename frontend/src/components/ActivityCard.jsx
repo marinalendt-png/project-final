@@ -48,7 +48,7 @@ export const ActivityCard = ({ activity, onClick, selected, onDelete }) => {
 
       {activity.user && (
         <DeleteButton onClick={(e) => { e.stopPropagation(); onDelete(activity._id); }} aria-label={`Radera ${activity.name}`} >
-          <Trash size={14} aria-hidden="true" />
+          <Trash size={16} aria-hidden="true" />
         </DeleteButton>
       )}
     </CardContainer >
@@ -70,6 +70,7 @@ const CardWrapper = styled.button`
   width: 100%;
   gap: 4px;
   padding: 8px;
+  min-height: 44px;
   border-radius: 10px;
   cursor: pointer;
   color: var(--color-text);
@@ -109,7 +110,7 @@ const TopRow = styled.div`
 `;
 
 const EnergyText = styled.span`
-  color: ${(props) => (props.$positive ? "var(--color-forest)" : "var(--color-error)")};
+  color: ${(props) => (props.$positive ? "var(--color-forest-dark)" : "var(--color-error-dark)")};
   font-weight: 500;
   font-size: 13px;
 `;
@@ -131,16 +132,19 @@ const CheckIcon = styled.div`
 
 const DeleteButton = styled.button`
   position: absolute;
-  bottom: 6px;
-  right: 6px;
+  bottom: 0;
+  right: 0;
   background: none;
   border: none;
   cursor: pointer;
   color: var(--color-error);
-  opacity: 0.4;
-  padding: 2px;
+  opacity: 0.65;
+  padding: 8px;
+  min-width: 44px;
+  min-height: 44px;
   display: flex;
   align-items: center;
+  justify-content: center;
 
   &:hover {
     opacity: 1;

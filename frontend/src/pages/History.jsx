@@ -177,9 +177,9 @@ const EnergyNum = styled.span`
   line-height: 1;
   color: ${({ $end, $energy }) =>
     !$end ? "var(--color-text-muted)" :
-      $energy >= 7 ? "var(--color-forest)" :
+      $energy >= 7 ? "var(--color-forest-dark)" :
         $energy >= 4 ? "var(--color-energy-mid-dark)" :
-          "var(--color-error)"
+          "var(--color-error-dark)"
   };
 `;
 
@@ -194,9 +194,9 @@ const Arrow = styled.span`
   font-size: 24px;
   align-self: center;
   color: ${({ $energy }) =>
-    $energy >= 7 ? "var(--color-forest)" :
+    $energy >= 7 ? "var(--color-forest-dark)" :
       $energy >= 4 ? "var(--color-energy-mid-dark)" :
-        "var(--color-error)"
+        "var(--color-error-dark)"
   };
 `;
 

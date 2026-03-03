@@ -105,6 +105,7 @@ const EnergyRow = styled.div`
   justify-content: center;
   gap: 16px;
   background: var(--color-glass-card);
+  -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
   border-radius: 12px;
   padding: 12px 16px;
@@ -141,6 +142,7 @@ const EnergyValue = styled.strong`
 const QuickList = styled.div`
   background: var(--color-glass-card);
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+  -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
   border-radius: 12px;
   padding: 16px;
@@ -188,7 +190,7 @@ const ActivityChip = styled.span`
   font-weight: 500;
   color: var(--color-text);
   background: ${props => props.$positive
-    ? "rgba(74, 124, 89, 0.25)"
+    ? "var(--color-forest-light)"
     : "var(--color-error-light)"
   };
   border: 1px solid ${props => props.$positive

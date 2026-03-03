@@ -19,9 +19,9 @@ export const EnergyGraf = ({ plans }) => {
   };
 
   const getBarColor = (energy) => {
-    if (energy >= 7) return "#a8d5ba";
-    if (energy >= 4) return "#f0c060";
-    return "#c47a7a";
+    if (energy >= 7) return "var(--color-energy-high)";
+    if (energy >= 4) return "var(--color-energy-mid)";
+    return "var(--color-error)";
   };
 
   return (
@@ -61,6 +61,7 @@ export const EnergyGraf = ({ plans }) => {
 const GrafWrapper = styled.div`
   background: var(--color-glass-card);
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+  -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
   border-radius: 12px;
   padding: 16px;

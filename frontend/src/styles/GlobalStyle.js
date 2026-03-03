@@ -23,7 +23,9 @@ export const GlobalStyles = createGlobalStyle`
   --color-input-bg: rgba(227, 224, 217, 0.9);
   --color-glass: rgba(227, 224, 217, 0.3);
   --color-glass-card: rgba(255, 255, 255, 0.4);
-  
+  --color-overlay: rgba(0, 0, 0, 0.4);
+  --color-forest-subtle: rgba(74, 124, 89, 0.15);
+
 }
 
 * {

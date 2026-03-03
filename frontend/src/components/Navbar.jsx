@@ -90,7 +90,7 @@ const HamburgerButton = styled.button`
 const DrawerOverlay = styled.div`
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4);
+  background: var(--color-overlay);
   z-index: 90;
 `;
 

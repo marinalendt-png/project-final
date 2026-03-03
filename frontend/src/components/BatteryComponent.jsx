@@ -79,7 +79,7 @@ const EnergyFill = styled.div`
   left: 0;
   right: 0;
   height: ${props => props.$percentage}%;
-  background: linear-gradient(to top, #c47a7a, #f0c060, #a8d5ba);
+  background: linear-gradient(to top, var(--color-error), var(--color-energy-mid), var(--color-energy-high));
   border-radius: 0 0 20px 20px;
   overflow: hidden;
   box-shadow: ${props => {

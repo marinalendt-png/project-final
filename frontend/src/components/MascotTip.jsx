@@ -62,6 +62,7 @@ const TipBubble = styled.div`
     if (props.$mood === "tired") return "rgba(196, 122, 122, 0.1)";
     return "rgba(240, 192, 96, 0.1)";
   }};
+  -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   border: 1.5px solid ${props => {
     if (props.$mood === "happy") return "rgba(106, 175, 140, 0.8)";

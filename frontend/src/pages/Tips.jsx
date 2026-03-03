@@ -105,6 +105,7 @@ const PageTitle = styled.h2`
 
 const Card = styled.div`
   background: var(--color-glass-card);
+  -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
   border-radius: 12px;
   padding: 24px;

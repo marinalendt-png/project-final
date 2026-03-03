@@ -197,6 +197,7 @@ const EnergyLabel = styled.p`
   text-align: center;
   width: fit-content;
   background: rgba(255, 255, 255, 0.5);
+  -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
   border-radius: 20px;
   padding: 4px 16px;
@@ -221,6 +222,7 @@ const OpenModalButton = styled.button`
 
 const SelectedBox = styled.div`
   background: var(--color-glass-card);
+  -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
   border-radius: 12px;
@@ -257,7 +259,7 @@ const SelectedChip = styled.span`
     : "0 2px 8px rgba(196, 122, 122, 0.3)"
   };
   background: ${props => props.$positive
-    ? "rgba(74, 124, 89, 0.15)"
+    ? "var(--color-forest-subtle)"
     : "var(--color-error-light)"
   };
   border: 1px solid ${props => props.$positive
@@ -271,7 +273,7 @@ const SelectedChip = styled.span`
 const ModalOverlay = styled.div`
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: var(--color-overlay);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -353,7 +355,7 @@ const ColumnHeader = styled.h3`
 const FormOverlay = styled.div`
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: var(--color-overlay);
   display: flex;
   align-items: center;
   justify-content: center;

@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useState } from "react";
+import { Lightning } from "@phosphor-icons/react";
 
 export const EnergyGraf = ({ plans }) => {
   const [range, setRange] = useState(7);
@@ -8,6 +9,14 @@ export const EnergyGraf = ({ plans }) => {
   const filtered = plans
     .filter(p => (now - new Date(p.date)) / (1000 * 60 * 60 * 24) <= range)
     .sort((a, b) => new Date(a.date) - new Date(b.date));
+
+  const getWeekNumber = (date) => {
+    const d = new Date(date);
+    d.setHours(0, 0, 0, 0);
+    d.setDate(d.getDate() + 3 - (d.getDay() + 6) % 7);
+    const week1 = new Date(d.getFullYear(), 0, 4);
+    return 1 + Math.round(((d - week1) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7);
+  };
 
   const getBarColor = (energy) => {
     if (energy >= 7) return "#a8d5ba";
@@ -18,7 +27,10 @@ export const EnergyGraf = ({ plans }) => {
   return (
     <GrafWrapper>
       <GrafHeader>
-        <GrafTitle>Energiöversikt</GrafTitle>
+        <div>
+          <GrafTitle>Energiöversikt</GrafTitle>
+          {range === 7 && <WeekLabel>Vecka {getWeekNumber(now)}</WeekLabel>}
+        </div>
         <ToggleRow>
           <ToggleButton $active={range === 7} onClick={() => setRange(7)}>Vecka</ToggleButton>
           <ToggleButton $active={range === 30} onClick={() => setRange(30)}>Månad</ToggleButton>
@@ -35,7 +47,7 @@ export const EnergyGraf = ({ plans }) => {
                 <Bar $height={(plan.currentEnergy / 10) * 100} $color={getBarColor(plan.currentEnergy)} />
               </BarWrapper>
               <BarLabel>{new Date(plan.date).toLocaleDateString("sv-SE", { weekday: "short" })}</BarLabel>
-              <BarValue>{plan.currentEnergy}</BarValue>
+              <BarValue><Lightning size={11} weight="fill" />{plan.currentEnergy}</BarValue>
             </BarColumn>
           ))}
         </BarsContainer>
@@ -67,6 +79,13 @@ const GrafTitle = styled.h3`
   margin: 0;
   font-size: 15px;
   color: var(--color-text);
+`;
+
+const WeekLabel = styled.span`
+  font-size: 11px;
+  color: var(--color-text-muted);
+  display: block;
+  margin-top: 2px;
 `;
 
 const ToggleRow = styled.div`
@@ -123,9 +142,12 @@ const BarLabel = styled.span`
 `;
 
 const BarValue = styled.span`
+  display: flex;
+  align-items: center;
+  gap: 2px;
   font-size: 12px;
   font-weight: 600;
-  color: var(--color-text);
+  color: var(--color-text-muted);
 `;
 
 const EmptyGraf = styled.p`

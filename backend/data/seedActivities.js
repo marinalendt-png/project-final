@@ -84,7 +84,6 @@ export const defaults = [
 export const seedActivities = async () => {
   const count = await Activity.countDocuments();
   if (count === 0) {
-    await Activity.insertMany(defaults)
-    console.log("Activities seeded!")
+    await Activity.insertMany(defaults);
   }
-}
+};

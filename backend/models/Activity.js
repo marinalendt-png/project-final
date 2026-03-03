@@ -17,6 +17,6 @@ const activitySchema = new Schema({
     type: String,
     required: true,
   },
-})
+});
 
 export const Activity = model("activity", activitySchema);

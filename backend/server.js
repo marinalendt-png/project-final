@@ -8,7 +8,6 @@ import { router as activitiesRouter } from "./routes/activitiesRoutes.js";
 import { router as dailyPlanRouter } from "./routes/dailyplanRoutes.js";
 import { seedActivities } from "./data/seedActivities.js";
 
-
 const mongoUrl = process.env.MONGO_URL || "mongodb://localhost/final-project";
 mongoose.connect(mongoUrl).then(() => {
   seedActivities();
@@ -26,7 +25,7 @@ app.get("/", (req, res) => {
   res.json([{
     message: "Welcome to the Balans API",
     endpoints: endpoints,
-  }])
+  }]);
 });
 
 // Connecting the different routes with endpoints. 

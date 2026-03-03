@@ -7,14 +7,12 @@ export const router = express.Router();
 // Endpoints for all the activities
 router.get("/activities", async (req, res) => {
   try {
-    const activities = await Activity.find()
+    const activities = await Activity.find();
     res.json(activities);
   } catch (error) {
-    res.status(500).json({ error: "Could not fetch activities" })
+    res.status(500).json({ error: "Could not fetch activities" });
   }
 });
-
-// Behövs en till GET här för en specifik aktivitet? //
 
 // Adding a new activity to the database
 router.post("/activities", authenticateUser, async (req, res) => {
@@ -28,7 +26,7 @@ router.post("/activities", authenticateUser, async (req, res) => {
     await activity.save();
     res.status(201).json(activity);
   } catch (error) {
-    res.status(500).json({ error: "Could not create activity" })
+    res.status(500).json({ error: "Could not create activity" });
   }
 });
 
@@ -36,7 +34,7 @@ router.post("/activities", authenticateUser, async (req, res) => {
 router.patch("/activities/:id", authenticateUser, async (req, res) => {
   try {
     const { id } = req.params;
-    const updates = req.body
+    const updates = req.body;
     const activity = await Activity.findByIdAndUpdate(id, updates, { new: true });
 
     if (!activity) {
@@ -52,13 +50,13 @@ router.patch("/activities/:id", authenticateUser, async (req, res) => {
 router.delete("/activities/:id", authenticateUser, async (req, res) => {
   try {
     const { id } = req.params;
-    const deletedActivity = await Activity.findByIdAndDelete(id)
+    const deletedActivity = await Activity.findByIdAndDelete(id);
 
     if (!deletedActivity) {
-      return res.status(404).json({ error: `Activity with id ${id} does not exist` })
+      return res.status(404).json({ error: `Activity with id ${id} does not exist` });
     }
-    res.json(deletedActivity)
+    res.json(deletedActivity);
   } catch (error) {
-    res.status(500).json({ error: "Could not delete activity" })
+    res.status(500).json({ error: "Could not delete activity" });
   }
 });

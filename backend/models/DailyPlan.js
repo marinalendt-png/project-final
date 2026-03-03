@@ -26,6 +26,6 @@ const dailyPlanSchema = new Schema({
     type: String,
     default: "",
   }
-})
+});
 
-export const dailyPlan = model("dailyPlan", dailyPlanSchema); 
+export const dailyPlan = model("dailyPlan", dailyPlanSchema);

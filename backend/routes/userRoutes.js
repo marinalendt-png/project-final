@@ -11,14 +11,14 @@ router.post("/signup", async (req, res) => {
     // Validation - pick out email and password from req, and see if they both are there. 
     const { name, email, password } = req.body;
 
-    if (!email || !password) {
+    if (!name || !email || !password) {
       return res.status(400).json({
         success: false,
         message: "Email and password are required"
       });
     }
     //Checks if user exists.
-    const existingUser = await User.findOne({ email: email.toLowerCase() })
+    const existingUser = await User.findOne({ email: email.toLowerCase() });
 
     if (existingUser) {
       return res.status(400).json({
@@ -27,8 +27,8 @@ router.post("/signup", async (req, res) => {
       });
     }
     // Encrypts the password with salt (random string) Hash = mix salt with password = unreadable hash
-    const salt = bcrypt.genSaltSync(10)
-    const hashedPassword = bcrypt.hashSync(password, salt)
+    const salt = bcrypt.genSaltSync(10);
+    const hashedPassword = bcrypt.hashSync(password, salt);
     const user = new User({ name, email, password: hashedPassword });
     // The user will be saved in MongoDB, and sends back a successful message (201)
     await user.save();
@@ -37,6 +37,7 @@ router.post("/signup", async (req, res) => {
       message: "User created successfully",
       response: {
         email: user.email,
+        name: user.name,
         id: user.id,
         accessToken: user.accessToken,
       }
@@ -70,7 +71,7 @@ router.post("/login", async (req, res) => {
       return res.status(401).json({
         success: false,
         message: "Invalid email or password",
-      })
+      });
     }
     res.json({
       success: true,
@@ -81,7 +82,7 @@ router.post("/login", async (req, res) => {
         id: user.id,
         accessToken: user.accessToken
       }
-    })
+    });
   } catch (error) {
     res.status(500).json({
       success: false,

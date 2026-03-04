@@ -232,7 +232,7 @@ const NoteArea = styled.textarea`
   border-radius: 8px;
   border: 1px solid var(--color-border);
   background: var(--color-input-bg);
-  font-size: 14px;
+  font-size: 16px;
   color: var(--color-text);
   resize: none;
   font-family: inherit;

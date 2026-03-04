@@ -47,7 +47,7 @@ export const History = () => {
           <>
             <EnergyGraf plans={plans} />
 
-            {plans.map((plan) => (
+            {[...plans].sort((a, b) => new Date(b.date) - new Date(a.date)).map((plan) => (
               <PlanCard
                 role="button"
                 tabIndex={0}

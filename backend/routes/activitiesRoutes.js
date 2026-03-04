@@ -4,10 +4,12 @@ import { authenticateUser } from "../middleware/authMiddleware.js";
 
 export const router = express.Router();
 
-// GET /activities. Gets all the activities, open, no auth. 
-router.get("/activities", async (req, res) => {
+// GET /activities. Gets default activities + the current user's own activities.
+router.get("/activities", authenticateUser, async (req, res) => {
   try {
-    const activities = await Activity.find();
+    const activities = await Activity.find({
+      $or: [{ user: { $exists: false } }, { user: null }, { user: req.user._id }]
+    });
     res.json(activities);
   } catch (error) {
     res.status(500).json({ error: "Could not fetch activities" });

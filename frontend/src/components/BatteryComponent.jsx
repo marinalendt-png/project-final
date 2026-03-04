@@ -29,6 +29,7 @@ const BatteryWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   position: relative;
+  transform: translateZ(0);
   filter: ${props => {
     const p = props.$percentage;
     if (p > 70) return "drop-shadow(0 0 12px rgba(168, 213, 186, 0.6))";

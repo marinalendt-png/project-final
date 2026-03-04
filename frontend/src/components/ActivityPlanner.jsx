@@ -4,6 +4,7 @@ import { Acorn } from "@phosphor-icons/react";
 import { Battery } from "./BatteryComponent";
 import { useState } from "react";
 
+// This is where you plan your day.
 export const ActivityPlanner = ({ activities, selectedActivities, energyLeft, batteryPulse, toggleActivity, showForm, setShowForm, handleAddActivity, onNext, onDelete }) => {
   const [showModal, setShowModal] = useState(false);
   const [activeCategory, setActiveCategory] = useState("alla");
@@ -15,7 +16,6 @@ export const ActivityPlanner = ({ activities, selectedActivities, energyLeft, ba
       <BatteryWrapper $pulse={batteryPulse}>
         <Battery energy={energyLeft} />
       </BatteryWrapper>
-
 
       <EnergyLabel>
         Du har {energyLeft} energi kvar idag
@@ -47,6 +47,7 @@ export const ActivityPlanner = ({ activities, selectedActivities, energyLeft, ba
         </SelectedBox>
       )}
 
+      {/* This is the popup window where the user can choose activities */}
       {showModal && (
         <ModalOverlay
           role="dialog"
@@ -56,12 +57,14 @@ export const ActivityPlanner = ({ activities, selectedActivities, energyLeft, ba
           onClick={() => setShowModal(false)}
           onKeyDown={(e) => { if (e.key === "Escape") setShowModal(false); }}
         >
+          {/* Small batterycomponent is shown inside of the popup */}
           <ModalContent onClick={e => e.stopPropagation()}><Battery energy={energyLeft} size="small" />
             <ModalHeader>
               <h3 id="modal-title">Välj aktiviteter</h3>
               <CloseButton aria-label="Stäng" onClick={() => setShowModal(false)}>X</CloseButton>
             </ModalHeader>
 
+            {/* Filter activities by different categories depending on category */}
             <CategoryFilters>
               {["alla", "rörelse", "vila", "jobb", "vardag"].map(cat => (
                 <FilterButton
@@ -75,6 +78,7 @@ export const ActivityPlanner = ({ activities, selectedActivities, energyLeft, ba
               ))}
             </CategoryFilters>
 
+            {/* Activities that gives energy, green ones */}
             <ActivitiesRow>
               <ActivitiesColumn>
                 <ColumnHeader>Ger energi</ColumnHeader>
@@ -92,6 +96,7 @@ export const ActivityPlanner = ({ activities, selectedActivities, energyLeft, ba
                   ))}
               </ActivitiesColumn>
 
+              {/* Activities that takes energy, red ones */}
               <ActivitiesColumn>
                 <ColumnHeader>Tar energi</ColumnHeader>
                 {activities
@@ -108,6 +113,8 @@ export const ActivityPlanner = ({ activities, selectedActivities, energyLeft, ba
                   ))}
               </ActivitiesColumn>
             </ActivitiesRow>
+
+            {/* This is the popup inside of the modal, where the user can create their own activity */}
             {showForm && (
               <FormOverlay onClick={() => setShowForm(false)}>
                 <FormPopup onClick={e => e.stopPropagation()}>

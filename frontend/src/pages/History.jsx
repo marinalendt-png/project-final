@@ -6,13 +6,15 @@ import { ArrowLeft, CalendarBlank, CaretDown } from "@phosphor-icons/react";
 import { useNavigate } from "react-router";
 import { EnergyGraf } from "../components/EnergyHistory.jsx";
 
+
 export const History = () => {
   const [plans, setPlans] = useState([]);
-  const [openId, setOpenId] = useState(null);
+  const [openId, setOpenId] = useState(null); // Show witch card that is expanded. 
   const [notes, setNotes] = useState({});
 
   const navigate = useNavigate();
 
+  // Gets all the plans at mount and builds noteMap from the data. 
   useEffect(() => {
     const loadPlans = async () => {
       try {
@@ -36,7 +38,7 @@ export const History = () => {
           <ArrowLeft size={20} aria-hidden="true" /> Tillbaka
         </BackButton>
       </BackRow>
-      <PageWrapper>
+      <PageWrapper> {/* If plan is empty, show EmptyState, otherwise show EnergyGraf + Plancards */}
         {plans.length === 0 ? (
           <EmptyState>
             <span role="img" aria-label="växt">🌿</span>
@@ -49,12 +51,12 @@ export const History = () => {
 
             {[...plans].sort((a, b) => new Date(b.date) - new Date(a.date)).map((plan) => (
               <PlanCard
-                role="button"
+                role="button" // The card is a div, but has the role of a button. This is for accessibility and keyboard users/screen readers. 
                 tabIndex={0}
                 key={plan._id}
                 $energy={plan.currentEnergy}
                 $open={openId === plan._id}
-                onClick={() => setOpenId(openId === plan._id ? null : plan._id)}
+                onClick={() => setOpenId(openId === plan._id ? null : plan._id)} // Opens a new card, and closes the previous. 
                 onKeyDown={(e) => {
                   if (e.key === "Enter" || e.key === " ")
                     setOpenId(openId === plan._id ? null : plan._id);
@@ -95,9 +97,9 @@ export const History = () => {
                     <NoteArea
                       value={notes[plan._id] ?? ""}
                       onChange={e => setNotes(prev => ({ ...prev, [plan._id]: e.target.value }))}
-                      onBlur={() => patchDailyPlan(plan._id, { notes: notes[plan._id] })}
+                      onBlur={() => patchDailyPlan(plan._id, { notes: notes[plan._id] })} // Saves the note when you click outside of the field. 
                       onClick={e => e.stopPropagation()}
-                      onKeyDown={e => e.stopPropagation()}
+                      onKeyDown={e => e.stopPropagation()} // stops the note from closing when clicking in the notarea. 
                       placeholder="Egna tankar om dagen..."
                       rows={2}
                       aria-label="Egna tankar om dagen"

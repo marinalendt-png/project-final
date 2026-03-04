@@ -1,6 +1,7 @@
 import styled, { keyframes } from "styled-components";
 import { EnergyBlob } from "./Mascot";
 
+// A list of messages for each mood. Several options per mood to avoid getting the same message every time. 
 const tips = {
   tired: [
     "Idag ser ut att bli en tuff dag! Försök lägga in en vila tidigt.",
@@ -17,13 +18,14 @@ const tips = {
     "Du tar hand om dig själv - mycket bra jobbat!",
   ]
 };
-
+// The tips is randomly chosen from the correct moodlist via Math.random. 
 const getTip = (energyLeft) => {
   const mood = energyLeft >= 7 ? "happy" : energyLeft >= 3 ? "okay" : "tired";
   const arr = tips[mood];
   return arr[Math.floor(Math.random() * arr.length)];
 };
 
+// This combines Mascot (Energyblob) with the tipbubble side by side. 
 export const MascotTip = ({ energyLeft }) => {
   const mood = energyLeft >= 7 ? "happy" : energyLeft >= 3 ? "okay" : "tired";
   const tip = getTip(energyLeft);
@@ -53,6 +55,7 @@ const MascotRow = styled.div`
   width: 100%;
 `;
 
+// The bubble will have different background and border based on the mood. And the animation makes the tipbubble fade in with a 0.9 s delay. 
 const TipBubble = styled.div`
   flex: 1;
   position: relative;
@@ -80,5 +83,5 @@ const TipBubble = styled.div`
   font-weight: 500;
   color: var(--color-text);
   line-height: 1.5;
-  animation: ${fadeIn} 0.4s ease 0.9s both;
+  animation: ${fadeIn} 0.4s ease 0.9s both; 
 `;

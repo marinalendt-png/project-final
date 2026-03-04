@@ -22,6 +22,7 @@ export const Navbar = () => {
           <Leaf size={36} weight="fill" aria-hidden="true" /> Balans
         </Logo>
 
+        {/* HamburgerButton is always shown*/}
         <HamburgerButton
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label={menuOpen ? "Stäng meny" : "Öppna meny"}
@@ -30,8 +31,8 @@ export const Navbar = () => {
         </HamburgerButton>
       </Nav>
 
+      {/* Slide-in menu, hidden*/}
       {menuOpen && <DrawerOverlay onClick={() => setMenuOpen(false)} />}
-
       <Drawer $open={menuOpen} role="dialog" aria-label="Navigeringsmeny">
         <DrawerTop>
           <DrawerLogo><Leaf size={20} weight="fill" aria-hidden="true" /> Balans</DrawerLogo>

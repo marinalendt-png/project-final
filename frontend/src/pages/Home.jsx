@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useUserStore } from "../stores/userStore";
 import { Leaf } from "@phosphor-icons/react";
 
+// This is the home of the app. A description of what the app does, and also sign up and log in. 
 export const Home = () => {
   const navigate = useNavigate();
   const login = useUserStore((state) => state.login);
@@ -13,6 +14,7 @@ export const Home = () => {
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
 
+  // Gets userdata from the form, saves token in Zustand-store and navigates to /daily. 
   const handleLogin = (userData) => {
     if (userData.accessToken) {
       login(userData.accessToken, userData.name);

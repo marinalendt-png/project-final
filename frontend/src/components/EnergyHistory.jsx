@@ -2,14 +2,17 @@ import styled from "styled-components";
 import { useState } from "react";
 import { Lightning } from "@phosphor-icons/react";
 
+// The user can choose from 7 or 30 days, and range controls with plans that will show. 
 export const EnergyGraf = ({ plans }) => {
   const [range, setRange] = useState(7);
 
+  // calculates witch plans to show, sorting on the oldest first. 
   const now = new Date();
   const filtered = plans
     .filter(p => (now - new Date(p.date)) / (1000 * 60 * 60 * 24) <= range)
     .sort((a, b) => new Date(a.date) - new Date(b.date));
 
+  // calculates ISO-weeknumbers
   const getWeekNumber = (date) => {
     const d = new Date(date);
     d.setHours(0, 0, 0, 0);
@@ -18,6 +21,7 @@ export const EnergyGraf = ({ plans }) => {
     return 1 + Math.round(((d - week1) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7);
   };
 
+  // different colors depending on energylevel
   const getBarColor = (energy) => {
     if (energy >= 7) return "var(--color-energy-high)";
     if (energy >= 4) return "var(--color-energy-mid)";
@@ -104,6 +108,7 @@ const ToggleButton = styled.button`
   cursor: pointer;
 `;
 
+// If many days, you can scroll horizontally with overflow-x. 
 const BarsContainer = styled.div`
   display: flex;
   align-items: flex-end;
@@ -128,6 +133,7 @@ const BarWrapper = styled.div`
   align-items: flex-end;
 `;
 
+// The pile that calculates currentEnergy/10 * 100, ex 70%. 
 const Bar = styled.div`
   width: 100%;
   height: ${props => props.$height}%;

@@ -1,5 +1,6 @@
 import styled, { keyframes } from "styled-components";
 
+// The Battery shows energylevel. Percentage is calculated as energy/maxenergy * 100, ex. energy 7 /10. This controlls how high Energyfill is (ex height: 70%) The colors goes from red in the bottom to green at the top. 
 export const Battery = ({ energy, maxEnergy = 10, size }) => {
   const percentage = (energy / maxEnergy) * 100;
 
@@ -15,7 +16,7 @@ export const Battery = ({ energy, maxEnergy = 10, size }) => {
 };
 
 // ======= KEYFRAMES ======= //
-
+// A half-transparent line that floats over the battery. Makes it look more glassy. 
 const shimmer = keyframes`
   0% { transform: translateX(-50%); }
   100% { transform: translateX(50%); }
@@ -31,7 +32,7 @@ const BatteryWrapper = styled.div`
   filter: ${props => {
     const p = props.$percentage;
     if (p > 70) return "drop-shadow(0 0 12px rgba(168, 213, 186, 0.6))";
-    if (p > 40) return "drop-shadow(0 0 12px rgba(107, 94, 117, 0.4))";
+    if (p > 40) return "drop-shadow(0 0 12px rgba(240, 192, 96, 0.4))";
     return "drop-shadow(0 0 12px rgba(196, 122, 122, 0.6))";
   }};
 `;
@@ -72,7 +73,7 @@ const BatteryBody = styled.div`
   border: 2px solid var(--color-border);
   overflow: hidden;
 `;
-
+// The fill will softly animate up and down when the energylevel changes. 
 const EnergyFill = styled.div`
   position: absolute;
   bottom: 0;
@@ -85,7 +86,7 @@ const EnergyFill = styled.div`
   box-shadow: ${props => {
     const p = props.$percentage;
     if (p > 70) return "0 -10px 30px rgba(168, 213, 186, 0.4)";
-    if (p > 40) return "0 -10px 30px rgba(107, 94, 117, 0.3)";
+    if (p > 40) return "0 -10px 30px rgba(240, 192, 96, 0.3)";
     return "0 -10px 30px rgba(196, 122, 122, 0.4)";
   }};
   transition: height 0.7s ease-out;
@@ -106,7 +107,7 @@ const EnergyFill = styled.div`
     animation: ${shimmer} 3s ease-in-out infinite;
   }
 `;
-
+// A transparent white layer on top of the battery to get a feeling of glass. 
 const GlassOverlay = styled.div`
   position: absolute;
   inset: 0;

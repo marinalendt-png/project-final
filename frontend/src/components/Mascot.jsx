@@ -1,19 +1,24 @@
 import { motion } from "framer-motion";
 
+// This is the home made mascot :) Each condition has 3 shades of its color.
 export const EnergyBlob = ({ energy = 7 }) => {
   const isHigh = energy >= 7;
   const isLow = energy < 3;
   const isOkay = !isHigh && !isLow;
 
+  // Three color sets — light (highlight), mid (body), dark (feet + shadows)
   const colors = isHigh
-    ? { light: "#e0f5eb", mid: "#a8d5ba", dark: "#6aaf8c" }
+    ? { light: "#e0f5eb", mid: "#a8d5ba", dark: "#6aaf8c" }   // green
     : isLow
-      ? { light: "#f5d0d0", mid: "#c47a7a", dark: "#a05050" }
-      : { light: "#fef0c0", mid: "#f0c060", dark: "#c89020" };
+      ? { light: "#f5d0d0", mid: "#c47a7a", dark: "#a05050" } // red
+      : { light: "#fef0c0", mid: "#f0c060", dark: "#c89020" }; // yellow
 
   const { light, mid, dark } = colors;
 
   return (
+    // motion.div is from framer-motion and handles the animations.
+    // isHigh = blob pulses (scale 1 → 1.05 → 1), isLow = blob bobs up and down (y: 0 → 4 → 0)
+    // Infinity means the animation loops forever. isOkay = no animation.
     <motion.div
       animate={{
         scale: isHigh ? [1, 1.05, 1] : 1,
@@ -22,13 +27,21 @@ export const EnergyBlob = ({ energy = 7 }) => {
       transition={{ repeat: isHigh || isLow ? Infinity : 0, duration: 2, ease: "easeInOut" }}
       style={{ width: 130, alignSelf: "flex-start" }}
     >
+      {/* aria-hidden="true" means screen readers skip this — it's purely decorative */}
       <svg viewBox="0 0 200 230" overflow="visible" aria-hidden="true">
+
+        {/* defs = definitions. Things defined here are reused elsewhere in the SVG but not drawn yet. */}
         <defs>
+
+          {/* radialGradient = color that goes from light (top-left) → mid → dark (bottom-right) */}
           <radialGradient id="bodyGrad" cx="35%" cy="28%" r="75%">
             <stop offset="0%" stopColor={light} />
             <stop offset="45%" stopColor={mid} />
             <stop offset="100%" stopColor={dark} />
           </radialGradient>
+
+          {/* Glow filters — feGaussianBlur blurs a shape into a soft glow.
+              stdDeviation = how wide the blur spreads. Higher = wider, softer glow. */}
           <filter id="glowUltra" x="-100%" y="-100%" width="300%" height="300%">
             <feGaussianBlur stdDeviation="45" />
           </filter>
@@ -41,31 +54,37 @@ export const EnergyBlob = ({ energy = 7 }) => {
           <filter id="glowNear" x="-40%" y="-40%" width="180%" height="180%">
             <feGaussianBlur stdDeviation="6" />
           </filter>
+
+          {/* clipPath = a shape used as a "cookie cutter".
+              Anything outside this shape gets hidden — used to clip the tongue inside the mouth. */}
           <clipPath id="mouthClip">
             <path d="M87 120 Q100 148 113 120 Q100 124 87 120Z" />
           </clipPath>
+
         </defs>
 
-        {/* Glow lager 0 — ultra bred */}
+        {/* GLOW — 4 blurred ellipses stacked on top of each other.
+            Together they create a layered, glowing halo effect around the blob.
+            From widest + softest → narrowest + strongest. Like rings on water. */}
         <ellipse cx="100" cy="115" rx="72" ry="82" fill={mid} filter="url(#glowUltra)" opacity="0.6" />
-        {/* Glow lager 1 — bred yttre */}
         <ellipse cx="100" cy="115" rx="72" ry="82" fill={mid} filter="url(#glowFar)" opacity="0.9" />
-        {/* Glow lager 2 — mellannivå */}
         <ellipse cx="100" cy="113" rx="66" ry="76" fill={mid} filter="url(#glowMid)" opacity="1" />
-        {/* Glow lager 3 — tät inre kärna */}
         <ellipse cx="100" cy="110" rx="58" ry="68" fill={light} filter="url(#glowNear)" opacity="0.9" />
 
-        {/* Fötter */}
+        {/* FEET — two small dark ellipses at the bottom */}
         <ellipse cx="72" cy="182" rx="14" ry="10" fill={dark} />
         <ellipse cx="128" cy="182" rx="14" ry="10" fill={dark} />
 
-        {/* Kropp */}
+        {/* BODY — a rectangle with very rounded corners (rx/ry="40" = soft square shape).
+            fill="url(#bodyGrad)" applies the gradient defined above. */}
         <rect x="30" y="36" width="140" height="144" rx="40" ry="40" fill="url(#bodyGrad)" />
 
-        {/* Highlight */}
+        {/* HIGHLIGHT — a small white oval, slightly rotated, to mimic light reflection */}
         <ellipse cx="72" cy="72" rx="22" ry="13" fill="white" opacity="0.28" transform="rotate(-20 72 72)" />
 
-        {/* Ögon */}
+        {/* EYES — isHigh and isOkay look the same (pupils straight ahead).
+            isLow: pupils are moved down slightly (cy="99" instead of cy="96") = sad downward gaze.
+            Each eye = white circle (eyeball) + dark circle (pupil) + 2 white circles (shine/reflection) */}
         {isHigh ? (
           <>
             <circle cx="75" cy="92" r="18" fill="white" />
@@ -90,9 +109,9 @@ export const EnergyBlob = ({ energy = 7 }) => {
           </>
         ) : (
           <>
-            {/* Svettdroppe */}
+            {/* Sweat drop — only shown when isLow. A teardrop path shape. */}
             <path d="M143 58 Q148 70 143 75 Q138 70 143 58Z" fill="#9bbfe8" opacity="0.9" />
-            {/* Ledsna ögon — blicken nedåt */}
+            {/* Sad eyes — pupils moved lower = tired/sad look */}
             <circle cx="75" cy="92" r="18" fill="white" />
             <circle cx="125" cy="92" r="18" fill="white" />
             <circle cx="77" cy="99" r="12" fill="#1a1a1a" />
@@ -104,11 +123,15 @@ export const EnergyBlob = ({ energy = 7 }) => {
           </>
         )}
 
-        {/* Blush */}
+        {/* BLUSH — two soft pink ellipses on the cheeks */}
         <ellipse cx="52" cy="114" rx="13" ry="7" fill="#c47a7a" opacity="0.3" />
         <ellipse cx="148" cy="114" rx="13" ry="7" fill="#c47a7a" opacity="0.3" />
 
-        {/* Mun */}
+        {/* MOUTH — drawn with SVG paths. "Q" = a curved line (quadratic bezier).
+            The middle control point decides if the curve bends up or down.
+            isLow: control point above the endpoints = curve bends upward = sad mouth
+            isOkay: control point below = curve bends downward = small smile
+            isHigh: filled oval shape + tongue clipped inside using clipPath */}
         {isLow ? (
           <path d="M78 138 Q100 126 122 138" stroke="#333" strokeWidth="5" fill="none" strokeLinecap="round" />
         ) : isOkay ? (
@@ -116,6 +139,7 @@ export const EnergyBlob = ({ energy = 7 }) => {
         ) : (
           <>
             <path d="M87 120 Q100 148 113 120 Q100 124 87 120Z" fill="#222" stroke="#222" strokeWidth="6" strokeLinejoin="round" strokeLinecap="round" />
+            {/* Tongue — a pink ellipse, clipped to only show inside the mouth opening */}
             <ellipse cx="100" cy="138" rx="16" ry="12" fill="#e08080" clipPath="url(#mouthClip)" />
           </>
         )}

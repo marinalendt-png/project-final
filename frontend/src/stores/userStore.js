@@ -1,5 +1,6 @@
 import { create } from "zustand";
 
+// This is the global state of the app, Zustand. It contains accessToken, username, login and logout. AccessToken will be saved both here and in localstorage. 
 export const useUserStore = create((set) => ({
   accessToken: localStorage.getItem("accessToken"),
   username: localStorage.getItem("username"),
@@ -16,8 +17,3 @@ export const useUserStore = create((set) => ({
     set({ accessToken: null, username: null });
   },
 }));
-
-// Här skapas en zustand store som en global useState. 
-// Vid login - accessToken läses från localstorage när appen startar och du förblir inloggad. token sparas i localstorage och här i store. 
-// Vid logout - tas token bort från båda. 
-// set är Zustands sätt att uppdatera State (som setState)

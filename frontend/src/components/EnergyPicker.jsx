@@ -4,6 +4,7 @@ import { useUserStore } from "../stores/userStore";
 export const EnergyPicker = ({ energyLevel, setEnergyLevel, onNext }) => {
   const username = useUserStore((state) => state.username);
 
+  // The first page when logged in. Gets surname from Zustand-store. Renders 10 buttons, when pressed the button will be filled, and SelectedDisplay will show the chosen number. The nextbutton is disabled until energylevel is chosen. 
   return (
     <EnergyWrapper>
       <p>Varmt välkommen, <UsernameSpan>{username?.split(" ")[0]}</UsernameSpan>!</p>

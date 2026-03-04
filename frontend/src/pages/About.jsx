@@ -25,6 +25,7 @@ export const About = () => {
           <p>1. Välj hur mycket energi du har idag (1-10)</p>
           <p>2. Lägg till aktiviteter som tar eller ger energi</p>
           <p>3. Se en sammanfattning av din dag</p>
+          <p>4. Följ din energi över tid i historiken och lägg till egna anteckningar om din dag</p>
         </Card>
       </PageWrapper>
     </>

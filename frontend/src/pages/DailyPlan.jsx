@@ -7,6 +7,7 @@ import { ActivityPlanner } from "../components/ActivityPlanner";
 import { DaySummary } from "../components/DaySummary";
 import { ArrowLeft } from "@phosphor-icons/react";
 
+// This page is the heart of the app. It holds most states and logic and is built to delegate rendering to 3 under components, step 1 = EnergyPicker, step 2 = ActivityPlanner and step 3 = DaySummary. 
 export const DailyPlan = () => {
   const [activities, setActivities] = useState([]);
   const [selectedActivities, setSelectedActivities] = useState([]);
@@ -31,7 +32,7 @@ export const DailyPlan = () => {
     loadActivities();
   }, []);
 
-  // TOGGLING ACTIVITIES + making the battery pulsate. 
+  // TOGGLING ACTIVITIES + making the battery pulsate. Adds or removes activities from list and triggers the battery animation. 
   const toggleActivity = useCallback((activityId) => {
     setSelectedActivities((prev) =>
       prev.includes(activityId)
@@ -42,7 +43,7 @@ export const DailyPlan = () => {
     setTimeout(() => setBatteryPulse(false), 400);
   }, []);
 
-  // CREATE NEW ACTIVITY
+  // CREATE NEW ACTIVITY. This is where you can choose and add your own activity to the list. You add name, energyImpact and category. 
   const handleAddActivity = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
@@ -75,7 +76,7 @@ export const DailyPlan = () => {
     }
   };
 
-  // DELETES AN ACTIVITY
+  // DELETES AN ACTIVITY. Is only used in activities that the user created, not activities from the ordinary list. 
   const handleDelete = async (activityId) => {
     try {
       await deleteActivities(activityId);
@@ -85,7 +86,7 @@ export const DailyPlan = () => {
     }
   };
 
-  // ENERGY LEFT PER DAY (starting energy - the chosen activities that takes energy)
+  // ENERGY LEFT PER DAY. This will be calculated live based on chosen activities. 
   const energyLeft = energyLevel
     ? energyLevel + activities
       .filter((a) => selectedActivities.includes(a._id))

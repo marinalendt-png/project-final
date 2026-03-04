@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { PersonSimpleWalk, Leaf, Heart, FlowerLotus, Moon, Barbell, Briefcase, Users, DeviceMobile, Broom, CookingPot, Train, Acorn, Check, Trash, PersonSimple, Sun, Carrot } from "@phosphor-icons/react";
 
+// Connects the activity name with the right icon from external library phosphor-icons. 
 export const activityIcon = {
   "Promenad": PersonSimpleWalk,
   "Yoga": Leaf,
@@ -19,9 +20,10 @@ export const activityIcon = {
   "Träning tung": Barbell,
 }
 
+// Finds the right icon, and if noone is found, it uses Acorn as fallback. 
 export const ActivityCard = ({ activity, onClick, selected, onDelete }) => {
   const Icon = activityIcon[activity.name] || Acorn;
-  // Drain is to know if an activity takes or gives energy. 
+  // Drain is to know if an activity takes or gives energy. Controls the colors red/green. 
   const isDraining = activity.energyImpact < 0;
 
   return (
@@ -45,7 +47,7 @@ export const ActivityCard = ({ activity, onClick, selected, onDelete }) => {
           </CheckIcon>
         )}
       </CardWrapper >
-
+      {/* The deletebutton is only shown, if there is a user field, an activity that the user created. */}
       {activity.user && (
         <DeleteButton onClick={(e) => { e.stopPropagation(); onDelete(activity._id); }} aria-label={`Radera ${activity.name}`} >
           <Trash size={16} aria-hidden="true" />

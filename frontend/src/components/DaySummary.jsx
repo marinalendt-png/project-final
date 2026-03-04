@@ -59,6 +59,7 @@ export const DaySummary = ({ activities, selectedActivities, energyLevel, energy
         </TwoColumnList>
       </QuickList>
 
+      {/* Nextbutton becomes green with a checkcircle when saved */}
       <ShowButtonWrapper>
         {saveError && <ErrorText>{saveError}</ErrorText>}
         <NextButton onClick={onSave} disabled={isSaved} $saved={isSaved}>

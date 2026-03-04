@@ -5,7 +5,7 @@ import { User } from "../models/User.js";
 
 export const router = express.Router();
 
-// SIGN-UP endpoint
+// POST /signup. Validates, checks if the mail exists, hashes the password with bcrypt+salt, then saves the user. 
 router.post("/signup", async (req, res) => {
   try {
     // Validation - pick out email and password from req, and see if they both are there. 
@@ -30,7 +30,8 @@ router.post("/signup", async (req, res) => {
     const salt = bcrypt.genSaltSync(10);
     const hashedPassword = bcrypt.hashSync(password, salt);
     const user = new User({ name, email, password: hashedPassword });
-    // The user will be saved in MongoDB, and sends back a successful message (201)
+
+    // The user will be saved in MongoDB
     await user.save();
     res.status(201).json({
       success: true,
@@ -52,8 +53,7 @@ router.post("/signup", async (req, res) => {
   }
 });
 
-//LOG-IN endpoint
-
+// POST /login. Finds the user, compare hashed password and returns accessToken. 
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -67,6 +67,7 @@ router.post("/login", async (req, res) => {
 
     const user = await User.findOne({ email: email.toLowerCase() });
 
+    // Compares the typed password with the hashed one. Not possible to unhash the bcrypted password. 
     if (!user || !bcrypt.compareSync(password, user.password)) {
       return res.status(401).json({
         success: false,

@@ -4,7 +4,7 @@ import { authenticateUser } from "../middleware/authMiddleware.js";
 
 export const router = express.Router();
 
-// Endpoint to create new plan
+// POST /dailyplan. Creates a new plan. You can only create 1 plan a day, otherwise a errormessage will show (409). 
 router.post("/dailyplan", authenticateUser, async (req, res) => {
   try {
     const { date, startingEnergy, activities, currentEnergy } = req.body;
@@ -30,7 +30,7 @@ router.post("/dailyplan", authenticateUser, async (req, res) => {
   }
 });
 
-// GET dailyplan - for history
+// GET /dailyplan. Gets all the plans for the logged in user. Uses populate witch gets the hole activity object, not just the id.
 router.get("/dailyplan", authenticateUser, async (req, res) => {
   try {
     const plan = await dailyPlan.find({ user: req.user._id }).populate("activities");
@@ -42,7 +42,7 @@ router.get("/dailyplan", authenticateUser, async (req, res) => {
 });
 
 
-// Updates a dailyplan
+// PATCH /dailyplan. Updates a plan, is used for notes in History.jsx. 
 router.patch("/dailyplan/:id", authenticateUser, async (req, res) => {
   try {
     const { id } = req.params;
@@ -58,7 +58,7 @@ router.patch("/dailyplan/:id", authenticateUser, async (req, res) => {
   }
 });
 
-//Deletes a dailyplan 
+// DELETE /dailyplan. Deletes a dailyplan. 
 router.delete("/dailyplan/:id", authenticateUser, async (req, res) => {
   try {
     const { id } = req.params;

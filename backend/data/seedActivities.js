@@ -1,7 +1,7 @@
 import { Activity } from "../models/Activity.js";
 
 export const defaults = [
-  // Energizing 
+  // Activities that gives energy
   {
     name: "Promenad",
     energyImpact: 2,
@@ -38,7 +38,7 @@ export const defaults = [
     category: "vardag",
   },
 
-  // Energy demanding
+  // Activities that takes energy. 
   {
     name: "Jobb",
     energyImpact: -2,
@@ -81,6 +81,7 @@ export const defaults = [
   }
 ];
 
+// Fills the database with standard activities once when the app starts. 
 export const seedActivities = async () => {
   const count = await Activity.countDocuments();
   if (count === 0) {

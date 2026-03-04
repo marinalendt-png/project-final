@@ -8,6 +8,7 @@ import { router as activitiesRouter } from "./routes/activitiesRoutes.js";
 import { router as dailyPlanRouter } from "./routes/dailyplanRoutes.js";
 import { seedActivities } from "./data/seedActivities.js";
 
+// Connecting to the Mongo database
 const mongoUrl = process.env.MONGO_URL || "mongodb://localhost/final-project";
 mongoose.connect(mongoUrl).then(() => {
   seedActivities();
@@ -19,6 +20,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Root-endpoint with Welcome message and a list of all endpoints
 app.get("/", (req, res) => {
   const endpoints = listEndpoints(app);
 

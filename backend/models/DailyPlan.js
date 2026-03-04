@@ -22,6 +22,7 @@ const dailyPlanSchema = new Schema({
   currentEnergy: {
     type: Number,
   },
+  // The users own note about the day (in History.jsx)
   notes: {
     type: String,
     default: "",

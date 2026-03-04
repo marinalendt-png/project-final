@@ -4,7 +4,7 @@ import { authenticateUser } from "../middleware/authMiddleware.js";
 
 export const router = express.Router();
 
-// Endpoints for all the activities
+// GET /activities. Gets all the activities, open, no auth. 
 router.get("/activities", async (req, res) => {
   try {
     const activities = await Activity.find();
@@ -14,7 +14,7 @@ router.get("/activities", async (req, res) => {
   }
 });
 
-// Adding a new activity to the database
+// POST /activities. Adding a new activity to the database. needs a auth. 
 router.post("/activities", authenticateUser, async (req, res) => {
   try {
     const { name, energyImpact, category } = req.body;
@@ -30,7 +30,7 @@ router.post("/activities", authenticateUser, async (req, res) => {
   }
 });
 
-// Updates an activity
+// PATCH /activities. Updates an activity. 
 router.patch("/activities/:id", authenticateUser, async (req, res) => {
   try {
     const { id } = req.params;
@@ -46,7 +46,7 @@ router.patch("/activities/:id", authenticateUser, async (req, res) => {
   }
 });
 
-// Deletes an activity
+// DELETE /activities. Deletes an activity
 router.delete("/activities/:id", authenticateUser, async (req, res) => {
   try {
     const { id } = req.params;

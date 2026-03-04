@@ -1,6 +1,7 @@
 import { Schema, model } from "mongoose";
 import crypto from "crypto";
 
+// These are required (name, email, password). accessToken is generated with crypto. 
 const userSchema = new Schema({
   name: {
     type: String,

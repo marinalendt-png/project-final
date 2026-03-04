@@ -387,14 +387,14 @@ const Input = styled.input`
   padding: 8px 10px;
   border: 1px solid var(--color-border);
   border-radius: 8px;
-  font-size: 13px;
+  font-size: 16px;
 `;
 
 const Select = styled.select`
   padding: 10px 12px;
   border: 1px solid var(--color-border);
   border-radius: 8px;
-  font-size: 14px;
+  font-size: 16px;
   background: white;
 `;
 

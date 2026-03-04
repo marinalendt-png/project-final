@@ -223,6 +223,7 @@ const NextButton = styled.button`
   font-size: 16px;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   background: ${props => props.$saved ? "var(--color-forest)" : "var(--color-primary)"};
   transition: background 0.3s ease;

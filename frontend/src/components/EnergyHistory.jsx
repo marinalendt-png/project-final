@@ -108,7 +108,7 @@ const BarsContainer = styled.div`
   display: flex;
   align-items: flex-end;
   gap: 6px;
-  justify-content: space-around;
+  justify-content: flex-start;
   overflow-x: auto;
 `;
 
@@ -117,7 +117,8 @@ const BarColumn = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 4px;
-  flex: 1;
+  width: 36px;
+  flex-shrink: 0;
 `;
 
 const BarWrapper = styled.div`

@@ -131,7 +131,7 @@ export const ActivityPlanner = ({ activities, selectedActivities, energyLeft, ba
 
                   <AddForm onSubmit={handleAddActivity}>
                     <label htmlFor="activity-name">Namn</label>
-                    <Input id="activity-name" type="text" name="name" placeholder="Namn" required ref={nameInput} />
+                    <Input id="activity-name" type="text" name="name" placeholder="Namn" required ref={nameInputRef} />
 
                     <label htmlFor="activity-energy">Energi</label>
                     <Select id="activity-energy" name="energyImpact" required>

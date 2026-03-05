@@ -2,12 +2,18 @@ import styled, { keyframes, css } from "styled-components";
 import { ActivityCard, activityIcon } from "./ActivityCard";
 import { Acorn } from "@phosphor-icons/react";
 import { Battery } from "./BatteryComponent";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 // This is where you plan your day.
 export const ActivityPlanner = ({ activities, selectedActivities, energyLeft, batteryPulse, toggleActivity, showForm, setShowForm, handleAddActivity, onNext, onDelete }) => {
   const [showModal, setShowModal] = useState(false);
   const [activeCategory, setActiveCategory] = useState("alla");
+  const nameInputRef = useRef(null);
+
+  // New hook. useRef creates a reference to the namefield in the form. useEffect runs when showForm is changed. Focus will automatically move to the namefield so the user ca write in the field without clicking in it. 
+  useEffect(() => {
+    if (showForm) nameInputRef.current?.focus();
+  }, [showForm]);
 
   return (
     <>
@@ -125,7 +131,7 @@ export const ActivityPlanner = ({ activities, selectedActivities, energyLeft, ba
 
                   <AddForm onSubmit={handleAddActivity}>
                     <label htmlFor="activity-name">Namn</label>
-                    <Input id="activity-name" type="text" name="name" placeholder="Namn" required />
+                    <Input id="activity-name" type="text" name="name" placeholder="Namn" required ref={nameInput} />
 
                     <label htmlFor="activity-energy">Energi</label>
                     <Select id="activity-energy" name="energyImpact" required>

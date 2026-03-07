@@ -9,8 +9,9 @@ import { EnergyGraf } from "../components/EnergyHistory.jsx";
 
 export const History = () => {
   const [plans, setPlans] = useState([]);
-  const [openId, setOpenId] = useState(null); // Show witch card that is expanded. 
+  const [openId, setOpenId] = useState(null); // Show witch card that is expanded.
   const [notes, setNotes] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
 
   const navigate = useNavigate();
 
@@ -25,6 +26,8 @@ export const History = () => {
         setNotes(notesMap);
       } catch (error) {
         console.error("Kunde inte hämta plan:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
     loadPlans();
@@ -39,7 +42,9 @@ export const History = () => {
         </BackButton>
       </BackRow>
       <PageWrapper> {/* If plan is empty, show EmptyState, otherwise show EnergyGraf + Plancards */}
-        {plans.length === 0 ? (
+        {isLoading ? (
+          <LoadingText>Laddar historik...</LoadingText>
+        ) : plans.length === 0 ? (
           <EmptyState>
             <span role="img" aria-label="växt">🌿</span>
             <p>Du har inte loggat någon dag ännu!</p>
@@ -140,6 +145,12 @@ const BackButton = styled.button`
 
 const PageWrapper = styled.div`
   padding: 8px 16px 16px;
+`;
+
+const LoadingText = styled.p`
+  text-align: center;
+  padding: 48px 16px;
+  color: var(--color-text-muted);
 `;
 
 const EmptyState = styled.div`

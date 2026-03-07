@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled, { keyframes, css } from "styled-components";
 import { FloppyDisk, Clover, BatteryLow, CheckCircle, ArrowLeft, ArrowRight, Acorn } from "@phosphor-icons/react";
 import { useNavigate } from "react-router";
 import { MascotTip } from "./MascotTip";
@@ -228,7 +228,7 @@ const NextButton = styled.button`
   gap: 8px;
   background: ${props => props.$saved ? "var(--color-forest)" : "var(--color-primary)"};
   transition: background 0.3s ease;
-  ${props => props.$saved && `animation: ${savedPop} 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);`}
+  ${props => props.$saved && css`animation: ${savedPop} 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);`}
 
   &:disabled {
     opacity: 1;
